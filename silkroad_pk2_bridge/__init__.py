@@ -2,7 +2,7 @@
 """Silkroad PK2 Editor - native archive browsing and selective editing in Blender."""
 bl_info = {
     'name': 'Silkroad PK2 Editor',
-    'author': 'Silkroad PK2 Editor contributors (Jelly importers by JellyBitz)',
+    'author': 'Silkroad PK2 Editor contributors',
     'version': (2, 3, 3),
     'blender': (4, 2, 0),
     'location': 'View3D > Sidebar > Silkroad',
@@ -141,12 +141,7 @@ def _op_available(space, name):
 
 @contextmanager
 def _viewport_operator_context(context):
-    """Run Jelly's bpy.ops calls in a VIEW_3D WINDOW region, not its N-panel UI.
-
-    Blender's context-sensitive object/mesh operators can otherwise fail their
-    poll() check when dispatched from a sidebar button, especially in Pose or
-    Edit mode. Keep this override for *nested* Jelly importer calls too.
-    """
+    """Run import operators in a VIEW_3D window region."""
     window = context.window
     if window is None:
         raise RuntimeError(_t('No Blender window found. Run this tool in a 3D Viewport.'))
@@ -164,7 +159,7 @@ def _viewport_operator_context(context):
 
 
 def _ensure_object_mode():
-    """Jelly uses object selection operators; leave Pose/Edit before import."""
+    """Enter Object mode before import."""
     obj = bpy.context.object
     if obj is not None and obj.mode != 'OBJECT':
         if not bpy.ops.object.mode_set.poll():
@@ -264,8 +259,6 @@ def _start_archive_load(props):
                     job['progress_supported'] = False
                     job['archive'] = Path(pk2_path).name
                     return
-                # PK2API does not know the eventual block total until the end;
-                # show honest scanned-block counts, not a fictional percentage.
                 if count == total or count % 64 == 0:
                     job['blocks'] = count
                     job['archive'] = Path(pk2_path).name
@@ -558,7 +551,7 @@ class SILKROAD_OT_Search(Operator):
 class SILKROAD_OT_ImportFromPk2(Operator):
     bl_idname = 'silkroad_editor.import_selected'
     bl_label = 'Import Selected Model'
-    bl_description = 'Extract selected PK2 resources and import using Jelly'
+    bl_description = 'Import selected PK2 assets into Blender'
     entry_index: IntProperty(default=-1, options={'SKIP_SAVE'})
 
     def execute(self, context):
@@ -575,7 +568,7 @@ class SILKROAD_OT_ImportFromPk2(Operator):
             if not _op_available('silkroad_import', {
                 '.bsr':'jmxvres_0109','.bms':'jmxvbms_0110','.bsk':'jmxvbsk_0110',
                 '.ban':'jmxvban_0102','.dof':'jmxvdof_0101','.nvm':'jmxvnvm_1000'}[ext]):
-                raise RuntimeError(_t('Missing Jelly Blender importer for {extension}', props, extension=ext))
+                raise RuntimeError(_t('Missing Silkroad importer for {extension}', props, extension=ext))
             prepared = prepare_asset(_session_or_reopen(props), row.path,
                                      include_animations=props.load_animations,
                                      include_objects=props.load_map_objects)
@@ -604,16 +597,14 @@ class SILKROAD_OT_ImportFromPk2(Operator):
                 operation = bpy.ops.silkroad_import.jmxvnvm_1000
                 bsc.update(setting_data_pk2_path=str(prepared.data_root), setting_map_pk2_path=str(prepared.map_root),
                            setting_load_objects=props.load_map_objects)
-            # JellyBMS/JellyBSK/JellyBSR use context-sensitive bpy.ops calls.
-            # Our N-panel is UI region, so override to VIEW_3D / WINDOW first.
             with _viewport_operator_context(context):
                 _ensure_object_mode()
                 result = operation(**bsc)
             if 'FINISHED' not in result:
-                raise RuntimeError(_t('Jelly importer did not finish: {result}', props, result=result))
+                raise RuntimeError(_t('Import did not finish: {result}', props, result=result))
             added = [o for o in bpy.data.objects if o.as_pointer() not in before]
             if not added and ext != '.ban':
-                raise RuntimeError(_t('Jelly importer created no objects. Check the BSR and its dependencies.', props))
+                raise RuntimeError(_t('Import created no objects. Check the BSR and its dependencies.', props))
             if prepared.meshes:
                 _object_source_map(prepared, added)
             if prepared.missing_optional:
@@ -631,7 +622,7 @@ class SILKROAD_OT_ImportFromPk2(Operator):
 
 
 def _export_bms(obj):
-    """Use Jelly's real BMS serializer. Verify file because Jelly swallows exceptions."""
+    """Serialize and verify a BMS output file."""
     if obj.type != 'MESH':
         raise InvalidAsset('Only a selected mesh can be saved back to PK2.')
     if len(obj.data.uv_layers) < 1:
@@ -643,7 +634,7 @@ def _export_bms(obj):
     if any(abs(float(v) - 1) > 1e-4 for v in obj.scale):
         raise InvalidAsset('Apply mesh scale first: Ctrl+A > Scale.')
     if not _op_available('silkroad_export', 'jmxvbms_0110'):
-        raise RuntimeError('JellyBMS export operator is not registered.')
+        raise RuntimeError('BMS export operator is not registered.')
     old_active = bpy.context.view_layer.objects.active
     old_selected = list(bpy.context.selected_objects)
     old_mode = bpy.context.object.mode if bpy.context.object else 'OBJECT'
@@ -660,7 +651,7 @@ def _export_bms(obj):
                 raise RuntimeError(_t('BMS export failed: {result}', result=result))
             expected = Path(tmp) / (obj.name + '.bms')
             if not expected.is_file():
-                raise RuntimeError('JellyBMS did not create a BMS output file. Check Blender console.')
+                raise RuntimeError('BMS output file was not created. Check Blender console.')
             data = expected.read_bytes()
             if not data.startswith(b'JMXVBMS 0110'):
                 raise RuntimeError('The saved BMS file has an invalid signature.')

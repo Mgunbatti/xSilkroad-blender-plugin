@@ -9,7 +9,7 @@ BASE = Path(__file__).resolve().parents[1] / 'silkroad_pk2_bridge'
 
 
 def get_class():
-    src = (BASE / 'JellyBAN.py').read_text()
+    src = (BASE / 'JellyBAN.py').read_text(encoding='utf-8')
     tree = ast.parse(src)
     node = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == 'Import_JMXVBAN_0102')
     methods = [n for n in node.body if isinstance(n, ast.FunctionDef) and n.name in ('ActionFCurve',)]
@@ -64,14 +64,14 @@ class TestBlender52Animation(unittest.TestCase):
         self.assertEqual(legacy.fcurves.created, 1)
 
     def test_import_slot_is_created_before_nla_strip(self):
-        src = (BASE / 'JellyBAN.py').read_text()
+        src = (BASE / 'JellyBAN.py').read_text(encoding='utf-8')
         start = src.index('action = bpy.data.actions.new(data[\'name\'])')
         part = src[start:src.index('self.ActionFCurve', start)]
         self.assertLess(part.index('action.slots.new'),part.index('nla_track.strips.new'))
         self.assertIn('obj.animation_data.action_slot = slot', part)
 
     def test_export_reads_modern_channelbag(self):
-        src = (BASE / 'JellyBAN.py').read_text()
+        src = (BASE / 'JellyBAN.py').read_text(encoding='utf-8')
         self.assertIn('anim_utils.action_get_channelbag_for_slot',src)
         self.assertIn('keyframes = self.GetKeyframeSets(Action,Obj.animation_data.action_slot',src)
 

@@ -79,7 +79,7 @@ class TestBmtSafe(unittest.TestCase):
         self.assertIn('signature', warning)
 
     def test_jellybms_calls_guarded_reader_and_continues(self):
-        text = (ROOT / 'JellyBMS.py').read_text()
+        text = (ROOT / 'JellyBMS.py').read_text(encoding='utf-8')
         ast.parse(text)
         self.assertIn('parse_bmt_safe(f.read())', text)
         self.assertIn('Continuing without invalid material entries', text)

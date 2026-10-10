@@ -4,7 +4,7 @@
 
 ## Kaynak doğrulaması
 
-Kullanıcının verdiği v2.3.2 Source_Tests ZIP temel alındı. İçindeki bütün eklenti dosyaları başlangıçtaki v2.3.2 PNG Fix paketiyle byte-byte aynı. Tam paketin 54 testi ham kaynakta da geçti. Son kaynakta 54 eski + 12 yeni = **66 unittest** geçti. Altı Jelly importer'ı paketteki özgün GPL başlıklarıyla korundu; bağımsız konuşma ekleri API görünümünde erişilebilir değildi. SHA-256 ve değişen/değişmeyen dosya listesi SOURCE_PROVENANCE.json içinde.
+v2.3.2 Source_Tests ZIP temel alındı. İçindeki bütün eklenti dosyaları başlangıçtaki v2.3.2 PNG Fix paketiyle byte-byte aynı. Tam paketin 54 testi ham kaynakta da geçti. Son kaynakta 54 eski + 12 yeni = **66 unittest** geçti. Altı dosya biçiminin kaynakları ve lisans başlıkları korundu. SHA-256 ve değişen/değişmeyen dosya listesi SOURCE_PROVENANCE.json içinde.
 
 ## Gerçek testler
 

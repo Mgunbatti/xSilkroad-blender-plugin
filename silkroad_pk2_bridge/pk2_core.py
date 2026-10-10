@@ -1,7 +1,7 @@
 """Blender-independent PK2 archive bridge.
 
 PK2 I/O is delegated to MIT-licensed pk2api 1.5.0 (installed on demand);
-JellyBitz GPL add-ons handle Silkroad geometry serialization.
+Silkroad import modules handle geometry serialization.
 """
 from __future__ import annotations
 
@@ -52,7 +52,7 @@ def decode_bms_name(data: bytes) -> str:
 
 
 def parse_bmt_textures(data: bytes, material_inner_path: str) -> list[str]:
-    """Material 0102 diffuse/normal texture references, as parsed by JellyBMS.
+    """Read Material 0102 texture references.
 
     Other BMT variants are ignored; absent textures don't abort mesh import.
     """
@@ -127,18 +127,13 @@ class ArchiveSession:
                     try:
                         stream = backend(str(location), key, **kwargs)
                     except TypeError as exc:
-                        # pk2api 1.5.0 in some installations does not accept
-                        # the newer optional ``progress`` constructor argument.
-                        # Retry ONLY that precise API mismatch; other TypeErrors
-                        # must still propagate rather than hiding broken archives.
+                        # Retry only a missing progress parameter.
                         detail = str(exc)
                         if ('progress' not in kwargs or
                                 'unexpected keyword argument' not in detail or
                                 not ("'progress'" in detail or '"progress"' in detail)):
                             raise
                         if progress is not None:
-                            # Notify the UI that an honest block count is unavailable.
-                            # Do not report fake 0% progress for the entire scan.
                             progress(location, None, None)
                         stream = backend(str(location), key, read_only=True)
                     self.streams[location] = stream

@@ -12,7 +12,7 @@ BASE = Path(__file__).resolve().parents[1] / 'silkroad_pk2_bridge'
 
 
 def helper_namespace(bpy):
-    tree = ast.parse((BASE / '__init__.py').read_text())
+    tree = ast.parse((BASE / '__init__.py').read_text(encoding='utf-8'))
     fn_names = {'_viewport_operator_context', '_ensure_object_mode'}
     nodes = [n for n in tree.body if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)) and n.name in fn_names]
     assert len(nodes) == 2
@@ -86,13 +86,13 @@ class TestBlenderViewportContext(unittest.TestCase):
                 pass
 
     def test_bsr_switches_to_object_mode_before_deselect(self):
-        source = (BASE / 'JellyBSR.py').read_text()
+        source = (BASE / 'JellyBSR.py').read_text(encoding='utf-8')
         process = source[source.index('\tdef ProcessData('):]
         self.assertLess(process.index("BlenderSetMode('OBJECT')"),
                         process.index("bpy.ops.object.select_all(action='DESELECT')"))
 
     def test_import_and_export_both_have_viewport_override(self):
-        source = (BASE / '__init__.py').read_text()
+        source = (BASE / '__init__.py').read_text(encoding='utf-8')
         self.assertIn('with _viewport_operator_context(context):\n                _ensure_object_mode()\n                result = operation(**bsc)', source)
         self.assertIn('with _viewport_operator_context(context):\n                _ensure_object_mode()\n                data = _export_bms(obj)', source)
 

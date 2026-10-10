@@ -47,7 +47,7 @@ class Timers:
 
 
 def make_namespace(tmp_path):
-    tree = ast.parse((BASE/'__init__.py').read_text())
+    tree = ast.parse((BASE/'__init__.py').read_text(encoding='utf-8'))
     needed = {'_close_session','_stop_archive_load','_start_archive_load',
               '_poll_archive_load','_session_or_reopen', '_scan_visual_tick', '_redraw_pk2_panels'}
     nodes = [n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name in needed]

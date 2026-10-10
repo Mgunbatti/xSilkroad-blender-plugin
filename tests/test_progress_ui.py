@@ -41,7 +41,7 @@ class Settings:
 
 class TestProgressUi(unittest.TestCase):
     def setUp(self):
-        tree=ast.parse(MOD.read_text())
+        tree=ast.parse(MOD.read_text(encoding='utf-8'))
         panel=next(n for n in tree.body if isinstance(n,ast.ClassDef) and n.name == 'SILKROAD_PT_Editor')
         method=next(n for n in panel.body if isinstance(n,ast.FunctionDef) and n.name=='draw')
         helper=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='_draw_green_progress')

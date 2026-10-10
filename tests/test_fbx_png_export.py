@@ -161,7 +161,7 @@ class TestFBXTextureExport(unittest.TestCase):
         png = Path(self.exporter.image_paths_seen[0])
         self.assertEqual(png.suffix, '.png')
         self.assertTrue((result.texture_folder / png.name).is_file())
-        self.assertIn('bonelord.dds', result.report.read_text())
+        self.assertIn('bonelord.dds', result.report.read_text(encoding='utf-8'))
         params = self.exporter.calls[0]
         self.assertEqual(params['path_mode'], 'RELATIVE')
         self.assertFalse(params['embed_textures'])
@@ -197,7 +197,7 @@ class TestFBXTextureExport(unittest.TestCase):
         self.assertEqual(result.converted, 0)
         self.assertEqual(len(result.missing), 1)
         self.assertEqual(self.exporter.image_paths_seen, [None])
-        self.assertIn('DDS missing', result.report.read_text())
+        self.assertIn('DDS missing', result.report.read_text(encoding='utf-8'))
         self.assertIs(self.mesh.material_slots[0].material, self.original_mat)
 
     def test_failure_rolls_back_without_touching_existing_fbx(self):
@@ -232,7 +232,7 @@ class TestFBXTextureExport(unittest.TestCase):
     def test_static_mesh_can_export_without_rig(self):
         result = bridge.export_fbx_with_textures(self.bpy, self.out / 'Static.fbx', [self.mesh])
         self.assertEqual(len(result.missing), 1)
-        self.assertIn('No armature', result.report.read_text())
+        self.assertIn('No armature', result.report.read_text(encoding='utf-8'))
 
     def test_invalid_selection_and_suffix_do_nothing(self):
         with self.assertRaisesRegex(ValueError, 'Mesh'):

@@ -33,7 +33,7 @@ class RuntimeContracts(unittest.TestCase):
             file=Path(tmp)/('a'+ext); file.write_bytes(SIGNATURES[ext])
             operator=NS(directory=tmp,files=[NS(name=file.name)],LoadFile=load,
                         report=lambda level,message:reports.append(message),setting_material_filepath='')
-            src=(Path(__file__).resolve().parents[1]/'silkroad_pk2_bridge/import_runtime.py').read_text()
+            src=(Path(__file__).resolve().parents[1]/'silkroad_pk2_bridge/import_runtime.py').read_text(encoding='utf-8')
             tree=ast.parse(src)
             fn=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='execute_import')
             ns=dict(bpy=fake,Path=Path,io=io,datetime=datetime,timezone=timezone,

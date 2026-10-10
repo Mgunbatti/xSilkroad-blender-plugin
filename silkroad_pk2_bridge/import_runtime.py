@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Strict Jelly execution, shared by panel and File > Import callers."""
+"""Import validation and result logging."""
 from contextlib import redirect_stdout, redirect_stderr
 from pathlib import Path
 from datetime import datetime, timezone

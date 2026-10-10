@@ -22,7 +22,7 @@ props.archive=str(game/'Data.pk2')
 print('Opening real archives',flush=True)
 addon._session=ArchiveSession(props.archive)
 print('Archives ready',addon._session.errors,flush=True)
-samples=json.loads((base/'real_assets.json').read_text())
+samples=json.loads((base/'real_assets.json').read_text(encoding='utf-8'))
 # Choose one self-contained animated character resource and derive matching rig/BAN.
 character=None
 stream=addon._session.streams[addon._session.primary]

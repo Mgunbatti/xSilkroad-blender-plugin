@@ -20,7 +20,7 @@
   "files": [
     {
       "file": "__init__.py",
-      "sha256": "2b164f788cbc551f161a99337f88246aaec91b58437bd56879fcd9490d3f56d0",
+      "sha256": "39b27ac93fc2ecf37cded2ec87dbdcc8cc1356f8fd5e6c49aa267219dc9e6e51",
       "original_sha256": "a9515ad4b17afc83c6e5be6f25d17ce39010dd6b13184fa37b022e4ff46b59f5",
       "changed": true
     },
@@ -68,13 +68,13 @@
     },
     {
       "file": "i18n.py",
-      "sha256": "9b644c849386680f585f4b920464f2bca212110a79125dfbc695207b6ee17d0f",
+      "sha256": "f9d67296c183ce2f00756418f16b5108c9519d4ba242114bbcc422b4ad75b44b",
       "original_sha256": "5d9241db70dda9989ced93e697b86aae5aeafab70ace0bf8132c97879ce97887",
       "changed": true
     },
     {
       "file": "import_runtime.py",
-      "sha256": "6cf8c8fc659ea52a4bfbe043ca76a18da433678cce55f45dd42e51595b4d9416",
+      "sha256": "851bf3dc27890846471c41204cc2484aa37345cc24d539400e0ac460a193e7a8",
       "original_sha256": null,
       "changed": true
     },
@@ -128,7 +128,7 @@
     },
     {
       "file": "pk2_core.py",
-      "sha256": "65a4f745a89d9e5334f9229c53507ee3cf9f8da5873f4d1539c83a1e3537513b",
+      "sha256": "8315d5f45df38c07fd2a5ce05f1362ea013cbcd83e341f76adf66869cdd9fd6c",
       "original_sha256": "f879b27e7dbe099bf107fad87595a4f6bf677fc8c479e2f71054b38caa1794aa",
       "changed": true
     }
@@ -136,5 +136,5 @@
   "license": "GPL-3.0-or-later",
   "attribution": "JellyBitz / Engels Quintero; original notices retained",
   "conversation_attachments_available": false,
-  "note": "User-provided v2.3.2 Source_Tests is the final basis. All addon files match downloaded v2.3.2 PNG Fix byte-for-byte. Independent conversation uploads were not accessible; six embedded Jelly importers used."
+  "note": "Based on v2.3.2 Source_Tests. Documentation and interface text simplified; original copyright and license notices retained."
 }

@@ -8,10 +8,10 @@ ROOT = Path(__file__).resolve().parents[1] / 'silkroad_pk2_bridge'
 
 class TestAddon(unittest.TestCase):
     def test_manifest_and_registration(self):
-        manifest = tomllib.loads((ROOT / 'blender_manifest.toml').read_text())
+        manifest = tomllib.loads((ROOT / 'blender_manifest.toml').read_text(encoding='utf-8'))
         self.assertEqual(manifest['id'], 'silkroad_pk2_bridge')
         self.assertEqual(manifest['version'], '2.3.3')
-        source = (ROOT / '__init__.py').read_text()
+        source = (ROOT / '__init__.py').read_text(encoding='utf-8')
         tree = ast.parse(source)
         names = {n.name for n in ast.walk(tree) if isinstance(n, ast.ClassDef)}
         self.assertTrue({'SILKROAD_PT_Editor', 'SILKROAD_OT_OpenArchive',
