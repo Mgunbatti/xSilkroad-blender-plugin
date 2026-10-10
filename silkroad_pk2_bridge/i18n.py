@@ -6,6 +6,13 @@ changing Blender's global language. Keep interpolation placeholders identical.
 """
 
 TURKISH = {
+    '4. Unreal Project': '4. Unreal Projesi',
+    'Create Jangan UE Project': 'Jangan UE Projesi Oluştur',
+    'Cancel UE Transfer': 'UE Aktarımını İptal Et',
+    'Unreal editor': 'Unreal editörü',
+    'Import into Unreal automatically': 'Unreal içine otomatik aktar',
+    'Creates a new folder beside the chosen project filename.': 'Seçilen proje adında yeni bir klasör oluşturur.',
+    'UE transfer cancelled; partial output is kept.': 'UE aktarımı iptal edildi; kısmi çıktı korundu.',
     'Language': 'Dil',
     'Error: {error}': 'Hata: {error}',
     'PK2 Loading Status': 'PK2 Yükleme Durumu',

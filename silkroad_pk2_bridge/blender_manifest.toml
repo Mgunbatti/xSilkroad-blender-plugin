@@ -1,6 +1,6 @@
 schema_version = "1.0.0"
 id = "silkroad_pk2_bridge"
-version = "2.3.3"
+version = "2.4.0"
 name = "Silkroad PK2 Editor"
 tagline = "Import Silkroad PK2 assets and export FBX with PNG textures"
 maintainer = "Silkroad PK2 Editor contributors"

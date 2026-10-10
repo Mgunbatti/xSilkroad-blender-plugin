@@ -2,7 +2,7 @@
 
 ## Kurulum
 
-Blender'da **Edit → Preferences → Get Extensions → Install from Disk** yolundan `Silkroad_PK2_Editor_v2_3_3.zip` dosyasını kurun. Eski sürüm etkinse önce devre dışı bırakın. Aynı dosya biçimlerini açan başka eklentiler kayıt çakışmasına yol açabilir.
+Blender'da **Edit → Preferences → Get Extensions → Install from Disk** yolundan `Silkroad_PK2_Editor_v2_4_0.zip` dosyasını kurun. Eski sürüm etkinse önce devre dışı bırakın. Aynı dosya biçimlerini açan başka eklentiler kayıt çakışmasına yol açabilir.
 
 3D Viewport'ta **N** tuşuna basıp **Silkroad PK2 Editor** panelini açın. Gerekiyorsa **PK2 Motorunu Kur** düğmesini kullanın. Motor kurulumu internet bağlantısı gerektirir.
 
@@ -27,6 +27,18 @@ Dokulu model veya karakter yüklemek için **BSR** dosyasını seçin. Mesh, mat
 Sahneyi `.blend` olarak kaydedebilir veya **FBX + PNG** olarak dışa aktarabilirsiniz. FBX için mesh ve gerekiyorsa iskeleti birlikte seçin. FBX dosyasını yanındaki doku klasörüyle birlikte taşıyın.
 
 BMS dosyaları PK2 arşivine geri yazılabilir. İşlemden önce arşiv yedeklenir ve yazılan dosya doğrulanır. Diğer beş biçim için PK2'ye geri yazma desteği yoktur.
+
+## Jangan'ı Unreal'a aktarma
+
+Data.pk2 arşivini açıp taramanın bitmesini bekleyin. **4. Unreal Projesi → Jangan UE Projesi Oluştur** düğmesine basın. Proje adını ve kaydedileceği konumu seçin. Seçtiğiniz adla yeni bir klasör oluşturulur; mevcut, dolu bir proje klasörünün üstüne yazılmaz.
+
+**Unreal içine otomatik aktar** açıkken kurulu UnrealEditor-Cmd.exe otomatik bulunur. Gerekirse dosya seçicisinde bu yolu değiştirin. Kapalıyken FBX+PNG kaynakları ve Unreal aktarım betiği hazırlanır; UE içeriklerini oluşturmak için betiği Unreal'da çalıştırmanız gerekir.
+
+Blender açık sahnesini koruyarak 16 harita parçasını ve şehir nesnelerini geçici bir sahnede işler. Ardından Unreal ayrı bir işlemde modelleri ve dokuları içe alır, materyalleri oluşturur ve kaydedilmiş yerleşimlere göre Jangan haritasını kurar. Panel durum satırından sonucu takip edin. İptal için **UE Aktarımını İptal Et** veya Escape kullanın; kısmi proje hata kaydıyla korunur.
+
+Hazır `.uproject` dosyasını UE'de açın. Başlangıç haritası `/Game/Jangan/Maps/Jangan`. `SourceAssets/manifest.json` kaynakları ve konumları; `ImportReport.json` UE sonucunu; `UnrealImport.log` ayrıntıları içerir. Aynı model şehirde tekrar kullanıldığında ortak Static Mesh'e başvurur.
+
+Bu aktarım ana Jangan şehri ve surların yakın çevresini kapsar (NVM: `60a6`–`63a9`). Şehir çevresi statik geometri olarak aktarılır; ağaç iskeletleri mevcut pozlarıyla sabitlenir. NPC, görev, hareketli su, rüzgâr animasyonu veya oynanış sistemi eklenmez. Gerçek uçtan uca doğrulama Blender 5.2.2 ve UE 5.8.3 ile yapılmıştır.
 
 ## Hata kayıtları
 

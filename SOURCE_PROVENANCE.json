@@ -20,7 +20,7 @@
   "files": [
     {
       "file": "__init__.py",
-      "sha256": "39b27ac93fc2ecf37cded2ec87dbdcc8cc1356f8fd5e6c49aa267219dc9e6e51",
+      "sha256": "695da67532b78ad7067ccdddff8f87905aadc16f6c6ff14c8bc5d66f389c109e",
       "original_sha256": "a9515ad4b17afc83c6e5be6f25d17ce39010dd6b13184fa37b022e4ff46b59f5",
       "changed": true
     },
@@ -44,7 +44,7 @@
     },
     {
       "file": "blender_manifest.toml",
-      "sha256": "3c075a032731dfb7885785e009406cc2a259845e0ca48b59d0517e636e120f5e",
+      "sha256": "448b6a843cb844d2de71ef97cbea51ac197ad5937c25aca3785bffdf7f4e1667",
       "original_sha256": "778f1ba030897ee3e06aee6b2e7d1f918063474b0df82509f2e9597e28b07fe2",
       "changed": true
     },
@@ -68,7 +68,7 @@
     },
     {
       "file": "i18n.py",
-      "sha256": "f9d67296c183ce2f00756418f16b5108c9519d4ba242114bbcc422b4ad75b44b",
+      "sha256": "ffa424d8ec08510440ef010ec5191c2e6a6ad233333735ecccf87432b61935fe",
       "original_sha256": "5d9241db70dda9989ced93e697b86aae5aeafab70ace0bf8132c97879ce97887",
       "changed": true
     },
@@ -131,10 +131,28 @@
       "sha256": "8315d5f45df38c07fd2a5ce05f1362ea013cbcd83e341f76adf66869cdd9fd6c",
       "original_sha256": "f879b27e7dbe099bf107fad87595a4f6bf677fc8c479e2f71054b38caa1794aa",
       "changed": true
+    },
+    {
+      "file": "ue_blender.py",
+      "sha256": "96ad4915241b1087a0e87f9e26b6ee4ed794160581a93b4d9958d671a290e7ea",
+      "original_sha256": null,
+      "changed": true
+    },
+    {
+      "file": "ue_import_template.py",
+      "sha256": "2bbb5f3414f2a850864316060ed6c1980d499f44c6b34350dd69a0c9cdde5cb4",
+      "original_sha256": null,
+      "changed": true
+    },
+    {
+      "file": "ue_project.py",
+      "sha256": "41b49215838387890961f812fc319296d9759aa62270b85ba026eca42c268e70",
+      "original_sha256": null,
+      "changed": true
     }
   ],
   "license": "GPL-3.0-or-later",
   "attribution": "JellyBitz / Engels Quintero; original notices retained",
   "conversation_attachments_available": false,
-  "note": "Based on v2.3.2 Source_Tests. Documentation and interface text simplified; original copyright and license notices retained."
+  "note": "v2.3.2 Source_Tests basis; v2.4.0 adds automated Jangan Unreal project transfer. Original copyright and license headers retained."
 }

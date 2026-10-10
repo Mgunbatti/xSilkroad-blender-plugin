@@ -1,0 +1,12 @@
+{
+  "result": "passed",
+  "operator": "silkroad_editor.export_ue_project",
+  "original_scene_preserved": true,
+  "original_material_preserved": true,
+  "panel_settings_preserved": true,
+  "assets": 156,
+  "placements": 577,
+  "terrain_tiles": 16,
+  "ue_errors": [],
+  "engine": "5.8.3-58210709+++UE5+Release-5.8"
+}

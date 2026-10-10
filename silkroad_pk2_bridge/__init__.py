@@ -3,7 +3,7 @@
 bl_info = {
     'name': 'Silkroad PK2 Editor',
     'author': 'Silkroad PK2 Editor contributors',
-    'version': (2, 3, 3),
+    'version': (2, 4, 0),
     'blender': (4, 2, 0),
     'location': 'View3D > Sidebar > Silkroad',
     'description': 'Open PK2 in Blender, import models, export blend/fbx and safely update BMS',
@@ -45,6 +45,7 @@ _IMPORTERS = (
 _session = None
 _load_job = None
 _last_workspaces = []
+_ue_active_operator = None
 _progress_previews = None
 
 
@@ -435,6 +436,7 @@ class SilkroadEditorSettings(PropertyGroup):
     load_animations: BoolProperty(name='Include animations', default=False)
     load_map_objects: BoolProperty(name='Include map objects', default=False)
     loading: BoolProperty(name='Scanning PK2', default=False, options={'SKIP_SAVE'})
+    ue_transfer_running: BoolProperty(default=False, options={'SKIP_SAVE'})
     scan_state: StringProperty(name='Scan state', default='IDLE', options={'SKIP_SAVE'})
     scan_archive: StringProperty(name='Current archive', default='', options={'SKIP_SAVE'})
     scan_visual: FloatProperty(name='Loading indicator', min=0.0, max=1.0, default=0.0, options={'SKIP_SAVE'})
@@ -787,6 +789,112 @@ class SILKROAD_OT_ExportFBX(Operator, ExportHelper):
             return _report_error(self, context, ex)
 
 
+class SILKROAD_OT_ExportUEProject(Operator, ExportHelper):
+    bl_idname = 'silkroad_editor.export_ue_project'
+    bl_label = 'Create Jangan UE Project'
+    bl_description = 'Export the original Jangan map and build a separate Unreal project'
+    filename_ext = '.uproject'
+    filter_glob: StringProperty(default='*.uproject', options={'HIDDEN'})
+    unreal_editor: StringProperty(name='Unreal editor', subtype='FILE_PATH')
+    run_unreal: BoolProperty(name='Import into Unreal automatically', default=True)
+
+    @classmethod
+    def poll(cls, context):
+        return _session is not None and _ue_active_operator is None and not context.scene.silkroad_editor.loading
+
+    def invoke(self, context, event):
+        from .ue_blender import find_unreal_editor
+        self.unreal_editor = self.unreal_editor or find_unreal_editor()
+        self.filepath = self.filepath or str(Path(bpy.path.abspath('//')).resolve() / 'xSilkroadJangan.uproject')
+        context.window_manager.fileselect_add(self)
+        return {'RUNNING_MODAL'}
+
+    def draw(self, context):
+        props = context.scene.silkroad_editor
+        self.layout.prop(self, 'run_unreal', text=_t('Import into Unreal automatically', props))
+        self.layout.prop(self, 'unreal_editor', text=_t('Unreal editor', props))
+        self.layout.label(text=_t('Creates a new folder beside the chosen project filename.', props))
+
+    def execute(self, context):
+        global _ue_active_operator
+        from .ue_blender import UEProjectJob
+        self._job = None
+        self._timer = None
+        self._cancel_requested = False
+        self._props = context.scene.silkroad_editor
+        try:
+            self._job = UEProjectJob(bpy, sys.modules[__name__], self.filepath,
+                                     self.unreal_editor, self.run_unreal)
+            _ue_active_operator = self
+            self._props.ue_transfer_running = True
+            if bpy.app.background:
+                import time
+                previous_message = None
+                while True:
+                    done, message = self._job.step(context)
+                    self._props.message = message
+                    if message != previous_message:
+                        print('[Silkroad UE]', message, flush=True)
+                        previous_message = message
+                    if done:
+                        break
+                    if self._job.process:
+                        time.sleep(.2)
+                self._finish(context)
+                return {'FINISHED'}
+            self._timer = context.window_manager.event_timer_add(.1, window=context.window)
+            context.window_manager.modal_handler_add(self)
+            return {'RUNNING_MODAL'}
+        except Exception as exc:
+            return self._failed(context, exc)
+
+    def modal(self, context, event):
+        if event.type == 'ESC' or self._cancel_requested:
+            self._job.fail('Transfer cancelled')
+            self._finish(context, cancel=True)
+            self._props.message = _t('UE transfer cancelled; partial output is kept.', self._props)
+            return {'CANCELLED'}
+        if event.type != 'TIMER':
+            return {'PASS_THROUGH'}
+        try:
+            done, message = self._job.step(context)
+            self._props.message = message
+            _redraw_pk2_panels()
+            if done:
+                self.report({'INFO'}, message[:230])
+                self._finish(context)
+                return {'FINISHED'}
+            return {'RUNNING_MODAL'}
+        except Exception as exc:
+            return self._failed(context, exc)
+
+    def _failed(self, context, error):
+        if self._job:
+            self._job.fail(error)
+        self._finish(context, cancel=True)
+        return _report_error(self, context, error)
+
+    def _finish(self, context, cancel=False):
+        global _ue_active_operator
+        if self._timer:
+            context.window_manager.event_timer_remove(self._timer)
+            self._timer = None
+        if self._job:
+            self._job.close(cancel=cancel)
+        self._props.ue_transfer_running = False
+        _ue_active_operator = None
+
+
+class SILKROAD_OT_CancelUETransfer(Operator):
+    bl_idname = 'silkroad_editor.cancel_ue_transfer'
+    bl_label = 'Cancel UE Transfer'
+
+    def execute(self, context):
+        if _ue_active_operator:
+            _ue_active_operator._cancel_requested = True
+        return {'FINISHED'}
+
+
 class SILKROAD_PT_Editor(Panel):
     bl_label = 'PK2 Editor'
     bl_idname = 'SILKROAD_PT_pk2_editor'
@@ -797,6 +905,7 @@ class SILKROAD_PT_Editor(Panel):
     def draw(self, context):
         props = context.scene.silkroad_editor
         layout = self.layout
+        layout.enabled = not props.ue_transfer_running
         lang = layout.row(align=True)
         lang.label(text=_t('Language', props), icon='WORLD')
         lang.prop(props, 'language', text='', expand=True)
@@ -871,6 +980,14 @@ class SILKROAD_PT_Editor(Panel):
         box.operator('silkroad_editor.save_bms_to_pk2',
                      text=_t('Save Selected Mesh to PK2', props), icon='FILE_TICK')
         box.label(text=_t('PK2 write-back currently supports BMS meshes only.', props))
+        layout.enabled = True
+        box = layout.box()
+        box.label(text=_t('4. Unreal Project', props), icon='WORLD')
+        if props.ue_transfer_running:
+            box.label(text=props.message[:65])
+            box.operator('silkroad_editor.cancel_ue_transfer', text=_t('Cancel UE Transfer', props), icon='CANCEL')
+        else:
+            box.operator('silkroad_editor.export_ue_project', text=_t('Create Jangan UE Project', props), icon='EXPORT')
 
 
 class SILKROAD_OT_CancelScan(Operator):
@@ -891,7 +1008,8 @@ _CLASSES = (SilkroadEntry, SilkroadEditorSettings, SILKROAD_UL_ArchiveRows,
             SILKROAD_OT_InstallPk2Engine, SILKROAD_OT_OpenArchive, SILKROAD_OT_CancelScan,
             SILKROAD_OT_Navigate, SILKROAD_OT_Search, SILKROAD_OT_ImportFromPk2,
             SILKROAD_OT_SaveBmsToPk2, SILKROAD_OT_SaveBlend,
-            SILKROAD_OT_ExportFBX, SILKROAD_PT_Editor)
+            SILKROAD_OT_ExportFBX, SILKROAD_OT_ExportUEProject, SILKROAD_OT_CancelUETransfer,
+            SILKROAD_PT_Editor)
 
 
 def register():
@@ -907,6 +1025,8 @@ def register():
 
 
 def unregister():
+    if _ue_active_operator:
+        _ue_active_operator._finish(bpy.context, cancel=True)
     _stop_archive_load()
     _teardown_progress_previews()
     if bpy.app.timers.is_registered(_poll_archive_load):

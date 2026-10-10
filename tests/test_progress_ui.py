@@ -31,6 +31,7 @@ class Settings:
         self.scan_blocks=1200
         self.scan_has_counter=True
         self.loading=True
+        self.ue_transfer_running=False
         self.current_folder=''
         self.message='some status'
         self.search_mode=False

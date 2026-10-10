@@ -1,0 +1,14 @@
+{
+  "saved_map_reload": "passed",
+  "static_actors": 593,
+  "terrain_tiles": 16,
+  "terrain_width_cm": 19200,
+  "screenshots": [
+    "Preview/Jangan_Overview.png",
+    "Preview/Jangan_Gate.png"
+  ],
+  "placement_checks": 577,
+  "maximum_position_error_cm": 0,
+  "materials": 509,
+  "result": "passed"
+}
