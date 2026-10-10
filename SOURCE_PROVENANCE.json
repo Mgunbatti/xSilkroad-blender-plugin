@@ -1,0 +1,140 @@
+{
+  "basis": [
+    {
+      "file": "Silkroad_PK2_Editor_v2_3_2_Source_Tests.zip",
+      "sha256": "d00af68dedabed7c387d923087aa222b5dce61b0dfdfd8a216a5c3fa84cdb594",
+      "size": 102939,
+      "primary_basis": true
+    },
+    {
+      "file": "Silkroad_PK2_Editor_v2_3_2_PNG_Fix.zip",
+      "sha256": "bb61a3836287a8e690efbab5bd3716c1cc416c1accf014e4a8acb38fe8db3acd",
+      "size": 82615
+    },
+    {
+      "file": "Silkroad_PK2_Editor_v2_3_1_Source_Tests.zip",
+      "sha256": "afd975cbc9800f2829d135e6bac8c67e8a9d9fbda896852aa4debf9b242ae780",
+      "size": 101353
+    }
+  ],
+  "files": [
+    {
+      "file": "__init__.py",
+      "sha256": "2b164f788cbc551f161a99337f88246aaec91b58437bd56879fcd9490d3f56d0",
+      "original_sha256": "a9515ad4b17afc83c6e5be6f25d17ce39010dd6b13184fa37b022e4ff46b59f5",
+      "changed": true
+    },
+    {
+      "file": "asset_binary.py",
+      "sha256": "4aad22196026ef2945d890c246b4c03e90bffeb6f96c25098a870523888f0adf",
+      "original_sha256": null,
+      "changed": true
+    },
+    {
+      "file": "assets\\progress_dark.png",
+      "sha256": "2f15772f88bac0dd92075b0d06bd6325148c727cca642a65334223c2c927b232",
+      "original_sha256": "2f15772f88bac0dd92075b0d06bd6325148c727cca642a65334223c2c927b232",
+      "changed": false
+    },
+    {
+      "file": "assets\\progress_green.png",
+      "sha256": "9dfb9a732fc6a5138fe10c30f0f6cfb22b154abece7f685f63af3fd6b91a1ba3",
+      "original_sha256": "9dfb9a732fc6a5138fe10c30f0f6cfb22b154abece7f685f63af3fd6b91a1ba3",
+      "changed": false
+    },
+    {
+      "file": "blender_manifest.toml",
+      "sha256": "3c075a032731dfb7885785e009406cc2a259845e0ca48b59d0517e636e120f5e",
+      "original_sha256": "778f1ba030897ee3e06aee6b2e7d1f918063474b0df82509f2e9597e28b07fe2",
+      "changed": true
+    },
+    {
+      "file": "bmt_safe.py",
+      "sha256": "72f9706b6a878331f81a477e300e7542963bd6c4c95b5ea2af6734f60006f309",
+      "original_sha256": "72f9706b6a878331f81a477e300e7542963bd6c4c95b5ea2af6734f60006f309",
+      "changed": false
+    },
+    {
+      "file": "bridge_core.py",
+      "sha256": "d8b86fb4f6b62187fffb6b5285bf798cf71fc8ac2b49c5a41a826490700a5a21",
+      "original_sha256": "d8b86fb4f6b62187fffb6b5285bf798cf71fc8ac2b49c5a41a826490700a5a21",
+      "changed": false
+    },
+    {
+      "file": "fbx_texture_export.py",
+      "sha256": "410c9bfeb48c07410955e7a2731f5f12baa66e8e9f94a2c9fea14e7313d0fcf8",
+      "original_sha256": "410c9bfeb48c07410955e7a2731f5f12baa66e8e9f94a2c9fea14e7313d0fcf8",
+      "changed": false
+    },
+    {
+      "file": "i18n.py",
+      "sha256": "9b644c849386680f585f4b920464f2bca212110a79125dfbc695207b6ee17d0f",
+      "original_sha256": "5d9241db70dda9989ced93e697b86aae5aeafab70ace0bf8132c97879ce97887",
+      "changed": true
+    },
+    {
+      "file": "import_runtime.py",
+      "sha256": "6cf8c8fc659ea52a4bfbe043ca76a18da433678cce55f45dd42e51595b4d9416",
+      "original_sha256": null,
+      "changed": true
+    },
+    {
+      "file": "JellyBAN.py",
+      "sha256": "876453cf032fe1a243f88a06a70e14f6359dc0fc1f22406fe40a758a807ba9ab",
+      "original_sha256": "bf4e35fdd324f7a63fc424d8d84b4fe38e5bce4f694042ddb7467392ab0c54a2",
+      "changed": true
+    },
+    {
+      "file": "JellyBMS.py",
+      "sha256": "95233667ebbc57b30bf2e5ce576e1c7831e7d8430f09b8f5bb1ed31cc208789a",
+      "original_sha256": "4129c3d91834f2d39f69e3d68a1f0259684df70e721b1e45ed5520cf9de66c3a",
+      "changed": true
+    },
+    {
+      "file": "JellyBSK.py",
+      "sha256": "ce23566c0e3fd8719eb5b7db55e244701184b517919fc8184e8a49f161bb43a3",
+      "original_sha256": "87415bd8b2b9bfe8b421c9907736483c277875c74ae3a6f28e14d9ca0e111bfe",
+      "changed": true
+    },
+    {
+      "file": "JellyBSR.py",
+      "sha256": "2cbc34671f4d273b8c74b7cb67ea7bb8e9174d67071df698f414ef5b931fba73",
+      "original_sha256": "fa06e1c35a7b3ea9903acf772d1cb82bee7b17b3fc6b69cd5ff495f5b52e9090",
+      "changed": true
+    },
+    {
+      "file": "JellyDOF.py",
+      "sha256": "00e7d17da4491b9a69f589c5c85bcfe5020828d45b88a02fb91ad4e2fad47678",
+      "original_sha256": "00ceb43da69fd494cf6a342fc4f23d72f3e959eff91878ff9e61f26414a7c878",
+      "changed": true
+    },
+    {
+      "file": "JellyNVM.py",
+      "sha256": "ee9fba02c32a10224d376e2a0a350e844487f2cc1066868ff39c2ec98e7a8016",
+      "original_sha256": "72aa2497a3c7411b191fdc4f1e0aee1aa42aaffb0bedc3e1c5699fbc6850d689",
+      "changed": true
+    },
+    {
+      "file": "LICENSE-GPL-3.0.txt",
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "original_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "changed": false
+    },
+    {
+      "file": "map_data.py",
+      "sha256": "62d8f22f0347c10b2f2aabe4a369ff2a94a804e14f0ecd4332926b235018e4ec",
+      "original_sha256": null,
+      "changed": true
+    },
+    {
+      "file": "pk2_core.py",
+      "sha256": "65a4f745a89d9e5334f9229c53507ee3cf9f8da5873f4d1539c83a1e3537513b",
+      "original_sha256": "f879b27e7dbe099bf107fad87595a4f6bf677fc8c479e2f71054b38caa1794aa",
+      "changed": true
+    }
+  ],
+  "license": "GPL-3.0-or-later",
+  "attribution": "JellyBitz / Engels Quintero; original notices retained",
+  "conversation_attachments_available": false,
+  "note": "User-provided v2.3.2 Source_Tests is the final basis. All addon files match downloaded v2.3.2 PNG Fix byte-for-byte. Independent conversation uploads were not accessible; six embedded Jelly importers used."
+}

@@ -1,0 +1,144 @@
+[
+  {
+    "format": ".bms",
+    "entry": "prim\\mesh\\mob\\europe\\wolf01.bms",
+    "objects_enabled": false,
+    "animations_enabled": false,
+    "result": [
+      "FINISHED"
+    ],
+    "objects": 1,
+    "vertices": 371,
+    "bones": 0,
+    "actions": 0,
+    "images": 2,
+    "status": "Imported into Blender: prim\\mesh\\mob\\europe\\wolf01.bms | 1 objects",
+    "passed": true
+  },
+  {
+    "format": ".bsk",
+    "entry": "prim\\skel\\mob\\europe\\wolf.bsk",
+    "objects_enabled": false,
+    "animations_enabled": false,
+    "result": [
+      "FINISHED"
+    ],
+    "objects": 1,
+    "vertices": 0,
+    "bones": 37,
+    "actions": 0,
+    "images": 2,
+    "status": "Imported into Blender: prim\\skel\\mob\\europe\\wolf.bsk | 1 objects",
+    "passed": true
+  },
+  {
+    "format": ".ban",
+    "entry": "prim\\ani\\mob\\europe\\wolf\\wolf_stand01.ban",
+    "objects_enabled": false,
+    "animations_enabled": false,
+    "result": [
+      "FINISHED"
+    ],
+    "objects": 1,
+    "vertices": 0,
+    "bones": 37,
+    "actions": 1,
+    "images": 2,
+    "status": "Imported into Blender: prim\\ani\\mob\\europe\\wolf\\wolf_stand01.ban | 0 objects",
+    "keyframes": 10878,
+    "passed": true
+  },
+  {
+    "format": ".bsr",
+    "entry": "res/mob/arabia/baruswolf_adonis1.bsr",
+    "objects_enabled": false,
+    "animations_enabled": true,
+    "result": [
+      "FINISHED"
+    ],
+    "objects": 4,
+    "vertices": 1223,
+    "bones": 37,
+    "actions": 16,
+    "images": 5,
+    "status": "Imported into Blender: res/mob/arabia/baruswolf_adonis1.bsr | 4 objects",
+    "keyframes": 102494,
+    "passed": true
+  },
+  {
+    "format": "FBX+PNG",
+    "passed": true,
+    "converted": 2,
+    "missing": []
+  },
+  {
+    "format": "FBX roundtrip",
+    "passed": true,
+    "pngs": 4,
+    "objects": 4
+  },
+  {
+    "format": ".nvm",
+    "entry": "navmesh/nv_1315.nvm",
+    "objects_enabled": false,
+    "animations_enabled": false,
+    "result": [
+      "FINISHED"
+    ],
+    "objects": 1,
+    "vertices": 9409,
+    "bones": 0,
+    "actions": 17,
+    "images": 23,
+    "status": "Imported into Blender: navmesh/nv_1315.nvm | 1 objects",
+    "passed": true
+  },
+  {
+    "format": ".dof",
+    "entry": "dungeon/asiam/r1_cv/pha_cv.dof",
+    "objects_enabled": false,
+    "animations_enabled": false,
+    "result": [
+      "FINISHED"
+    ],
+    "objects": 829,
+    "vertices": 435132,
+    "bones": 0,
+    "actions": 17,
+    "images": 852,
+    "status": "Imported into Blender: dungeon/asiam/r1_cv/pha_cv.dof | 829 objects",
+    "passed": true
+  },
+  {
+    "format": ".nvm",
+    "entry": "navmesh/nv_1315.nvm",
+    "objects_enabled": true,
+    "animations_enabled": false,
+    "result": [
+      "FINISHED"
+    ],
+    "objects": 22,
+    "vertices": 12182,
+    "bones": 0,
+    "actions": 17,
+    "images": 873,
+    "status": "Imported into Blender: navmesh/nv_1315.nvm | 22 objects",
+    "passed": true
+  },
+  {
+    "format": ".dof",
+    "entry": "dungeon/asiam/r1_cv/pha_cv.dof",
+    "objects_enabled": true,
+    "animations_enabled": false,
+    "result": [
+      "FINISHED"
+    ],
+    "objects": 2479,
+    "vertices": 709098,
+    "bones": 0,
+    "actions": 17,
+    "images": 3343,
+    "status": "Imported into Blender: dungeon/asiam/r1_cv/pha_cv.dof | 2479 objects",
+    "passed": true
+  }
+]

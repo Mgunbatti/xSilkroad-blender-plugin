@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+/engine/
+/real_test_output/
+/install_test_profile/
+/real_assets.json

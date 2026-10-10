@@ -1,0 +1,62 @@
+[
+  {
+    "format": ".ban",
+    "passed": true,
+    "check": "truncated signature-only file rejected and logged"
+  },
+  {
+    "format": ".ban",
+    "passed": true,
+    "check": "wrong suffix rejected"
+  },
+  {
+    "format": ".bms",
+    "passed": true,
+    "check": "truncated signature-only file rejected and logged"
+  },
+  {
+    "format": ".bms",
+    "passed": true,
+    "check": "wrong suffix rejected"
+  },
+  {
+    "format": ".bsk",
+    "passed": true,
+    "check": "truncated signature-only file rejected and logged"
+  },
+  {
+    "format": ".bsk",
+    "passed": true,
+    "check": "wrong suffix rejected"
+  },
+  {
+    "format": ".bsr",
+    "passed": true,
+    "check": "truncated signature-only file rejected and logged"
+  },
+  {
+    "format": ".bsr",
+    "passed": true,
+    "check": "wrong suffix rejected"
+  },
+  {
+    "format": ".dof",
+    "passed": true,
+    "check": "truncated signature-only file rejected and logged"
+  },
+  {
+    "format": ".dof",
+    "passed": true,
+    "check": "wrong suffix rejected"
+  },
+  {
+    "format": ".nvm",
+    "passed": true,
+    "check": "truncated signature-only file rejected and logged"
+  },
+  {
+    "format": ".nvm",
+    "passed": true,
+    "check": "wrong suffix rejected"
+  }
+]

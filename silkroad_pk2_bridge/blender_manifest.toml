@@ -1,0 +1,14 @@
+schema_version = "1.0.0"
+id = "silkroad_pk2_bridge"
+version = "2.3.3"
+name = "Silkroad PK2 Editor"
+tagline = "Import Silkroad PK2 assets and export FBX with PNG textures"
+maintainer = "Silkroad PK2 Editor contributors"
+type = "add-on"
+tags = ["Import-Export"]
+blender_version_min = "4.2.0"
+license = ["SPDX:GPL-3.0-or-later"]
+
+[permissions]
+files = "Read PK2 assets and save BLEND, FBX, PNG and backed-up BMS"
+network = "Install PK2API when requested from the panel"
