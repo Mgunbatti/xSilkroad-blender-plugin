@@ -10,5 +10,8 @@
   "placement_checks": 577,
   "maximum_position_error_cm": 0,
   "materials": 509,
-  "result": "passed"
+  "result": "passed",
+  "rotation_checks": 577,
+  "maximum_yaw_error_deg": 4.4623600615523173e-05,
+  "rotation_validation": "passed"
 }

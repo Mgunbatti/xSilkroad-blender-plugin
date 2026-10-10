@@ -1,4 +1,4 @@
-# Jangan UE aktarımı — v2.4.0
+# Jangan UE aktarımı — v2.4.1
 
 10 Ekim 2026. Gerçek Holigan Data.pk2 ve Map.pk2 arşivleriyle Blender 5.2.2 LTS → Unreal Engine 5.8.3 aktarımı tamamlandı.
 
@@ -19,7 +19,7 @@ Ortak modeller bir kere içe aktarılır; tekrar eden binalar ve ağaçlar aynı
 
 Ölçüm varlık sayısına dayanır: **156 / 156 = %100**. Bu 16 NVM arazi ve 140 BSR modelinin arşivden çıkarılması, bağımlılıklarının bulunması, Blender'a aktarılması ve FBX+PNG üretilmesi eklentinin koduyla yapıldı. İşlem fiziksel fare tıklamasıyla değil, panel düğmesinin kullandığı gerçek Blender operatörü üzerinden çalıştırıldı.
 
-| Aşama | İlk aktarım | v2.4.0 düğmesi |
+| Aşama | İlk aktarım | v2.4.1 düğmesi |
 |---|---|---|
 | PK2 okuma ve bağımlılık çıkarma | Eklenti | Eklenti |
 | NVM/BSR → Blender | Eklenti | Eklenti |
@@ -36,17 +36,17 @@ Son akışın tamamı **Jangan UE Projesi Oluştur** düğmesi tarafından başl
 3. FBX materyal adlarında boşluk, tire ve sayısal ekler vardı. Slot adları normalize edilerek doğru kaynak materyalle eşleştirildi. Eşleşmeyen slot artık açık hata verir.
 4. Otomatik FBX materyal bağlantıları ilk komut satırı kontrolünde doğrulanamadı. PNG dokuları ayrı içe alınıp Base Color ve gerekiyorsa Opacity Mask bağlantıları açık oluşturuldu. Yaprak dokularına çift taraflı masked materyal verildi.
 5. İki mesh'te geçersiz UV değerleri bulundu: `W_CD_mc_cata` için 5, `CJ_lamp02` için 7 loop. Bu 12 değere (0,0) verildi; düzeltmeler manifestin `repairs` listesinde tutuldu. Bu yüzlerde kaynak UV yeniden oluşturulmuş değildir.
-6. Blender metre / UE santimetre ve sağ/sol el eksen farkı, kalibrasyon FBX'iyle ölçüldü. Harita konumları ve yaw dönüşümleri buna göre uygulandı.
+6. Blender metre / UE santimetre ve sağ/sol el eksen farkı, kalibrasyon FBX'iyle ölçüldü. Harita konumları buna göre uygulandı. İlk sürümün UE Rotator sıralı parametreleri yatay açıları pitch eksenine uyguluyordu; v2.4.1 isimli parametrelerle düzeltildi. Açık gerçek UE sahnesinde 301 eğilmiş nesne düzeltildi, 577 yerleşimin dönüşü ve değişmeyen konumları doğrulandı. En büyük yaw sapması 0,000045 derece.
 7. UE 5.8 kamera API'sinin ek `viewport_config_key` parametresi düzeltildi.
 8. Importer'ların aynı materyal adını yeniden kullanması açık Blender sahnesini etkileyebilirdi. Aktarım geçici sahnede izole edildi; mevcut materyal adları ve verileri işlem sonunda korundu.
 
 ## Doğrulama
 
-- 75 birim/regresyon testi geçti. Eski PK2, altı importer dispatch, materyal/animasyon, dil ve PNG testleri korundu. Yeni testler bölge konumları, dosya tablosu, CPD döngüsü, yabancı RID, mükerrer UID, geçersiz konum, mevcut proje koruması ve taşınabilir proje üretimini kapsar.
+- 80 birim/regresyon testi geçti. Eski PK2, altı importer dispatch, materyal/animasyon, dil ve PNG testleri korundu. Yeni testler bölge konumları, dosya tablosu, CPD döngüsü, yabancı RID, mükerrer UID, geçersiz konum, mevcut proje koruması ve taşınabilir proje üretimini kapsar.
 - Yeni `silkroad_editor.export_ue_project` operatörü gerçek arşivlerle baştan sona çalıştırıldı. 156 varlık ve 593 UE sahne nesnesi doğrulandı.
 - Blender'daki başlangıç nesneleri, materyal adı/rengi ve panel seçeneklerinin değişmediği gerçek bpy ile kontrol edildi.
 - Native extension ZIP build ve izole Blender profiline kurulum geçti. Yeni operatör kurulu pakette kayıtlı.
-- Kaydedilen UE haritası yeniden açıldı. Bütün arazi ölçüleri, mesh materyalleri ve 577 nesne konumu kontrol edildi. UE'de genel görünüm ve şehir kapısı görüntüleri üretildi.
+- Kaydedilen UE haritası yeniden açıldı. Bütün arazi ölçüleri, mesh materyalleri ve 577 nesne konumu kontrol edildi. v2.4.1 dönüş düzeltmesi ayrıca açık UE üzerinde gerçek üretim koduyla test edildi. PK2’den tam toplu aktarım bu düzeltmeden sonra yeniden çalıştırılmadı; önceki uçtan uca test v2.4.0 içindir. UE'de genel görünüm ve şehir kapısı görüntüleri üretildi.
 
 ## Kullanım
 

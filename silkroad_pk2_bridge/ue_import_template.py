@@ -5,8 +5,19 @@ root=Path(__file__).resolve().parent.parent
 source=root/'SourceAssets'
 m=json.loads((source/'manifest.json').read_text(encoding='utf-8'))
 texture_index=json.loads((source/'texture_index.json').read_text(encoding='utf-8'))
-report={'status':'importing','engine':u.SystemLibrary.get_engine_version(),'errors':[],'assets':{},'actors':0}
+report={'rotation_checks':0,'status':'importing','engine':u.SystemLibrary.get_engine_version(),'errors':[],'assets':{},'actors':0}
 def checkpoint():(root/'ImportReport.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
+
+def placement_rotation(yaw_deg):
+    if not math.isfinite(yaw_deg):raise ValueError('Non-finite placement yaw')
+    return u.Rotator(pitch=0.0,yaw=yaw_deg,roll=0.0)
+
+def verify_placement_rotation(actor,yaw_deg):
+    actual=actor.get_actor_rotation()
+    delta=abs((actual.yaw-yaw_deg+180.0)%360.0-180.0)
+    if not all(math.isfinite(v) for v in (actual.pitch,actual.yaw,actual.roll)) or abs(actual.pitch)>.001 or abs(actual.roll)>.001 or delta>.001:
+        raise RuntimeError('Placement rotation mismatch: '+actor.get_actor_label()+' / '+str(actual))
+
 tools=u.AssetToolsHelpers.get_asset_tools();sub=u.get_editor_subsystem(u.EditorAssetSubsystem)
 def import_fbx(name,folder,materials=True):
     if sub.does_asset_exist(folder+'/'+name):return sub.load_asset(folder+'/'+name)
@@ -109,18 +120,22 @@ for tile in m['tiles']:
 for p in m['placements']:
     mesh=meshes.get(p['asset'])
     if mesh is None:report['errors'].append({'missing_placement_asset':p['asset']});continue
-    a=actors.spawn_actor_from_class(u.StaticMeshActor,position(p['position_cm']),u.Rotator(0,yaw(p['yaw_deg']),0))
+    a=actors.spawn_actor_from_class(u.StaticMeshActor,position(p['position_cm']),placement_rotation(yaw(p['yaw_deg'])))
     a.static_mesh_component.set_static_mesh(mesh)
     a.set_actor_label(Path(p['source']).stem+'_'+p['region']+'_'+str(p['uid']))
     a.set_folder_path('City/'+p['region']);report['actors']+=1
-sun=actors.spawn_actor_from_class(u.DirectionalLight,u.Vector(0,0,30000),u.Rotator(-40,-35,0))
+    try:verify_placement_rotation(a,yaw(p['yaw_deg']))
+    except Exception:
+        report['errors'].append({'placement':a.get_actor_label(),'error':traceback.format_exc()});checkpoint();raise
+    report['rotation_checks']+=1
+sun=actors.spawn_actor_from_class(u.DirectionalLight,u.Vector(0,0,30000),u.Rotator(pitch=-40.0,yaw=-35.0,roll=0.0))
 sun.set_actor_label('Jangan Sun');sun.light_component.set_editor_property('intensity',4.0)
 sun.light_component.set_editor_property('mobility',u.ComponentMobility.MOVABLE)
 sky=actors.spawn_actor_from_class(u.SkyLight,u.Vector(0,0,20000));sky.light_component.set_editor_property('mobility',u.ComponentMobility.MOVABLE)
 sky.light_component.set_editor_property('real_time_capture',True)
 actors.spawn_actor_from_class(u.SkyAtmosphere,u.Vector(0,0,0))
 actors.spawn_actor_from_class(u.PlayerStart,u.Vector(8606,6500,300))
-level.set_level_viewport_camera_info(u.Vector(65000,-85000,65000),u.Rotator(-28,135,0),'')
+level.set_level_viewport_camera_info(u.Vector(65000,-85000,65000),u.Rotator(pitch=-28.0,yaw=135.0,roll=0.0),'')
 if not level.save_current_level():raise RuntimeError('Map save failed')
 sub.save_directory('/Game/Jangan',only_if_is_dirty=False,recursive=True)
 report['status']='complete' if not report['errors'] else 'incomplete';report['source_errors']=m['errors'];report['map']='/Game/Jangan/Maps/Jangan'

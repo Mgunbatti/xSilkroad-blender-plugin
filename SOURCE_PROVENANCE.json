@@ -20,7 +20,7 @@
   "files": [
     {
       "file": "__init__.py",
-      "sha256": "695da67532b78ad7067ccdddff8f87905aadc16f6c6ff14c8bc5d66f389c109e",
+      "sha256": "1adcc657a83698e7a6a88a171386d3113d6d050f9c54a8c34a6c0f09c19c3e88",
       "original_sha256": "a9515ad4b17afc83c6e5be6f25d17ce39010dd6b13184fa37b022e4ff46b59f5",
       "changed": true
     },
@@ -44,7 +44,7 @@
     },
     {
       "file": "blender_manifest.toml",
-      "sha256": "448b6a843cb844d2de71ef97cbea51ac197ad5937c25aca3785bffdf7f4e1667",
+      "sha256": "714793f8317cb5900b048f2ef7e625b14742dc8e1946440503041756a678e8e2",
       "original_sha256": "778f1ba030897ee3e06aee6b2e7d1f918063474b0df82509f2e9597e28b07fe2",
       "changed": true
     },
@@ -140,7 +140,7 @@
     },
     {
       "file": "ue_import_template.py",
-      "sha256": "2bbb5f3414f2a850864316060ed6c1980d499f44c6b34350dd69a0c9cdde5cb4",
+      "sha256": "fd17d9e844107ff7c0a1d8edc1c36448c92c3d9cac8935e3707a0d893d7e5195",
       "original_sha256": null,
       "changed": true
     },
@@ -154,5 +154,5 @@
   "license": "GPL-3.0-or-later",
   "attribution": "JellyBitz / Engels Quintero; original notices retained",
   "conversation_attachments_available": false,
-  "note": "v2.3.2 Source_Tests basis; v2.4.0 adds automated Jangan Unreal project transfer. Original copyright and license headers retained."
+  "note": "v2.3.2 Source_Tests basis; v2.4.1 adds automated Jangan Unreal project transfer. Original copyright and license headers retained."
 }

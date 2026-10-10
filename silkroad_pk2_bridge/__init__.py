@@ -3,7 +3,7 @@
 bl_info = {
     'name': 'Silkroad PK2 Editor',
     'author': 'Silkroad PK2 Editor contributors',
-    'version': (2, 4, 0),
+    'version': (2, 4, 1),
     'blender': (4, 2, 0),
     'location': 'View3D > Sidebar > Silkroad',
     'description': 'Open PK2 in Blender, import models, export blend/fbx and safely update BMS',

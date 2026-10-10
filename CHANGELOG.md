@@ -1,3 +1,10 @@
+# 2.4.1 — 10 Ekim 2026
+
+- UE Rotator parametreleri isimleriyle verilir; yatay dönüşün pitch eksenine uygulanıp binaları yatırması düzeltildi.
+- Her nesnenin pitch, roll ve yaw sonucu kaydetmeden önce kaynak açıyla kontrol edilir. Hatalı veya geçersiz dönüş aktarımı durdurur.
+- Güneş ve ilk görünüm kamerasının dönüş parametreleri düzeltildi.
+- Gerçek açık UE 5.8.3 sahnesinde 577 yerleşim kontrol edildi; 301 eğilmiş nesne düzeltildi, konumları korundu.
+
 # 2.4.0 — 10 Ekim 2026
 
 - Panelden ayrı Jangan Unreal projesi oluşturma eklendi.

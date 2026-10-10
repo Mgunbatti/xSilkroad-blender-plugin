@@ -28,6 +28,7 @@ assert not props.ue_transfer_running
 assert not any(s.name=='Silkroad_UE_Transfer' for s in bpy.data.scenes)
 root=destination/'xSilkroadJangan_Plugin'
 report=json.loads((root/'ImportReport.json').read_text(encoding='utf-8'))
+assert report['rotation_checks']==577
 assert report['status']=='complete' and report['actors']==593 and len(report['assets'])==156
 (root/'PluginTestReport.json').write_text(json.dumps({'result':'passed','operator':'silkroad_editor.export_ue_project',
     'original_scene_preserved':original==after,'original_material_preserved':True,'panel_settings_preserved':True,
