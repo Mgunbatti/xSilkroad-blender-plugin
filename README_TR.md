@@ -2,7 +2,7 @@
 
 ## Kurulum
 
-Blender'da **Edit → Preferences → Get Extensions → Install from Disk** yolundan `Silkroad_PK2_Editor_v2_4_1.zip` dosyasını kurun. Eski sürüm etkinse önce devre dışı bırakın. Aynı dosya biçimlerini açan başka eklentiler kayıt çakışmasına yol açabilir.
+Blender'da **Edit → Preferences → Get Extensions → Install from Disk** yolundan `Silkroad_PK2_Editor_v2_4_2.zip` dosyasını kurun. Eski sürüm etkinse önce devre dışı bırakın. Aynı dosya biçimlerini açan başka eklentiler kayıt çakışmasına yol açabilir.
 
 3D Viewport'ta **N** tuşuna basıp **Silkroad PK2 Editor** panelini açın. Gerekiyorsa **PK2 Motorunu Kur** düğmesini kullanın. Motor kurulumu internet bağlantısı gerektirir.
 
@@ -33,6 +33,8 @@ BMS dosyaları PK2 arşivine geri yazılabilir. İşlemden önce arşiv yedeklen
 Data.pk2 arşivini açıp taramanın bitmesini bekleyin. **4. Unreal Projesi → Jangan UE Projesi Oluştur** düğmesine basın. Proje adını ve kaydedileceği konumu seçin. Seçtiğiniz adla yeni bir klasör oluşturulur; mevcut, dolu bir proje klasörünün üstüne yazılmaz.
 
 **Unreal içine otomatik aktar** açıkken kurulu UnrealEditor-Cmd.exe otomatik bulunur. Gerekirse dosya seçicisinde bu yolu değiştirin. Kapalıyken FBX+PNG kaynakları ve Unreal aktarım betiği hazırlanır; UE içeriklerini oluşturmak için betiği Unreal'da çalıştırmanız gerekir.
+
+Görsel nesneler mevcutsa Map.pk2 içindeki .o2 dosyalarından alınır; saray ve dekorlar da aktarılır. .o2 bulunmazsa NVM nesneleri kullanılır.
 
 Blender açık sahnesini koruyarak 16 harita parçasını ve şehir nesnelerini geçici bir sahnede işler. Ardından Unreal ayrı bir işlemde modelleri ve dokuları içe alır, materyalleri oluşturur ve kaydedilmiş yerleşimlere göre Jangan haritasını kurar. Panel durum satırından sonucu takip edin. İptal için **UE Aktarımını İptal Et** veya Escape kullanın; kısmi proje hata kaydıyla korunur.
 

@@ -28,9 +28,14 @@ assert not props.ue_transfer_running
 assert not any(s.name=='Silkroad_UE_Transfer' for s in bpy.data.scenes)
 root=destination/'xSilkroadJangan_Plugin'
 report=json.loads((root/'ImportReport.json').read_text(encoding='utf-8'))
-assert report['rotation_checks']==577
-assert report['status']=='complete' and report['actors']==593 and len(report['assets'])==156
+manifest=json.loads((root/'SourceAssets/manifest.json').read_text(encoding='utf-8'))
+placements=len(manifest['placements']);tiles=len(manifest['tiles']);assets=len(manifest['assets'])+tiles
+assert report['rotation_checks']==placements
+assert report['status']=='complete' and report['actors']==placements+tiles and len(report['assets'])==assets
+if all(path.endswith('.o2') for path in manifest.get('placement_sources',{}).values()):
+    assert any('cj_pal_main_buil.bsr' in p['source'] for p in manifest['placements'])
+    assert any('cj_jang_gate_dragon.bsr' in p['source'] for p in manifest['placements'])
 (root/'PluginTestReport.json').write_text(json.dumps({'result':'passed','operator':'silkroad_editor.export_ue_project',
     'original_scene_preserved':original==after,'original_material_preserved':True,'panel_settings_preserved':True,
-    'assets':156,'placements':577,'terrain_tiles':16,'ue_errors':report['errors'],'engine':report['engine']},indent=2),encoding='utf-8')
+    'assets':assets,'placements':placements,'terrain_tiles':tiles,'ue_errors':report['errors'],'engine':report['engine']},indent=2),encoding='utf-8')
 print('PLUGIN_FULL_TRANSFER_PASSED',flush=True)

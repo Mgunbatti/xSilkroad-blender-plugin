@@ -20,7 +20,7 @@
   "files": [
     {
       "file": "__init__.py",
-      "sha256": "1adcc657a83698e7a6a88a171386d3113d6d050f9c54a8c34a6c0f09c19c3e88",
+      "sha256": "646aa90a031717008350c191061d9a68c201051f9a388efb5a928f5dcb88b974",
       "original_sha256": "a9515ad4b17afc83c6e5be6f25d17ce39010dd6b13184fa37b022e4ff46b59f5",
       "changed": true
     },
@@ -44,7 +44,7 @@
     },
     {
       "file": "blender_manifest.toml",
-      "sha256": "714793f8317cb5900b048f2ef7e625b14742dc8e1946440503041756a678e8e2",
+      "sha256": "9ad3d9fb4e333028e40b8eaf5a4096c13ee4cf0a03c27c4fb6562e76d5586278",
       "original_sha256": "778f1ba030897ee3e06aee6b2e7d1f918063474b0df82509f2e9597e28b07fe2",
       "changed": true
     },
@@ -86,7 +86,7 @@
     },
     {
       "file": "JellyBMS.py",
-      "sha256": "f149ff693c4b2a1eb625de1857b56f5b22a16271bac975278b64745fc8f36244",
+      "sha256": "e4f54f936a24a31f31135aad37c697edd68ee18c0ae9f910923adf2d19dbcfe3",
       "original_sha256": "4129c3d91834f2d39f69e3d68a1f0259684df70e721b1e45ed5520cf9de66c3a",
       "changed": true
     },
@@ -140,13 +140,13 @@
     },
     {
       "file": "ue_import_template.py",
-      "sha256": "fd17d9e844107ff7c0a1d8edc1c36448c92c3d9cac8935e3707a0d893d7e5195",
+      "sha256": "d7f936296e9046d4df77a75be1e226bc827aa360849b9bccc90041c486a00627",
       "original_sha256": null,
       "changed": true
     },
     {
       "file": "ue_project.py",
-      "sha256": "41b49215838387890961f812fc319296d9759aa62270b85ba026eca42c268e70",
+      "sha256": "2ce378aae89e5bead86e4e8b769396b7a0105b8a71a01934cae580ca8c2be420",
       "original_sha256": null,
       "changed": true
     }
@@ -154,5 +154,5 @@
   "license": "GPL-3.0-or-later",
   "attribution": "JellyBitz / Engels Quintero; original notices retained",
   "conversation_attachments_available": false,
-  "note": "v2.3.2 Source_Tests basis; v2.4.1 adds automated Jangan Unreal project transfer. Original copyright and license headers retained."
+  "note": "v2.3.2 Source_Tests basis; v2.4.2 adds visual map placements and correct BMS winding. Original copyright and license headers retained."
 }

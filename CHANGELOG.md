@@ -1,3 +1,10 @@
+# 2.4.2 — 10 Ekim 2026
+
+- UE aktarımı nesne yerleşimlerini mevcutsa Map.pk2 içindeki .o2 görsel kayıtlarından alır; yalnızca navigasyon nesneleriyle sınırlı kalmaz. .o2 bulunmazsa NVM akışı korunur.
+- Saray, altın ejder, yan binalar ve dekorların kaynak yerleşimleri aktarılır. LOD/blok kayıtlarında yinelenen nesneler tekilleştirilir; bozuk kayıtlar hata verir.
+- BMS Y/Z dönüşümünde üçgen sırası düzeltilir; çatı ve surların dış yüzleri görünür. BMS kaydederken oyun biçiminin yüz sırası geri uygulanır.
+- Gerçek çatı modelinde 532 yüzün kaynak normalleriyle uyumu ve BMS yüz indekslerinin değişmeden geri kaydı doğrulandı.
+
 # 2.4.1 — 10 Ekim 2026
 
 - UE Rotator parametreleri isimleriyle verilir; yatay dönüşün pitch eksenine uygulanıp binaları yatırması düzeltildi.

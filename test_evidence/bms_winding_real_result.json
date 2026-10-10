@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "mesh": "cj_pub03_roof.bms",
+  "source_normal_alignment": 532,
+  "inverted_faces": 0,
+  "source_faces_roundtrip_preserved": true
+}

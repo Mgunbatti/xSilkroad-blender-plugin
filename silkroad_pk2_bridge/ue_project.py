@@ -5,6 +5,7 @@ import hashlib
 import json
 import math
 import re
+import struct
 from .asset_binary import BinaryReader
 from .map_data import parse_nvm
 
@@ -33,11 +34,17 @@ def object_table(contents):
     return result
 
 
+class StaticEffectOnly(ValueError):
+    pass
+
+
 def resource_paths(session, path, stack=()):
     path = path.replace('\\', '/').lower()
     if path in stack or len(stack) > 32:
         raise ValueError('Compound resource cycle: ' + path)
     raw, _ = session.get(path)
+    if raw is None:raise FileNotFoundError('Missing map resource: '+path)
+    if raw.startswith(b'JMXVEFF '):raise StaticEffectOnly('Particle resource: '+path)
     if raw[:12] == b'JMXVRES 0109':
         return [path]
     if raw[:12] != b'JMXVCPD 0101':
@@ -50,12 +57,35 @@ def resource_paths(session, path, stack=()):
         session, reader.ReadAscii(reader.ReadUInt()), stack + (path,))]
 
 
+def parse_map_objects(contents):
+    if contents[:12] != b'JMXVMAPO1001':
+        raise ValueError('Invalid .o2 signature')
+    offset, records = 12, {}
+    for block in range(36):
+        for lod in range(4):
+            if offset + 2 > len(contents):raise ValueError('Truncated .o2 count')
+            count = struct.unpack_from('<H', contents, offset)[0];offset += 2
+            if offset + count * 30 > len(contents):raise ValueError('Truncated .o2 entries')
+            for _ in range(count):
+                aid,x,z,y,kind,yaw,uid,unused,big,struct_flag,rid = struct.unpack_from('<IfffhfHhBBH', contents, offset)
+                offset += 30
+                if not all(math.isfinite(v) for v in (x,y,z,yaw)):raise ValueError('Non-finite .o2 placement')
+                record = {'asset_id':aid,'local_position':[x,y,z],'yaw':yaw,'local_uid':uid,'RID':rid}
+                key = (rid,uid,aid)
+                if key in records and records[key] != record:raise ValueError('Conflicting .o2 duplicate')
+                records[key] = record
+    if offset != len(contents):raise ValueError('Unparsed .o2 trailing bytes')
+    return list(records.values())
+
+
 def build_manifest(session, regions=JANGAN_REGIONS):
     raw, _ = session.get('navmesh/object.ifo')
     table = object_table(raw)
+    visual_raw, _ = session.get('object.ifo')
+    visual_table = object_table(visual_raw) if visual_raw else None
     manifest = {'status': 'exporting', 'tiles': [], 'assets': {}, 'placements': [],
-                'errors': [], 'repairs': [], 'unit': '1 source unit = 10 UE centimeters',
-                'plugin_version': '2.4.0', 'data_processing': 'Silkroad PK2 Editor'}
+                'errors': [], 'repairs': [], 'skipped_effects': [], 'placement_sources': {}, 'unit': '1 source unit = 10 UE centimeters',
+                'plugin_version': '2.4.2', 'data_processing': 'Silkroad PK2 Editor'}
     cache = {}
     seen = set()
     for region in regions:
@@ -66,18 +96,28 @@ def build_manifest(session, regions=JANGAN_REGIONS):
         manifest['tiles'].append({'name': name, 'entry': entry, 'fbx': name + '.fbx',
                                  'position_cm': region_position_cm(region),
                                  'vertices': len(data['heightmap_vertices'])})
-        for obj in data['objects']:
+        visual_entry = f'{region >> 8}/{region & 255}.o2'
+        visual, _ = session.get(visual_entry)
+        objects = parse_map_objects(visual) if visual is not None else data['objects']
+        active_table = visual_table if visual is not None else table
+        if active_table is None:raise ValueError('Map object.ifo required for .o2')
+        manifest['placement_sources'][name] = visual_entry if visual is not None else entry
+        for obj in objects:
             if obj['RID'] != region:
                 continue
-            identity = (region, obj['local_uid'])
+            identity = (region, obj['local_uid'], obj['asset_id'])
             if identity in seen:
                 raise ValueError(f'Duplicate map object: {identity}')
             seen.add(identity)
-            path = table.get(obj['asset_id'])
+            path = active_table.get(obj['asset_id'])
             if not path:
                 raise ValueError(f'object.ifo missing asset ID: {obj["asset_id"]}')
             if path not in cache:
-                cache[path] = resource_paths(session, path)
+                try:cache[path] = resource_paths(session, path)
+                except StaticEffectOnly as exc:
+                    cache[path] = []
+            if not cache[path]:
+                manifest['skipped_effects'].append({'source':path,'region':name,'uid':obj['local_uid'],'reason':'Particle effect has no static BSR mesh'})
             for resource in cache[path]:
                 key = 'A_' + hashlib.sha1(resource.encode()).hexdigest()[:12]
                 manifest['assets'][key] = {'source': resource, 'fbx': key + '.fbx'}

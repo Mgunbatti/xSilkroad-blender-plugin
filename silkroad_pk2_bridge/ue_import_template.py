@@ -5,7 +5,7 @@ root=Path(__file__).resolve().parent.parent
 source=root/'SourceAssets'
 m=json.loads((source/'manifest.json').read_text(encoding='utf-8'))
 texture_index=json.loads((source/'texture_index.json').read_text(encoding='utf-8'))
-report={'rotation_checks':0,'status':'importing','engine':u.SystemLibrary.get_engine_version(),'errors':[],'assets':{},'actors':0}
+report={'rotation_checks':0,'skipped_effects':m.get('skipped_effects',[]),'status':'importing','engine':u.SystemLibrary.get_engine_version(),'errors':[],'assets':{},'actors':0}
 def checkpoint():(root/'ImportReport.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
 
 def placement_rotation(yaw_deg):

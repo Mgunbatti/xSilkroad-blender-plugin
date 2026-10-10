@@ -21,7 +21,7 @@ Düzenlenen sahneler `.blend` olarak kaydedilebilir veya PNG dokularıyla birlik
 
 ## Kurulum
 
-1. [Eklenti ZIP'ini indirin](releases/Silkroad_PK2_Editor_v2_4_0.zip).
+1. [Eklenti ZIP'ini indirin](releases/Silkroad_PK2_Editor_v2_4_2.zip).
 2. Blender'da **Edit → Preferences → Get Extensions → Install from Disk** yolunu açın.
 3. ZIP'i seçip eklentiyi etkinleştirin.
 4. 3D Viewport'ta **N** tuşuna basıp **Silkroad PK2 Editor** panelini açın. Gerekirse panelden **PK2 Motorunu Kur** düğmesine basın.
@@ -32,7 +32,7 @@ Düzenlenen sahneler `.blend` olarak kaydedilebilir veya PNG dokularıyla birlik
 
 Data.pk2 dosyasını açın, bir klasöre girin veya dosya adıyla arama yapın. Desteklenen dosyanın adına tıklayarak içe aktarın. Animasyonları ve harita nesnelerini paneldeki seçeneklerden açabilirsiniz. Dokulu karakterler için BSR dosyasını seçin; tek bir BAN dosyası yüklemek için önce uygun iskeleti seçin.
 
-[Kullanım kılavuzu](README_TR.md) · [Değişiklikler](CHANGELOG.md) · [Test raporu](TEST_RAPORU_TR.md) · [UE aktarım raporu](UE_AKTARIM_RAPORU_TR.md) · [Kaynak ve testler](releases/Silkroad_PK2_Editor_v2_4_0_Source_Tests.zip)
+[Kullanım kılavuzu](README_TR.md) · [Değişiklikler](CHANGELOG.md) · [Test raporu](TEST_RAPORU_TR.md) · [UE aktarım raporu](UE_AKTARIM_RAPORU_TR.md) · [Kaynak ve testler](releases/Silkroad_PK2_Editor_v2_4_2_Source_Tests.zip)
 
 ## Lisans
 

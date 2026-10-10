@@ -1,0 +1,16 @@
+{
+  "result": "passed",
+  "saved_map_reload": true,
+  "assets": 235,
+  "placements": 2128,
+  "terrain_tiles": 16,
+  "static_actors": 2144,
+  "maximum_position_error_cm": 0,
+  "maximum_yaw_error_deg": 0.00023588705880683847,
+  "materials": 579,
+  "landmarks": [
+    "cj_jang_gate_dragon_nv_61a8_19457",
+    "cj_pal_main_buil_nv_62a8_43010"
+  ],
+  "engine": "5.8.3-58210709+++UE5+Release-5.8"
+}

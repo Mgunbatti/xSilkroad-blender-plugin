@@ -1,17 +1,29 @@
 {
-  "saved_map_reload": "passed",
-  "static_actors": 593,
-  "terrain_tiles": 16,
-  "terrain_width_cm": 19200,
-  "screenshots": [
-    "Preview/Jangan_Overview.png",
-    "Preview/Jangan_Gate.png"
-  ],
-  "placement_checks": 577,
-  "maximum_position_error_cm": 0,
-  "materials": 509,
   "result": "passed",
-  "rotation_checks": 577,
-  "maximum_yaw_error_deg": 4.4623600615523173e-05,
-  "rotation_validation": "passed"
+  "placements": 2128,
+  "assets": 235,
+  "terrain_tiles": 16,
+  "placement_checks": 2128,
+  "maximum_position_error_cm": 0,
+  "maximum_yaw_error_deg": 0.00023588705880683847,
+  "materials": 579,
+  "landmarks": [
+    "cj_jang_gate_dragon_nv_61a8_19457",
+    "cj_pal_main_buil_nv_62a8_43010"
+  ],
+  "navigation_only_hidden": [
+    "cj_field_lamp_nv_61a8_28694",
+    "cj_pal_lamp_nv_61a8_43009",
+    "tre_tree02_nv_62a7_40961",
+    "tre_tree02_nv_62a7_46081",
+    "cj_pal_right_stair_nv_62a8_13313",
+    "cj_lamp01_nv_62a8_37890",
+    "cj5_tem_rightdam_nv_62a9_19458"
+  ],
+  "screenshots": [
+    "Preview/Jangan_Palace.png",
+    "Preview/Jangan_Dragon.png",
+    "Preview/Jangan_Overview.png"
+  ],
+  "engine": "5.8.3-58210709+++UE5+Release-5.8"
 }

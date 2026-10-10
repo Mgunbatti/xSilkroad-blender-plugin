@@ -9,7 +9,7 @@ ue=importlib.import_module('silkroad_pk2_bridge.ue_project')
 
 class Session:
     def __init__(self,files):self.files=files
-    def get(self,path):return self.files[path],'Data.pk2'
+    def get(self,path):return self.files.get(path),'Data.pk2'
 
 class TestUEProject(unittest.TestCase):
     def test_region_origin_and_units(self):
@@ -53,3 +53,31 @@ class TestUEProject(unittest.TestCase):
     def test_project_name_path_traversal_rejected(self):
         with tempfile.TemporaryDirectory() as temp:
             with self.assertRaises(ValueError):ue.initialize_project(Path(temp)/'Bad Name.uproject')
+
+    def test_map_visual_objects_deduplicated(self):
+        row=struct.pack('<IfffhfHhBBH',80,1,2,3,-1,.5,42,0,0,1,0x62a8)
+        raw=b'JMXVMAPO1001'+struct.pack('<H',2)+row+row+b'\x00\x00'*143
+        parsed=ue.parse_map_objects(raw)
+        self.assertEqual(len(parsed),1)
+        self.assertEqual(parsed[0]['local_position'],[1,3,2])
+    def test_map_visual_truncation_rejected(self):
+        with self.assertRaises(ValueError):ue.parse_map_objects(b'JMXVMAPO1001'+struct.pack('<H',1))
+    def test_map_visual_placements_supersede_navigation(self):
+        row=struct.pack('<IfffhfHhBBH',80,1,2,3,-1,.5,42,0,0,1,0x62a8)
+        raw=b'JMXVMAPO1001'+struct.pack('<H',1)+row+b'\x00\x00'*143
+        files={'navmesh/object.ifo':b'JMXVOBJI1000\n0\n','object.ifo':b'JMXVOBJI1000\n1\n80 0 "res/palace.bsr"\n',
+               'navmesh/nv_62a8.nvm':b'', '98/168.o2':raw,'res/palace.bsr':b'JMXVRES 0109'}
+        with patch.object(ue,'parse_nvm',return_value={'objects':[],'heightmap_vertices':[]}):m=ue.build_manifest(Session(files),[0x62a8])
+        self.assertEqual(len(m['placements']),1)
+        self.assertEqual(m['placements'][0]['source'],'res/palace.bsr')
+        self.assertEqual(m['placement_sources']['nv_62a8'],'98/168.o2')
+
+    def test_map_visual_conflicting_duplicate_rejected(self):
+        a=struct.pack('<IfffhfHhBBH',80,1,2,3,-1,.5,42,0,0,1,0x62a8)
+        b=struct.pack('<IfffhfHhBBH',80,9,2,3,-1,.5,42,0,0,1,0x62a8)
+        with self.assertRaises(ValueError):ue.parse_map_objects(b'JMXVMAPO1001'+struct.pack('<H',2)+a+b+b'\x00\x00'*143)
+    def test_map_visual_nonfinite_rejected(self):
+        row=struct.pack('<IfffhfHhBBH',80,float('nan'),2,3,-1,.5,42,0,0,1,0x62a8)
+        with self.assertRaises(ValueError):ue.parse_map_objects(b'JMXVMAPO1001'+struct.pack('<H',1)+row+b'\x00\x00'*143)
+    def test_map_visual_trailing_bytes_rejected(self):
+        with self.assertRaises(ValueError):ue.parse_map_objects(b'JMXVMAPO1001'+b'\x00\x00'*144+b'bad')

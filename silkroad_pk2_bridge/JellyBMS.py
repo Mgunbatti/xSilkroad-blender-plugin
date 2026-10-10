@@ -319,7 +319,8 @@ class Import_JMXVBMS_0110(bpy.types.Operator):
 			b = br.ReadUShort()
 			c = br.ReadUShort()
 			# Add face
-			faces.append([a,b,c])
+			# Swapping Y/Z changes handedness; reverse winding with the axes.
+			faces.append([a,c,b])
 
 		# File Offset: Vertex Clothes
 		vertexClothes = data['vertex_clothes']
@@ -1025,7 +1026,8 @@ class Export_JMXVBMS_0110(bpy.types.Operator):
 		for f in faces:
 			# Make sure it's a triangle face
 			for i in range(3):
-				bw.WriteUShort(f.vertices[i])
+				# Restore source winding when returning to the game axes.
+				bw.WriteUShort(f.vertices[(0,2,1)[i]])
 
 		# File Offset: Vertex Clothes
 		offsetVertexClothes = bw.Position

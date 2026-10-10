@@ -1,3 +1,7 @@
+## v2.4.2 doğrulaması
+
+87 regresyon testi, gerçek BMS yüz yönü/geri kayıt testi, izole ZIP kurulumu ve yeni UE proje testi geçti. 235 mesh ve 2.128 model yerleşimi doğrulandı. Ayrıntılar [UE aktarım raporunda](UE_AKTARIM_RAPORU_TR.md). Aşağıdaki altı importer testleri önceki doğrulamaların kayıtlarıdır.
+
 # Test ve kaynak denetimi — 2.3.3
 
 10 Ekim 2026. Blender **5.2.2 LTS**, build d13f752e3b9c (15 Eylül 2026), Windows.
