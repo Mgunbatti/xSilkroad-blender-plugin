@@ -1,4 +1,4 @@
-# Copyright (C) 2023-2026 Engels Quintero <engelsquintero@gmail.com>
+# Copyright (C) 2023-2026 Engels Quintero
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

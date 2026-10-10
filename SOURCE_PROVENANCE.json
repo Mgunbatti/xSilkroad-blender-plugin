@@ -26,7 +26,7 @@
     },
     {
       "file": "asset_binary.py",
-      "sha256": "4aad22196026ef2945d890c246b4c03e90bffeb6f96c25098a870523888f0adf",
+      "sha256": "cfc0cf41ede7f0a567e6ffdf492854adf175e96d791a09f6eb59ca8e69e70fa9",
       "original_sha256": null,
       "changed": true
     },
@@ -80,37 +80,37 @@
     },
     {
       "file": "JellyBAN.py",
-      "sha256": "876453cf032fe1a243f88a06a70e14f6359dc0fc1f22406fe40a758a807ba9ab",
+      "sha256": "813afa81f8e45e947638d0a451fa00430607edea6f792ab88ee8419b5d914755",
       "original_sha256": "bf4e35fdd324f7a63fc424d8d84b4fe38e5bce4f694042ddb7467392ab0c54a2",
       "changed": true
     },
     {
       "file": "JellyBMS.py",
-      "sha256": "95233667ebbc57b30bf2e5ce576e1c7831e7d8430f09b8f5bb1ed31cc208789a",
+      "sha256": "f149ff693c4b2a1eb625de1857b56f5b22a16271bac975278b64745fc8f36244",
       "original_sha256": "4129c3d91834f2d39f69e3d68a1f0259684df70e721b1e45ed5520cf9de66c3a",
       "changed": true
     },
     {
       "file": "JellyBSK.py",
-      "sha256": "ce23566c0e3fd8719eb5b7db55e244701184b517919fc8184e8a49f161bb43a3",
+      "sha256": "19789350e4c2afb315507ed283b59111f1b428ec2f4dedd2538cb19a6752af8c",
       "original_sha256": "87415bd8b2b9bfe8b421c9907736483c277875c74ae3a6f28e14d9ca0e111bfe",
       "changed": true
     },
     {
       "file": "JellyBSR.py",
-      "sha256": "2cbc34671f4d273b8c74b7cb67ea7bb8e9174d67071df698f414ef5b931fba73",
+      "sha256": "8d58b40193e57eb7d99d5d8cf25f295712455a82a06c4191bdfbc2ddc84da652",
       "original_sha256": "fa06e1c35a7b3ea9903acf772d1cb82bee7b17b3fc6b69cd5ff495f5b52e9090",
       "changed": true
     },
     {
       "file": "JellyDOF.py",
-      "sha256": "00e7d17da4491b9a69f589c5c85bcfe5020828d45b88a02fb91ad4e2fad47678",
+      "sha256": "fa000b39b3b6c42fdf085da0d4257f31c87a60ceeac19e6649f40951d73070f0",
       "original_sha256": "00ceb43da69fd494cf6a342fc4f23d72f3e959eff91878ff9e61f26414a7c878",
       "changed": true
     },
     {
       "file": "JellyNVM.py",
-      "sha256": "ee9fba02c32a10224d376e2a0a350e844487f2cc1066868ff39c2ec98e7a8016",
+      "sha256": "9201288b0bbc637d44f1c82d7380e999b2098c1822357921b398f6fb43999d91",
       "original_sha256": "72aa2497a3c7411b191fdc4f1e0aee1aa42aaffb0bedc3e1c5699fbc6850d689",
       "changed": true
     },
@@ -122,7 +122,7 @@
     },
     {
       "file": "map_data.py",
-      "sha256": "62d8f22f0347c10b2f2aabe4a369ff2a94a804e14f0ecd4332926b235018e4ec",
+      "sha256": "bfd8375c18c777829994d384076ea4b44a2e6bb19e7ecc21199ccfa48a971598",
       "original_sha256": null,
       "changed": true
     },
