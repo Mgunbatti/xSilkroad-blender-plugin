@@ -1,11 +1,11 @@
 Traceback (most recent call last):
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\import_runtime.py", line 30, in execute_import
+  File "<test_workspace>\work\silkroad_pk2_bridge\import_runtime.py", line 30, in execute_import
     raise ValueError('Select an armature before BAN import')
 ValueError: Select an armature before BAN import
 
 Error: .BAN import: Select an armature before BAN import (see Silkroad import log)
 Traceback (most recent call last):
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\import_runtime.py", line 30, in execute_import
+  File "<test_workspace>\work\silkroad_pk2_bridge\import_runtime.py", line 30, in execute_import
     raise ValueError('Select an armature before BAN import')
 ValueError: Select an armature before BAN import
 
@@ -13,21 +13,21 @@ Error: .BAN import: Select an armature before BAN import (see Silkroad import lo
 IMPORT .bms C:\Users\slyva\AppData\Local\Temp\tmp_fjzc1dp\broken.bms
 Error loading bms file:broken.bms [Invalid binary seek: 40]
 Traceback (most recent call last):
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\import_runtime.py", line 43, in execute_import
+  File "<test_workspace>\work\silkroad_pk2_bridge\import_runtime.py", line 43, in execute_import
     ok = operator.LoadFile(context, str(path.parent), path.name)
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\JellyBMS.py", line 195, in LoadFile
+  File "<test_workspace>\work\silkroad_pk2_bridge\JellyBMS.py", line 195, in LoadFile
     data = self.LoadData(br)
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\JellyBMS.py", line 240, in LoadData
+  File "<test_workspace>\work\silkroad_pk2_bridge\JellyBMS.py", line 240, in LoadData
     br.SeekRead(28,1)
     ~~~~~~~~~~~^^^^^^
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\asset_binary.py", line 33, in SeekRead
+  File "<test_workspace>\work\silkroad_pk2_bridge\asset_binary.py", line 33, in SeekRead
     raise ValueError("Invalid binary seek: %d" % self.Position)
 ValueError: Invalid binary seek: 40
 
 Error: .BMS import: Invalid binary seek: 40 (see Silkroad import log)
 IMPORT .bms C:\Users\slyva\AppData\Local\Temp\tmp_fjzc1dp\wrong.txt
 Traceback (most recent call last):
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\import_runtime.py", line 36, in execute_import
+  File "<test_workspace>\work\silkroad_pk2_bridge\import_runtime.py", line 36, in execute_import
     raise ValueError(f'Expected {extension}, got {path.suffix}: {path}')
 ValueError: Expected .bms, got .txt: C:\Users\slyva\AppData\Local\Temp\tmp_fjzc1dp\wrong.txt
 
@@ -35,16 +35,16 @@ Error: .BMS import: Expected .bms, got .txt: C:\Users\slyva\AppData\Local\Temp\t
 IMPORT .bsk C:\Users\slyva\AppData\Local\Temp\tmp_fjzc1dp\broken.bsk
 Error loading bsk file:C:\Users\slyva\AppData\Local\Temp\tmp_fjzc1dp\broken.bsk
 Traceback (most recent call last):
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\import_runtime.py", line 45, in execute_import
+  File "<test_workspace>\work\silkroad_pk2_bridge\import_runtime.py", line 45, in execute_import
     ok = operator.LoadFile(context, str(path))
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\JellyBSK.py", line 210, in LoadFile
+  File "<test_workspace>\work\silkroad_pk2_bridge\JellyBSK.py", line 210, in LoadFile
     data = self.LoadData(br)
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\JellyBSK.py", line 239, in LoadData
+  File "<test_workspace>\work\silkroad_pk2_bridge\JellyBSK.py", line 239, in LoadData
     boneCount = br.ReadUInt()
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\JellyBSK.py", line 89, in ReadUInt
+  File "<test_workspace>\work\silkroad_pk2_bridge\JellyBSK.py", line 89, in ReadUInt
     return self.ReadPython('<I',4)
            ~~~~~~~~~~~~~~~^^^^^^^^
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\JellyBSK.py", line 69, in ReadPython
+  File "<test_workspace>\work\silkroad_pk2_bridge\JellyBSK.py", line 69, in ReadPython
     result = struct.unpack_from(Format,self.Buffer,self.Position)[0]
              ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 struct.error: unpack_from requires a buffer of at least 16 bytes for unpacking 4 bytes at offset 12 (actual buffer size is 12)
@@ -52,7 +52,7 @@ struct.error: unpack_from requires a buffer of at least 16 bytes for unpacking 4
 Error: .BSK import: unpack_from requires a buffer of at least 16 bytes for unpacking 4 bytes at offset 12 (actual buffer size is 12) (see Silkroad import log)
 IMPORT .bsk C:\Users\slyva\AppData\Local\Temp\tmp_fjzc1dp\wrong.txt
 Traceback (most recent call last):
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\import_runtime.py", line 36, in execute_import
+  File "<test_workspace>\work\silkroad_pk2_bridge\import_runtime.py", line 36, in execute_import
     raise ValueError(f'Expected {extension}, got {path.suffix}: {path}')
 ValueError: Expected .bsk, got .txt: C:\Users\slyva\AppData\Local\Temp\tmp_fjzc1dp\wrong.txt
 
@@ -60,21 +60,21 @@ Error: .BSK import: Expected .bsk, got .txt: C:\Users\slyva\AppData\Local\Temp\t
 IMPORT .bsr C:\Users\slyva\AppData\Local\Temp\tmp_fjzc1dp\broken.bsr
 Error loading JMXVRES file:C:\Users\slyva\AppData\Local\Temp\tmp_fjzc1dp\broken.bsr [Invalid binary seek: 44]
 Traceback (most recent call last):
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\import_runtime.py", line 45, in execute_import
+  File "<test_workspace>\work\silkroad_pk2_bridge\import_runtime.py", line 45, in execute_import
     ok = operator.LoadFile(context, str(path))
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\JellyBSR.py", line 171, in LoadFile
+  File "<test_workspace>\work\silkroad_pk2_bridge\JellyBSR.py", line 171, in LoadFile
     data = self.LoadData(br)
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\JellyBSR.py", line 204, in LoadData
+  File "<test_workspace>\work\silkroad_pk2_bridge\JellyBSR.py", line 204, in LoadData
     br.SeekRead(8*4,1)
     ~~~~~~~~~~~^^^^^^^
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\asset_binary.py", line 33, in SeekRead
+  File "<test_workspace>\work\silkroad_pk2_bridge\asset_binary.py", line 33, in SeekRead
     raise ValueError("Invalid binary seek: %d" % self.Position)
 ValueError: Invalid binary seek: 44
 
 Error: .BSR import: Invalid binary seek: 44 (see Silkroad import log)
 IMPORT .bsr C:\Users\slyva\AppData\Local\Temp\tmp_fjzc1dp\wrong.txt
 Traceback (most recent call last):
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\import_runtime.py", line 36, in execute_import
+  File "<test_workspace>\work\silkroad_pk2_bridge\import_runtime.py", line 36, in execute_import
     raise ValueError(f'Expected {extension}, got {path.suffix}: {path}')
 ValueError: Expected .bsr, got .txt: C:\Users\slyva\AppData\Local\Temp\tmp_fjzc1dp\wrong.txt
 
@@ -82,25 +82,25 @@ Error: .BSR import: Expected .bsr, got .txt: C:\Users\slyva\AppData\Local\Temp\t
 IMPORT .dof C:\Users\slyva\AppData\Local\Temp\tmp_fjzc1dp\broken.dof
 Error loading JMXVDOF file:broken.dof [Truncated binary asset at offset 12]
 Traceback (most recent call last):
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\import_runtime.py", line 43, in execute_import
+  File "<test_workspace>\work\silkroad_pk2_bridge\import_runtime.py", line 43, in execute_import
     ok = operator.LoadFile(context, str(path.parent), path.name)
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\JellyDOF.py", line 129, in LoadFile
+  File "<test_workspace>\work\silkroad_pk2_bridge\JellyDOF.py", line 129, in LoadFile
     data = self.LoadData(br)
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\JellyDOF.py", line 150, in LoadData
+  File "<test_workspace>\work\silkroad_pk2_bridge\JellyDOF.py", line 150, in LoadData
     data = parse_dof(br.Buffer)
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\map_data.py", line 32, in parse_dof
+  File "<test_workspace>\work\silkroad_pk2_bridge\map_data.py", line 32, in parse_dof
     fileOffsetBlocks = br.ReadUInt()
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\asset_binary.py", line 58, in ReadUInt
+  File "<test_workspace>\work\silkroad_pk2_bridge\asset_binary.py", line 58, in ReadUInt
     return self.ReadPython('<I',4)
            ~~~~~~~~~~~~~~~^^^^^^^^
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\asset_binary.py", line 37, in ReadPython
+  File "<test_workspace>\work\silkroad_pk2_bridge\asset_binary.py", line 37, in ReadPython
     raise ValueError("Truncated binary asset at offset %d" % self.Position)
 ValueError: Truncated binary asset at offset 12
 
 Error: .DOF import: Truncated binary asset at offset 12 (see Silkroad import log)
 IMPORT .dof C:\Users\slyva\AppData\Local\Temp\tmp_fjzc1dp\wrong.txt
 Traceback (most recent call last):
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\import_runtime.py", line 36, in execute_import
+  File "<test_workspace>\work\silkroad_pk2_bridge\import_runtime.py", line 36, in execute_import
     raise ValueError(f'Expected {extension}, got {path.suffix}: {path}')
 ValueError: Expected .dof, got .txt: C:\Users\slyva\AppData\Local\Temp\tmp_fjzc1dp\wrong.txt
 
@@ -108,25 +108,25 @@ Error: .DOF import: Expected .dof, got .txt: C:\Users\slyva\AppData\Local\Temp\t
 IMPORT .nvm C:\Users\slyva\AppData\Local\Temp\tmp_fjzc1dp\broken.nvm
 Error loading JMXVNVM file:C:\Users\slyva\AppData\Local\Temp\tmp_fjzc1dp\broken.nvm [Truncated binary asset at offset 12]
 Traceback (most recent call last):
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\import_runtime.py", line 45, in execute_import
+  File "<test_workspace>\work\silkroad_pk2_bridge\import_runtime.py", line 45, in execute_import
     ok = operator.LoadFile(context, str(path))
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\JellyNVM.py", line 154, in LoadFile
+  File "<test_workspace>\work\silkroad_pk2_bridge\JellyNVM.py", line 154, in LoadFile
     data = self.LoadData(br)
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\JellyNVM.py", line 176, in LoadData
+  File "<test_workspace>\work\silkroad_pk2_bridge\JellyNVM.py", line 176, in LoadData
     data = parse_nvm(br.Buffer)
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\map_data.py", line 115, in parse_nvm
+  File "<test_workspace>\work\silkroad_pk2_bridge\map_data.py", line 115, in parse_nvm
     count = br.ReadUShort()
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\asset_binary.py", line 52, in ReadUShort
+  File "<test_workspace>\work\silkroad_pk2_bridge\asset_binary.py", line 52, in ReadUShort
     return self.ReadPython('<H',2)
            ~~~~~~~~~~~~~~~^^^^^^^^
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\asset_binary.py", line 37, in ReadPython
+  File "<test_workspace>\work\silkroad_pk2_bridge\asset_binary.py", line 37, in ReadPython
     raise ValueError("Truncated binary asset at offset %d" % self.Position)
 ValueError: Truncated binary asset at offset 12
 
 Error: .NVM import: Truncated binary asset at offset 12 (see Silkroad import log)
 IMPORT .nvm C:\Users\slyva\AppData\Local\Temp\tmp_fjzc1dp\wrong.txt
 Traceback (most recent call last):
-  File "C:\Users\slyva\Documents\Codex\2026-10-10\referenced-chatgpt-conversation-this-is-an\work\silkroad_pk2_bridge\import_runtime.py", line 36, in execute_import
+  File "<test_workspace>\work\silkroad_pk2_bridge\import_runtime.py", line 36, in execute_import
     raise ValueError(f'Expected {extension}, got {path.suffix}: {path}')
 ValueError: Expected .nvm, got .txt: C:\Users\slyva\AppData\Local\Temp\tmp_fjzc1dp\wrong.txt
 

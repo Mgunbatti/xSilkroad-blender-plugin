@@ -1,34 +1,40 @@
-# 2.4.2 — 10 Ekim 2026
+# Changelog
 
-- UE aktarımı nesne yerleşimlerini mevcutsa Map.pk2 içindeki .o2 görsel kayıtlarından alır; yalnızca navigasyon nesneleriyle sınırlı kalmaz. .o2 bulunmazsa NVM akışı korunur.
-- Saray, altın ejder, yan binalar ve dekorların kaynak yerleşimleri aktarılır. LOD/blok kayıtlarında yinelenen nesneler tekilleştirilir; bozuk kayıtlar hata verir.
-- BMS Y/Z dönüşümünde üçgen sırası düzeltilir; çatı ve surların dış yüzleri görünür. BMS kaydederken oyun biçiminin yüz sırası geri uygulanır.
-- Gerçek çatı modelinde 532 yüzün kaynak normalleriyle uyumu ve BMS yüz indekslerinin değişmeden geri kaydı doğrulandı.
+## 2.4.2 — 2026-10-10
 
-# 2.4.1 — 10 Ekim 2026
+- Read visual map placements from Map.pk2 `.o2` files when available; preserve the NVM fallback.
+- Include the palace, golden dragon, side buildings and decorations at their source placements.
+- Deduplicate spatial-block and LOD records; report malformed or conflicting placements.
+- Correct triangle winding during the BMS Y/Z conversion so roof and wall exteriors render correctly.
+- Restore source face order when exporting BMS back to the game format.
+- Validate a real roof mesh with 532 source-normal checks and unchanged exported face indices.
+- Pass 87 regression tests, isolated extension installation and real Unreal saved-map checks covering 235 meshes and 2,128 model placements.
 
-- UE Rotator parametreleri isimleriyle verilir; yatay dönüşün pitch eksenine uygulanıp binaları yatırması düzeltildi.
-- Her nesnenin pitch, roll ve yaw sonucu kaydetmeden önce kaynak açıyla kontrol edilir. Hatalı veya geçersiz dönüş aktarımı durdurur.
-- Güneş ve ilk görünüm kamerasının dönüş parametreleri düzeltildi.
-- Gerçek açık UE 5.8.3 sahnesinde 577 yerleşim kontrol edildi; 301 eğilmiş nesne düzeltildi, konumları korundu.
+## 2.4.1 — 2026-10-10
 
-# 2.4.0 — 10 Ekim 2026
+- Use named Unreal Rotator parameters to prevent horizontal angles from being applied to pitch.
+- Verify each actor's pitch, roll and yaw before saving; reject invalid rotations.
+- Correct sun and initial camera rotations.
+- Verify 577 placements in a real Unreal 5.8.3 scene and repair 301 tilted objects while preserving positions.
 
-- Panelden ayrı Jangan Unreal projesi oluşturma eklendi.
-- 16 NVM harita parçası, tekrar kullanılan BSR modelleri ve kaynak nesne yerleşimleri otomatik aktarılır.
-- FBX+PNG çıktıları UE'de Static Mesh ve materyallere dönüştürülür; saydam yaprak dokuları maske olarak bağlanır.
-- Ağaç iskeletleri statik çevre için mevcut pozlarıyla sabitlenir. Geçersiz UV değerleri kayda alınarak düzeltilir.
-- Aktarım geçici Blender sahnesinde çalışır; mevcut nesneler, materyaller ve panel ayarları korunur.
-- Kurulu Unreal editörü otomatik bulunur. İşlem sonucu, eksik varlıklar ve nesne sayıları raporlanır; dolu proje klasörü korunur.
-- 75 birim testi, gerçek PK2 → Blender → UE 5.8.3 aktarımı ve izole ZIP kurulumu doğrulandı.
+## 2.4.0 — 2026-10-10
 
-# 2.3.3 — 10 Ekim 2026
+- Add separate Jangan Unreal project creation from the panel.
+- Export 16 NVM terrain regions, shared BSR models and source placements.
+- Import FBX + PNG as Unreal meshes and materials, including masked foliage.
+- Freeze environment skeletons in their evaluated pose and record invalid UV repairs.
+- Process exports in a temporary Blender scene while preserving existing objects, materials and panel settings.
+- Detect the Unreal editor automatically and report transfer results, missing assets and object counts.
+- Protect existing non-empty project destinations.
+- Pass 75 unit tests, real PK2 → Blender → Unreal 5.8.3 transfer and isolated ZIP installation.
 
-- PK2 listesindeki desteklenen dosya adları doğrudan içe aktarılabilir.
-- NVM için Data ve Map klasörlerinin kullanımı düzeltildi; harita dokuları ve nesne bağımlılıkları birlikte çıkarılır.
-- DOF blokları ve ek nesnelerin bağlı model, materyal ve dokuları yüklenir.
-- NVM zemininin eksik UV koordinatları düzeltildi.
-- Geçersiz dosya, yanlış uzantı ve boş aktarım sonucu hata olarak bildirilir. Eksik bağlı dosyalar ve ayrıntılı hata kayıtları Blender Text Editor'dan okunabilir.
-- İçe aktarma çağrılarının Blender 5.2 görünüm ve nesne modu uyumluluğu düzeltildi.
-- Mesh, iskelet, animasyon ve FBX + PNG aktarımı gerçek oyun dosyalarıyla test edildi.
-- Eklentinin kurulum paketi ve manifest doğrulaması düzeltildi.
+## 2.3.3 — 2026-10-10
+
+- Import supported files directly by clicking their entries in the PK2 browser.
+- Correct Data/Map root resolution for NVM terrain, textures and object dependencies.
+- Resolve DOF blocks and additional object meshes, materials and textures.
+- Add missing NVM terrain UV coordinates.
+- Report invalid files, incorrect extensions, empty imports and missing dependencies in Blender Text logs.
+- Correct viewport-context and object-mode handling for Blender 5.2.
+- Validate mesh, skeleton, animation and FBX + PNG workflows with real game assets.
+- Correct extension packaging and manifest validation.

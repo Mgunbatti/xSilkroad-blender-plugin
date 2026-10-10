@@ -1,39 +1,45 @@
 # xSilkroad Blender Plugin
 
-Silkroad PK2 arşivlerindeki modelleri, karakterleri, animasyonları ve haritaları Blender'a aktaran eklenti.
+Import Silkroad PK2 models, characters, animations, maps and dungeons into Blender. Export scenes as FBX with PNG textures, or create a separate Jangan Unreal Engine project.
 
-PK2 dosyalarını Blender içinden açabilir, arşivde arama yapabilir ve seçtiğiniz dosyayı sahneye aktarabilirsiniz. Modellerin bağlı olduğu mesh, materyal, doku ve iskelet dosyaları birlikte çıkarılır. Karakter animasyonları seçili iskelete yüklenir; harita ve zindanlar nesneleriyle birlikte açılabilir.
+**Tested with Blender 5.2.2 and Unreal Engine 5.8.3.** The interface supports English and Turkish.
 
-Düzenlenen sahneler `.blend` olarak kaydedilebilir veya PNG dokularıyla birlikte FBX'e aktarılabilir. BMS dosyaları yedek alınarak PK2 arşivine geri yazılabilir.
+## Download and install
 
-**Jangan UE Projesi Oluştur** düğmesi, ana şehri ve surların yakın çevresini ayrı bir Unreal projesine aktarır. Arazi ve modeller PK2'den çıkarılır, PNG dokular bağlanır ve nesneler kaynak konumlarına yerleştirilir. Kurulu Unreal editörü otomatik bulunur; işlem açık Blender sahnesini korur.
+1. [Download the extension ZIP](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/download/v2.4.2/Silkroad_PK2_Editor_v2_4_2.zip).
+2. In Blender, open **Edit → Preferences → Get Extensions → Install from Disk**.
+3. Select the ZIP and enable the extension.
+4. Press **N** in the 3D Viewport and open **Silkroad PK2 Editor**. Use **Install PK2 Engine** if needed.
 
-## Desteklenen dosyalar
+[Latest release](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/latest) · [Source and tests](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/download/v2.4.2/Silkroad_PK2_Editor_v2_4_2_Source_Tests.zip)
 
-| Dosya | İçerik |
+## Features
+
+- Browse and search PK2 archives directly in Blender.
+- Import selected files and resolve referenced meshes, materials, textures, skeletons and animations.
+- Import terrain and dungeon objects with separate Data/Map dependency roots.
+- Save Blender scenes or export FBX with PNG textures.
+- Write supported BMS edits back to PK2 with backup and verification.
+- Create a Jangan Unreal project with terrain, visual object placements, reusable meshes and materials.
+- Inspect per-format import logs, missing dependencies and transfer results.
+
+| Format | Content |
 |---|---|
-| BSR | Model ve bağlı dosyaları |
-| BMS | Mesh |
-| BSK | İskelet |
-| BAN | Animasyon |
-| NVM | Harita zemini ve nesneleri |
-| DOF | Zindan blokları ve nesneleri |
+| BSR | Model and referenced resources |
+| BMS | Mesh geometry |
+| BSK | Skeleton |
+| BAN | Animation |
+| NVM | Terrain and navigation objects |
+| DOF | Dungeon blocks and objects |
 
-## Kurulum
+Open `Data.pk2`, wait for scanning and click a supported entry to import it. Select BSR for a textured model. Select a compatible skeleton before loading a standalone BAN. Related `Map.pk2`, `Media.pk2` and `Particles.pk2` files are resolved from the same directory.
 
-1. [Eklenti ZIP'ini indirin](releases/Silkroad_PK2_Editor_v2_4_2.zip).
-2. Blender'da **Edit → Preferences → Get Extensions → Install from Disk** yolunu açın.
-3. ZIP'i seçip eklentiyi etkinleştirin.
-4. 3D Viewport'ta **N** tuşuna basıp **Silkroad PK2 Editor** panelini açın. Gerekirse panelden **PK2 Motorunu Kur** düğmesine basın.
+**Create Jangan UE Project** exports central Jangan and its nearby surroundings into a new Unreal project. Version 2.4.2 includes visual `.o2` placements, restoring the palace, golden dragon and decorations, and corrects BMS triangle winding so roofs and walls render properly.
 
-**Blender 5.2.2'de test edilmiştir.** Arayüz Türkçe ve İngilizce kullanılabilir.
+## Documentation
 
-## Kullanım
+[User guide](USER_GUIDE.md) · [Turkish guide](README_TR.md) · [Changelog](CHANGELOG.md) · [Validation report](TEST_REPORT.md) · [Unreal transfer report](UE_TRANSFER_REPORT.md)
 
-Data.pk2 dosyasını açın, bir klasöre girin veya dosya adıyla arama yapın. Desteklenen dosyanın adına tıklayarak içe aktarın. Animasyonları ve harita nesnelerini paneldeki seçeneklerden açabilirsiniz. Dokulu karakterler için BSR dosyasını seçin; tek bir BAN dosyası yüklemek için önce uygun iskeleti seçin.
+## License
 
-[Kullanım kılavuzu](README_TR.md) · [Değişiklikler](CHANGELOG.md) · [Test raporu](TEST_RAPORU_TR.md) · [UE aktarım raporu](UE_AKTARIM_RAPORU_TR.md) · [Kaynak ve testler](releases/Silkroad_PK2_Editor_v2_4_2_Source_Tests.zip)
-
-## Lisans
-
-[GPL-3.0-or-later](silkroad_pk2_bridge/LICENSE-GPL-3.0.txt)
+[GPL-3.0-or-later](silkroad_pk2_bridge/LICENSE-GPL-3.0.txt). Original importer copyright notices are retained in their source files. Game assets are not included.

@@ -102,7 +102,7 @@ RESULT objects: wolf, wolf01, wolf_part1, wolf_part2
 [Silkroad PK2 Editor] Imported into Blender: res/mob/arabia/baruswolf_adonis1.bsr | 4 objects
 E2E {"format": ".bsr", "entry": "res/mob/arabia/baruswolf_adonis1.bsr", "objects_enabled": false, "animations_enabled": true, "result": ["FINISHED"], "objects": 4, "vertices": 1223, "bones": 37, "actions": 16, "images": 5, "status": "Imported into Blender: res/mob/arabia/baruswolf_adonis1.bsr | 4 objects", "keyframes": 102494, "passed": true}
 
-FBX export starting... 'C:\\Users\\slyva\\Documents\\Codex\\2026-10-10\\referenced-chatgpt-conversation-this-is-an\\work\\real_test_output\\.silkroad_fbx_ma99xa2s\\real_character.fbx'
+FBX export starting... '<test_workspace>\\work\\real_test_output\\.silkroad_fbx_ma99xa2s\\real_character.fbx'
 (bpy.data.armatures['wolf.001'], 'POSE')
 (bpy.data.armatures['wolf.001'], 'POSE')
 (bpy.data.armatures['wolf.001'], 'POSE')

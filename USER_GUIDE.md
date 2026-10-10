@@ -1,0 +1,62 @@
+# User guide
+
+## Installation
+
+Download `Silkroad_PK2_Editor_v2_4_2.zip` from [Releases](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/latest). In Blender, open **Edit → Preferences → Get Extensions → Install from Disk**, select the ZIP and enable the extension. Disable an older installation first to avoid duplicate registrations.
+
+Press **N** in the 3D Viewport and open **Silkroad PK2 Editor**. If needed, choose **Install PK2 Engine**. Engine installation requires an internet connection. The interface supports English and Turkish.
+
+## Opening archives
+
+Select `Data.pk2` and wait for the scan to finish. Related files are resolved from `Map.pk2`, `Media.pk2` and `Particles.pk2` in the same directory. Map textures require `Map.pk2`.
+
+Browse folders or search by file name. Click a BSR, BMS, BSK, BAN, NVM or DOF entry to import it. You can also select a row and use the selected-model import button.
+
+## Models and animations
+
+Choose a **BSR** file for a textured model or character. Referenced meshes, materials, textures and skeletons are extracted together. Enable animation extraction to include referenced animations.
+
+**BMS** loads mesh geometry; **BSK** loads a skeleton. Before importing a standalone **BAN**, select a compatible rig. Animation bone names must match the skeleton.
+
+## Maps and dungeons
+
+**NVM** imports terrain. Enable map-object extraction to include referenced trees, rocks and other navigation objects. **DOF** imports dungeon blocks; the same setting includes additional dungeon objects. Large dungeons may take several minutes.
+
+The separate Jangan Unreal exporter uses `.o2` visual placements when available, including buildings and decorations absent from NVM navigation data.
+
+## Saving and exporting
+
+Save the scene as `.blend`, or export **FBX + PNG**. Select the mesh and, when needed, its skeleton. Keep the generated texture directory beside the FBX when moving the files.
+
+BMS files can be written back to PK2. The archive is backed up before writing, and the stored file is verified. Write-back is not supported for the other five formats.
+
+## Creating a Jangan Unreal project
+
+Open `Data.pk2` and wait for scanning to finish. Choose **4. Unreal Project → Create Jangan UE Project**, then select a project name and output location. A new project directory is created; an existing non-empty destination is protected.
+
+With automatic Unreal import enabled, `UnrealEditor-Cmd.exe` is detected automatically. You can select its path manually if necessary. With automatic import disabled, the extension prepares FBX + PNG sources and the Unreal import script for later execution.
+
+The extension processes 16 terrain regions and city models in a temporary Blender scene while preserving the current scene. Unreal then imports meshes and textures, creates materials and places the city objects. Monitor the panel status. Use the cancellation button or Escape to stop; partial output and error logs remain available.
+
+Open the generated `.uproject` in Unreal. The startup map is `/Game/Jangan/Maps/Jangan`. `SourceAssets/manifest.json` records sources and placements; `ImportReport.json` records Unreal results; `UnrealImport.log` contains detailed output. Repeated models share a single Static Mesh asset.
+
+The transfer covers central Jangan and the area near its walls, regions `60a6`–`63a9`. Environment geometry is static, including rigged trees frozen in their current pose. NPCs, quests, animated water, wind and gameplay systems are outside its scope. The pipeline was validated with Blender 5.2.2 and Unreal Engine 5.8.3.
+
+## Error logs
+
+Check the panel status after an operation. Blender's Text Editor contains per-format logs such as `Silkroad import .NVM`. `Silkroad dependency log` lists missing dependencies, and `Silkroad PK2 errors` records archive and import failures.
+
+Missing optional textures or skeletons are recorded while available geometry can remain in the scene. Missing required meshes stop the import. A failed import may leave partial objects.
+
+## Running tests
+
+```text
+python -m unittest discover -s tests -v
+python -m pip install pk2api==1.5.0 --target engine
+python tests/scan_assets.py "GAME_DIRECTORY"
+blender --background --factory-startup --python tests/blender_failure_checks.py
+blender --background --factory-startup --python tests/blender_e2e.py -- "GAME_DIRECTORY"
+blender --background --factory-startup --python tests/blender_bms_winding.py -- "SOURCE_BMS" "OUTPUT_DIRECTORY"
+```
+
+Real-asset tests write results to `real_test_output`. See the [validation report](TEST_REPORT.md) and [Unreal transfer report](UE_TRANSFER_REPORT.md) for tested behavior and limits.

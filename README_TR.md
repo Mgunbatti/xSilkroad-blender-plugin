@@ -58,4 +58,4 @@ blender --background --factory-startup --python tests/blender_failure_checks.py
 blender --background --factory-startup --python tests/blender_e2e.py -- "OYUN_KLASORU"
 ```
 
-Gerçek oyun dosyalarıyla yapılan testlerin çıktıları `real_test_output` klasörüne yazılır. [Test raporu](TEST_RAPORU_TR.md) destek ve doğrulama sınırlarını açıklar.
+Gerçek oyun dosyalarıyla yapılan testlerin çıktıları `real_test_output` klasörüne yazılır. [Test raporu](TEST_REPORT.md) destek ve doğrulama sınırlarını açıklar.
