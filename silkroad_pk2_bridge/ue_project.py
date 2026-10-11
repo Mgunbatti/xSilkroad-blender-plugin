@@ -85,7 +85,7 @@ def build_manifest(session, regions=JANGAN_REGIONS):
     visual_table = object_table(visual_raw) if visual_raw else None
     manifest = {'status': 'exporting', 'tiles': [], 'assets': {}, 'placements': [],
                 'errors': [], 'repairs': [], 'skipped_effects': [], 'placement_sources': {}, 'unit': '1 source unit = 10 UE centimeters',
-                'plugin_version': '2.4.2', 'data_processing': 'Silkroad PK2 Editor'}
+                'plugin_version': '2.5.0', 'data_processing': 'Silkroad PK2 Editor'}
     cache = {}
     seen = set()
     for region in regions:

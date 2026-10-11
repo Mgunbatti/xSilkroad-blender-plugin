@@ -20,7 +20,7 @@
   "files": [
     {
       "file": "__init__.py",
-      "sha256": "646aa90a031717008350c191061d9a68c201051f9a388efb5a928f5dcb88b974",
+      "sha256": "be4367efd43e364b2dd3a0f148459e63ae70e6a1d0b080dc486ff30d69989a2b",
       "original_sha256": "a9515ad4b17afc83c6e5be6f25d17ce39010dd6b13184fa37b022e4ff46b59f5",
       "changed": true
     },
@@ -44,7 +44,7 @@
     },
     {
       "file": "blender_manifest.toml",
-      "sha256": "9ad3d9fb4e333028e40b8eaf5a4096c13ee4cf0a03c27c4fb6562e76d5586278",
+      "sha256": "c1e3c6009974bada564c33f14b5940575375e966efb9a202bb2d2d38abc0b411",
       "original_sha256": "778f1ba030897ee3e06aee6b2e7d1f918063474b0df82509f2e9597e28b07fe2",
       "changed": true
     },
@@ -68,7 +68,7 @@
     },
     {
       "file": "i18n.py",
-      "sha256": "ffa424d8ec08510440ef010ec5191c2e6a6ad233333735ecccf87432b61935fe",
+      "sha256": "d67c1a693c3d1f87440670c6ee93906e4d383a8feb014fecb47c4347a345d552",
       "original_sha256": "5d9241db70dda9989ced93e697b86aae5aeafab70ace0bf8132c97879ce97887",
       "changed": true
     },
@@ -80,7 +80,7 @@
     },
     {
       "file": "JellyBAN.py",
-      "sha256": "813afa81f8e45e947638d0a451fa00430607edea6f792ab88ee8419b5d914755",
+      "sha256": "e01406560f6ac07bd3b0f9ce0cab7bed25d17e51c3796ea2b55e84f569203e5b",
       "original_sha256": "bf4e35fdd324f7a63fc424d8d84b4fe38e5bce4f694042ddb7467392ab0c54a2",
       "changed": true
     },
@@ -139,6 +139,18 @@
       "changed": true
     },
     {
+      "file": "ue_character.py",
+      "sha256": "d9e5aaa2e77adc6c51703834e5c9f47572fff4eff8835f3bc28f163a14a3cd62",
+      "original_sha256": null,
+      "changed": true
+    },
+    {
+      "file": "ue_character_import_template.py",
+      "sha256": "24343f0e9d10e9fa8f2542d351e1f6aee3afa409f70d842841f05da1cc378e5c",
+      "original_sha256": null,
+      "changed": true
+    },
+    {
       "file": "ue_import_template.py",
       "sha256": "d7f936296e9046d4df77a75be1e226bc827aa360849b9bccc90041c486a00627",
       "original_sha256": null,
@@ -146,7 +158,7 @@
     },
     {
       "file": "ue_project.py",
-      "sha256": "2ce378aae89e5bead86e4e8b769396b7a0105b8a71a01934cae580ca8c2be420",
+      "sha256": "353aaa7e91e419dabc20ade9fa61d95cc832d950123004192345f269816a281c",
       "original_sha256": null,
       "changed": true
     }
@@ -154,5 +166,5 @@
   "license": "GPL-3.0-or-later",
   "attribution": "JellyBitz / Engels Quintero; original notices retained",
   "conversation_attachments_available": false,
-  "note": "v2.3.2 Source_Tests basis; v2.4.2 adds visual map placements and correct BMS winding. Original copyright and license headers retained."
+  "note": "v2.3.2 Source_Tests basis; v2.5.0 adds skeletal character and animation transfer into existing Unreal projects. Original copyright and license headers retained."
 }

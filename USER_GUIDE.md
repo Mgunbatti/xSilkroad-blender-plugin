@@ -2,7 +2,7 @@
 
 ## Installation
 
-Download `Silkroad_PK2_Editor_v2_4_2.zip` from [Releases](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/latest). In Blender, open **Edit → Preferences → Get Extensions → Install from Disk**, select the ZIP and enable the extension. Disable an older installation first to avoid duplicate registrations.
+Download `Silkroad_PK2_Editor_v2_5_0.zip` from [Releases](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/latest). In Blender, open **Edit → Preferences → Get Extensions → Install from Disk**, select the ZIP and enable the extension. Disable an older installation first to avoid duplicate registrations.
 
 Press **N** in the 3D Viewport and open **Silkroad PK2 Editor**. If needed, choose **Install PK2 Engine**. Engine installation requires an internet connection. The interface supports English and Turkish.
 
@@ -41,6 +41,16 @@ The extension processes 16 terrain regions and city models in a temporary Blende
 Open the generated `.uproject` in Unreal. The startup map is `/Game/Jangan/Maps/Jangan`. `SourceAssets/manifest.json` records sources and placements; `ImportReport.json` records Unreal results; `UnrealImport.log` contains detailed output. Repeated models share a single Static Mesh asset.
 
 The transfer covers central Jangan and the area near its walls, regions `60a6`–`63a9`. Environment geometry is static, including rigged trees frozen in their current pose. NPCs, quests, animated water, wind and gameplay systems are outside its scope. The pipeline was validated with Blender 5.2.2 and Unreal Engine 5.8.3.
+
+## Transferring mobs and animations to Unreal
+
+Select a **BSR** mob or character in the PK2 list, then choose **Export Mob + Animations to UE**. Select an existing `.uproject` with **Python Editor Script Plugin** enabled. Close that Unreal project before automatic import.
+
+The extension imports the resource into a temporary Blender scene, preserves its skeleton and skin weights, and exports the mesh plus each referenced animation. Content appears under `/Game/Silkroad/Characters/<character_name>`, with materials, textures and an `Animations` subfolder. The project's maps and descriptor are preserved. Repeated exports use a new folder rather than overwriting existing assets.
+
+If the target project is open, disable automatic import. Sources and `import_character.py` are prepared under the project's `SourceAssets/SilkroadCharacters` folder. Run the script in Unreal's Python console with `py "ABSOLUTE_PATH_TO_import_character.py"`. The script creates assets without changing the current level.
+
+The selected BSR must have meshes bound to exactly one skeleton. Only its referenced animations are included. A BSR without clips can still export its skeletal mesh. Multi-skeleton resources and unbound meshes produce an explicit error. This does not create NPC behavior, combat logic, an Animation Blueprint or automatic mob placement in the map.
 
 ## Error logs
 

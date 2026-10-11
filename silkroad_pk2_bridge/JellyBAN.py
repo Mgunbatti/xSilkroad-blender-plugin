@@ -359,6 +359,7 @@ class Import_JMXVBAN_0102(Operator):
 							action = bpy.data.actions.new(data['name'])
 							action.use_fake_user = True
 							action.use_cyclic = data['is_cyclic']
+							action['silkroad_fps'] = data['fps']
 							obj.animation_data.action = action
 							# Blender 4.4+ actions are slotted/layered, and Blender 5.0
 							# removed Action.fcurves. Create a matching slot BEFORE NLA.

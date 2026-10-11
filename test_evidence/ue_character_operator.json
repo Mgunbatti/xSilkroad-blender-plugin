@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "operator": "silkroad_editor.export_ue_character",
+  "source": "res/mob/europe/wolf.bsr",
+  "animations": 15,
+  "bones": 37,
+  "vertices": 1223,
+  "original_scene_preserved": true,
+  "original_material_preserved": true,
+  "target_project_descriptor_preserved": true,
+  "engine": "5.8.3-58210709+++UE5+Release-5.8",
+  "bundle": "C_wolf_a44ef18b"
+}

@@ -2,7 +2,7 @@
 
 ## Kurulum
 
-Blender'da **Edit → Preferences → Get Extensions → Install from Disk** yolundan `Silkroad_PK2_Editor_v2_4_2.zip` dosyasını kurun. Eski sürüm etkinse önce devre dışı bırakın. Aynı dosya biçimlerini açan başka eklentiler kayıt çakışmasına yol açabilir.
+Blender'da **Edit → Preferences → Get Extensions → Install from Disk** yolundan `Silkroad_PK2_Editor_v2_5_0.zip` dosyasını kurun. Eski sürüm etkinse önce devre dışı bırakın. Aynı dosya biçimlerini açan başka eklentiler kayıt çakışmasına yol açabilir.
 
 3D Viewport'ta **N** tuşuna basıp **Silkroad PK2 Editor** panelini açın. Gerekiyorsa **PK2 Motorunu Kur** düğmesini kullanın. Motor kurulumu internet bağlantısı gerektirir.
 
@@ -41,6 +41,14 @@ Blender açık sahnesini koruyarak 16 harita parçasını ve şehir nesnelerini 
 Hazır `.uproject` dosyasını UE'de açın. Başlangıç haritası `/Game/Jangan/Maps/Jangan`. `SourceAssets/manifest.json` kaynakları ve konumları; `ImportReport.json` UE sonucunu; `UnrealImport.log` ayrıntıları içerir. Aynı model şehirde tekrar kullanıldığında ortak Static Mesh'e başvurur.
 
 Bu aktarım ana Jangan şehri ve surların yakın çevresini kapsar (NVM: `60a6`–`63a9`). Şehir çevresi statik geometri olarak aktarılır; ağaç iskeletleri mevcut pozlarıyla sabitlenir. NPC, görev, hareketli su, rüzgâr animasyonu veya oynanış sistemi eklenmez. Gerçek uçtan uca doğrulama Blender 5.2.2 ve UE 5.8.3 ile yapılmıştır.
+
+## Mob ve animasyonları Unreal’a aktarma
+
+PK2 listesinden bir BSR mob/karakter seçip **Mob + Animasyonları UE’ye Aktar** düğmesine basın. Mevcut `.uproject` dosyasını seçin; projede Python Editor Script Plugin etkin olmalı. Otomatik aktarım için hedef UE projesini kapatın.
+
+Mesh, iskelet, dokular ve BSR’nin bağlı animasyonları `/Game/Silkroad/Characters` altında yeni bir klasöre aktarılır. Animasyonlar ayrı klipler olarak aynı iskelete bağlanır. Proje dosyası ve haritalar korunur; eski varlıkların üzerine yazılmaz. Proje açık kalacaksa otomatik aktarımı kapatıp hazırlanan `import_character.py` betiğini UE Python konsolunda çalıştırın.
+
+Bu özellik NPC davranışı, Animation Blueprint veya haritaya otomatik mob yerleştirme oluşturmaz. Birden fazla iskeleti olan ya da iskelete bağlanmamış mesh içeren kaynaklar açık hata verir.
 
 ## Hata kayıtları
 

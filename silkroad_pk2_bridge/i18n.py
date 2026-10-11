@@ -6,6 +6,8 @@ changing Blender's global language. Keep interpolation placeholders identical.
 """
 
 TURKISH = {
+    'Export Mob + Animations to UE': 'Mob + Animasyonları UE’ye Aktar',
+    'Select an existing UE project. Close it before automatic import.': 'Mevcut UE projesini seç. Otomatik aktarım için önce kapat.',
     '4. Unreal Project': '4. Unreal Projesi',
     'Create Jangan UE Project': 'Jangan UE Projesi Oluştur',
     'Cancel UE Transfer': 'UE Aktarımını İptal Et',

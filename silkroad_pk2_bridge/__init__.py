@@ -3,7 +3,7 @@
 bl_info = {
     'name': 'Silkroad PK2 Editor',
     'author': 'Silkroad PK2 Editor contributors',
-    'version': (2, 4, 2),
+    'version': (2, 5, 0),
     'blender': (4, 2, 0),
     'location': 'View3D > Sidebar > Silkroad',
     'description': 'Open PK2 in Blender, import models, export blend/fbx and safely update BMS',
@@ -823,8 +823,14 @@ class SILKROAD_OT_ExportUEProject(Operator, ExportHelper):
         self._cancel_requested = False
         self._props = context.scene.silkroad_editor
         try:
-            self._job = UEProjectJob(bpy, sys.modules[__name__], self.filepath,
-                                     self.unreal_editor, self.run_unreal)
+            if getattr(self, 'character_transfer', False):
+                from .ue_character import UECharacterJob
+                entry = self._props.entries[self._props.selected_index]
+                self._job = UECharacterJob(bpy, sys.modules[__name__], self.filepath,
+                                          entry.path, self.unreal_editor, self.run_unreal)
+            else:
+                self._job = UEProjectJob(bpy, sys.modules[__name__], self.filepath,
+                                         self.unreal_editor, self.run_unreal)
             _ue_active_operator = self
             self._props.ue_transfer_running = True
             if bpy.app.background:
@@ -883,6 +889,36 @@ class SILKROAD_OT_ExportUEProject(Operator, ExportHelper):
             self._job.close(cancel=cancel)
         self._props.ue_transfer_running = False
         _ue_active_operator = None
+
+
+class SILKROAD_OT_ExportUECharacter(SILKROAD_OT_ExportUEProject):
+    bl_idname = 'silkroad_editor.export_ue_character'
+    bl_label = 'Export Mob + Animations to UE'
+    bl_description = 'Import the selected BSR as skeletal mesh, skeleton and animation clips into an existing Unreal project'
+    character_transfer = True
+    unreal_editor: StringProperty(name='Unreal editor', subtype='FILE_PATH')
+    run_unreal: BoolProperty(name='Import into Unreal automatically', default=True)
+    filter_glob: StringProperty(default='*.uproject', options={'HIDDEN'})
+
+    @classmethod
+    def poll(cls, context):
+        props = context.scene.silkroad_editor
+        return (SILKROAD_OT_ExportUEProject.poll(context) and
+                0 <= props.selected_index < len(props.entries) and
+                not props.entries[props.selected_index].is_folder and
+                Path(props.entries[props.selected_index].path).suffix.lower() == '.bsr')
+
+    def invoke(self, context, event):
+        from .ue_blender import find_unreal_editor
+        self.unreal_editor = self.unreal_editor or find_unreal_editor()
+        context.window_manager.fileselect_add(self)
+        return {'RUNNING_MODAL'}
+
+    def draw(self, context):
+        props = context.scene.silkroad_editor
+        self.layout.prop(self, 'run_unreal', text=_t('Import into Unreal automatically', props))
+        self.layout.prop(self, 'unreal_editor', text=_t('Unreal editor', props))
+        self.layout.label(text=_t('Select an existing UE project. Close it before automatic import.', props))
 
 
 class SILKROAD_OT_CancelUETransfer(Operator):
@@ -988,6 +1024,7 @@ class SILKROAD_PT_Editor(Panel):
             box.operator('silkroad_editor.cancel_ue_transfer', text=_t('Cancel UE Transfer', props), icon='CANCEL')
         else:
             box.operator('silkroad_editor.export_ue_project', text=_t('Create Jangan UE Project', props), icon='EXPORT')
+            box.operator('silkroad_editor.export_ue_character', text=_t('Export Mob + Animations to UE', props), icon='ARMATURE_DATA')
 
 
 class SILKROAD_OT_CancelScan(Operator):
@@ -1008,7 +1045,7 @@ _CLASSES = (SilkroadEntry, SilkroadEditorSettings, SILKROAD_UL_ArchiveRows,
             SILKROAD_OT_InstallPk2Engine, SILKROAD_OT_OpenArchive, SILKROAD_OT_CancelScan,
             SILKROAD_OT_Navigate, SILKROAD_OT_Search, SILKROAD_OT_ImportFromPk2,
             SILKROAD_OT_SaveBmsToPk2, SILKROAD_OT_SaveBlend,
-            SILKROAD_OT_ExportFBX, SILKROAD_OT_ExportUEProject, SILKROAD_OT_CancelUETransfer,
+            SILKROAD_OT_ExportFBX, SILKROAD_OT_ExportUEProject, SILKROAD_OT_ExportUECharacter, SILKROAD_OT_CancelUETransfer,
             SILKROAD_PT_Editor)
 
 

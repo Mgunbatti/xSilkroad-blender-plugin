@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.5.0 — 2026-10-11
+
+- Add **Export Mob + Animations to UE** for a selected BSR resource.
+- Preserve skeletal meshes, skeletons, skinning and referenced animation clips instead of freezing them as static geometry.
+- Export each animation separately with its source frame rate and Blender action slot; bind every Unreal clip to the imported skeleton.
+- Build character materials and PNG textures, including masked alpha textures.
+- Import into an existing Unreal project under a new character folder, without saving or modifying its maps.
+- Protect existing assets from overwrite and prevent automatic imports into an open target project on Windows.
+- Validate sampled bone tracks, skeleton compatibility and animation durations; preserve the original Blender scene and materials.
+- Pass 93 regression tests, isolated extension installation and real wolf transfer: 37 source bones, 1,223 mesh vertices and 15 animation clips. Reloaded Unreal clips passed bone-motion checks.
+
 ## 2.4.2 — 2026-10-10
 
 - Read visual map placements from Map.pk2 `.o2` files when available; preserve the NVM fallback.

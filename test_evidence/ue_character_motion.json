@@ -1,0 +1,98 @@
+{
+  "passed": true,
+  "saved_assets_reloaded": true,
+  "animations": 15,
+  "motion_checks": [
+    {
+      "label": "wolf_stand01",
+      "sampled_keys": 81,
+      "bone_tracks": 38,
+      "moving_tracks": 30
+    },
+    {
+      "label": "wolf_walk",
+      "sampled_keys": 41,
+      "bone_tracks": 38,
+      "moving_tracks": 28
+    },
+    {
+      "label": "wolf_run",
+      "sampled_keys": 21,
+      "bone_tracks": 38,
+      "moving_tracks": 31
+    },
+    {
+      "label": "wolf_attack01",
+      "sampled_keys": 48,
+      "bone_tracks": 38,
+      "moving_tracks": 32
+    },
+    {
+      "label": "wolf_attack02",
+      "sampled_keys": 51,
+      "bone_tracks": 38,
+      "moving_tracks": 32
+    },
+    {
+      "label": "wolf_attack03",
+      "sampled_keys": 45,
+      "bone_tracks": 38,
+      "moving_tracks": 30
+    },
+    {
+      "label": "wolf_damage01",
+      "sampled_keys": 21,
+      "bone_tracks": 38,
+      "moving_tracks": 3
+    },
+    {
+      "label": "wolf_die",
+      "sampled_keys": 94,
+      "bone_tracks": 38,
+      "moving_tracks": 35
+    },
+    {
+      "label": "wolf_die_rm",
+      "sampled_keys": 11,
+      "bone_tracks": 38,
+      "moving_tracks": 0
+    },
+    {
+      "label": "wolf_down",
+      "sampled_keys": 31,
+      "bone_tracks": 38,
+      "moving_tracks": 31
+    },
+    {
+      "label": "wolf_down_rm",
+      "sampled_keys": 81,
+      "bone_tracks": 38,
+      "moving_tracks": 27
+    },
+    {
+      "label": "wolf_down_damage",
+      "sampled_keys": 16,
+      "bone_tracks": 38,
+      "moving_tracks": 25
+    },
+    {
+      "label": "wolf_down_up",
+      "sampled_keys": 37,
+      "bone_tracks": 38,
+      "moving_tracks": 30
+    },
+    {
+      "label": "wolf_down_die",
+      "sampled_keys": 12,
+      "bone_tracks": 38,
+      "moving_tracks": 0
+    },
+    {
+      "label": "wolf_attack04",
+      "sampled_keys": 61,
+      "bone_tracks": 38,
+      "moving_tracks": 30
+    }
+  ],
+  "engine": "5.8.3-58210709+++UE5+Release-5.8"
+}

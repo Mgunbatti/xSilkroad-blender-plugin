@@ -1,8 +1,14 @@
-# Validation report — v2.4.2
+# Validation report — v2.5.0
 
 Test environment: Windows, Blender 5.2.2 LTS and Unreal Engine 5.8.3. Real asset tests used Holigan PK2 archives opened in read-only mode. Game binaries and exported game assets are excluded from the repository and extension source packages.
 
 ## Current release
+
+93 unit and regression tests passed. The real `silkroad_editor.export_ue_character` operator transferred a wolf BSR into Unreal with 37 source bones, 1,223 mesh vertices and 15 separate clips. Original Blender objects, scene FPS and a colliding material name/color were preserved. The existing Unreal project descriptor was unchanged. The same transfer into an existing Jangan project preserved its saved map byte for byte.
+
+Saved Unreal assets were reloaded in a second process. Bone tracks, sample counts, skeleton compatibility, duration and finite transforms were checked; walking and running clips showed changing bone poses. Native 2.5.0 ZIP creation and isolated extension installation passed with the new operator registered. See [character transfer validation](CHARACTER_TRANSFER_REPORT.md).
+
+## Jangan validation baseline — v2.4.2
 
 - **87 unit and regression tests passed.** Coverage includes archive handling, importer dispatch, dependency extraction, material and animation compatibility, PNG export, map placements and extension metadata.
 - A real BMS roof mesh was imported and exported in Blender. All **532 faces** aligned with the source normals; exported face indices matched the source.

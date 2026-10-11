@@ -6,12 +6,12 @@ Import Silkroad PK2 models, characters, animations, maps and dungeons into Blend
 
 ## Download and install
 
-1. [Download the extension ZIP](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/download/v2.4.2/Silkroad_PK2_Editor_v2_4_2.zip).
+1. [Download the extension ZIP](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/download/v2.5.0/Silkroad_PK2_Editor_v2_5_0.zip).
 2. In Blender, open **Edit → Preferences → Get Extensions → Install from Disk**.
 3. Select the ZIP and enable the extension.
 4. Press **N** in the 3D Viewport and open **Silkroad PK2 Editor**. Use **Install PK2 Engine** if needed.
 
-[Latest release](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/latest) · [Source and tests](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/download/v2.4.2/Silkroad_PK2_Editor_v2_4_2_Source_Tests.zip)
+[Latest release](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/latest) · [Source and tests](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/download/v2.5.0/Silkroad_PK2_Editor_v2_5_0_Source_Tests.zip)
 
 ## Features
 
@@ -20,6 +20,7 @@ Import Silkroad PK2 models, characters, animations, maps and dungeons into Blend
 - Import terrain and dungeon objects with separate Data/Map dependency roots.
 - Save Blender scenes or export FBX with PNG textures.
 - Write supported BMS edits back to PK2 with backup and verification.
+- Transfer a selected mob or character directly into an existing Unreal project as a Skeletal Mesh, Skeleton and separate animation clips.
 - Create a Jangan Unreal project with terrain, visual object placements, reusable meshes and materials.
 - Inspect per-format import logs, missing dependencies and transfer results.
 
@@ -34,11 +35,11 @@ Import Silkroad PK2 models, characters, animations, maps and dungeons into Blend
 
 Open `Data.pk2`, wait for scanning and click a supported entry to import it. Select BSR for a textured model. Select a compatible skeleton before loading a standalone BAN. Related `Map.pk2`, `Media.pk2` and `Particles.pk2` files are resolved from the same directory.
 
-**Create Jangan UE Project** exports central Jangan and its nearby surroundings into a new Unreal project. Version 2.4.2 includes visual `.o2` placements, restoring the palace, golden dragon and decorations, and corrects BMS triangle winding so roofs and walls render properly.
+**Create Jangan UE Project** exports central Jangan and its nearby surroundings into a new Unreal project. Visual map export includes visual `.o2` placements, restoring the palace, golden dragon and decorations, and corrects BMS triangle winding so roofs and walls render properly.
 
 ## Documentation
 
-[User guide](USER_GUIDE.md) · [Turkish guide](README_TR.md) · [Changelog](CHANGELOG.md) · [Validation report](TEST_REPORT.md) · [Unreal transfer report](UE_TRANSFER_REPORT.md)
+[User guide](USER_GUIDE.md) · [Turkish guide](README_TR.md) · [Changelog](CHANGELOG.md) · [Validation report](TEST_REPORT.md) · [Unreal transfer report](UE_TRANSFER_REPORT.md) · [Character transfer report](CHARACTER_TRANSFER_REPORT.md)
 
 ## License
 
