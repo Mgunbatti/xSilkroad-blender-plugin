@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.5.1
+
+- Register the two Unreal operators independently so character selection does not disable the Jangan exporter.
+- Show the BSR selection requirement beside the character transfer button.
+- Add a Blender regression check covering nine selection/session states and both registered operators.
+
+
 ## 2.5.0 — 2026-10-11
 
 - Add **Export Mob + Animations to UE** for a selected BSR resource.

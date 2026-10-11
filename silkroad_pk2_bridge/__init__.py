@@ -3,7 +3,7 @@
 bl_info = {
     'name': 'Silkroad PK2 Editor',
     'author': 'Silkroad PK2 Editor contributors',
-    'version': (2, 5, 0),
+    'version': (2, 5, 1),
     'blender': (4, 2, 0),
     'location': 'View3D > Sidebar > Silkroad',
     'description': 'Open PK2 in Blender, import models, export blend/fbx and safely update BMS',
@@ -891,11 +891,16 @@ class SILKROAD_OT_ExportUEProject(Operator, ExportHelper):
         _ue_active_operator = None
 
 
-class SILKROAD_OT_ExportUECharacter(SILKROAD_OT_ExportUEProject):
+class SILKROAD_OT_ExportUECharacter(Operator, ExportHelper):
     bl_idname = 'silkroad_editor.export_ue_character'
     bl_label = 'Export Mob + Animations to UE'
     bl_description = 'Import the selected BSR as skeletal mesh, skeleton and animation clips into an existing Unreal project'
     character_transfer = True
+    filename_ext = '.uproject'
+    execute = SILKROAD_OT_ExportUEProject.execute
+    modal = SILKROAD_OT_ExportUEProject.modal
+    _failed = SILKROAD_OT_ExportUEProject._failed
+    _finish = SILKROAD_OT_ExportUEProject._finish
     unreal_editor: StringProperty(name='Unreal editor', subtype='FILE_PATH')
     run_unreal: BoolProperty(name='Import into Unreal automatically', default=True)
     filter_glob: StringProperty(default='*.uproject', options={'HIDDEN'})
@@ -1025,6 +1030,8 @@ class SILKROAD_PT_Editor(Panel):
         else:
             box.operator('silkroad_editor.export_ue_project', text=_t('Create Jangan UE Project', props), icon='EXPORT')
             box.operator('silkroad_editor.export_ue_character', text=_t('Export Mob + Animations to UE', props), icon='ARMATURE_DATA')
+            if _session is not None and not SILKROAD_OT_ExportUECharacter.poll(context):
+                box.label(text=_t('Select a BSR file in the PK2 list for character transfer.', props), icon='INFO')
 
 
 class SILKROAD_OT_CancelScan(Operator):

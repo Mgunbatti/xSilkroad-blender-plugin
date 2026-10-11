@@ -2,7 +2,7 @@
 
 ## Kurulum
 
-Blender'da **Edit → Preferences → Get Extensions → Install from Disk** yolundan `Silkroad_PK2_Editor_v2_5_0.zip` dosyasını kurun. Eski sürüm etkinse önce devre dışı bırakın. Aynı dosya biçimlerini açan başka eklentiler kayıt çakışmasına yol açabilir.
+Blender'da **Edit → Preferences → Get Extensions → Install from Disk** yolundan `Silkroad_PK2_Editor_v2_5_1.zip` dosyasını kurun. Eski sürüm etkinse önce devre dışı bırakın. Aynı dosya biçimlerini açan başka eklentiler kayıt çakışmasına yol açabilir.
 
 3D Viewport'ta **N** tuşuna basıp **Silkroad PK2 Editor** panelini açın. Gerekiyorsa **PK2 Motorunu Kur** düğmesini kullanın. Motor kurulumu internet bağlantısı gerektirir.
 

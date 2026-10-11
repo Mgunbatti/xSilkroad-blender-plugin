@@ -2,7 +2,7 @@
 
 ## Installation
 
-Download `Silkroad_PK2_Editor_v2_5_0.zip` from [Releases](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/latest). In Blender, open **Edit → Preferences → Get Extensions → Install from Disk**, select the ZIP and enable the extension. Disable an older installation first to avoid duplicate registrations.
+Download `Silkroad_PK2_Editor_v2_5_1.zip` from [Releases](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/latest). In Blender, open **Edit → Preferences → Get Extensions → Install from Disk**, select the ZIP and enable the extension. Disable an older installation first to avoid duplicate registrations.
 
 Press **N** in the 3D Viewport and open **Silkroad PK2 Editor**. If needed, choose **Install PK2 Engine**. Engine installation requires an internet connection. The interface supports English and Turkish.
 

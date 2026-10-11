@@ -6,12 +6,12 @@ Import Silkroad PK2 models, characters, animations, maps and dungeons into Blend
 
 ## Download and install
 
-1. [Download the extension ZIP](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/download/v2.5.0/Silkroad_PK2_Editor_v2_5_0.zip).
+1. [Download the extension ZIP](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/download/v2.5.1/Silkroad_PK2_Editor_v2_5_1.zip).
 2. In Blender, open **Edit → Preferences → Get Extensions → Install from Disk**.
 3. Select the ZIP and enable the extension.
 4. Press **N** in the 3D Viewport and open **Silkroad PK2 Editor**. Use **Install PK2 Engine** if needed.
 
-[Latest release](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/latest) · [Source and tests](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/download/v2.5.0/Silkroad_PK2_Editor_v2_5_0_Source_Tests.zip)
+[Latest release](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/latest) · [Source and tests](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/download/v2.5.1/Silkroad_PK2_Editor_v2_5_1_Source_Tests.zip)
 
 ## Features
 

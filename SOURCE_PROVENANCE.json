@@ -20,7 +20,7 @@
   "files": [
     {
       "file": "__init__.py",
-      "sha256": "be4367efd43e364b2dd3a0f148459e63ae70e6a1d0b080dc486ff30d69989a2b",
+      "sha256": "d797f878e87ae090f476957d8761bd903e0689040ce9aafef2fc5a388bf6e44b",
       "original_sha256": "a9515ad4b17afc83c6e5be6f25d17ce39010dd6b13184fa37b022e4ff46b59f5",
       "changed": true
     },
@@ -44,7 +44,7 @@
     },
     {
       "file": "blender_manifest.toml",
-      "sha256": "c1e3c6009974bada564c33f14b5940575375e966efb9a202bb2d2d38abc0b411",
+      "sha256": "0b4e250f8bd56510b0b91d4c2ea28c657946176a7e1c1107696999d59d9edc08",
       "original_sha256": "778f1ba030897ee3e06aee6b2e7d1f918063474b0df82509f2e9597e28b07fe2",
       "changed": true
     },
@@ -68,7 +68,7 @@
     },
     {
       "file": "i18n.py",
-      "sha256": "d67c1a693c3d1f87440670c6ee93906e4d383a8feb014fecb47c4347a345d552",
+      "sha256": "25cb13c3315041187bb3cb61db2c4be54389d4d9af0e4ecde464b877fdac5cea",
       "original_sha256": "5d9241db70dda9989ced93e697b86aae5aeafab70ace0bf8132c97879ce97887",
       "changed": true
     },
@@ -158,7 +158,7 @@
     },
     {
       "file": "ue_project.py",
-      "sha256": "353aaa7e91e419dabc20ade9fa61d95cc832d950123004192345f269816a281c",
+      "sha256": "880b6fba8662e983e9124ff90b60e54e3b7cf3154d0af7159c4f889abb3bce16",
       "original_sha256": null,
       "changed": true
     }
@@ -166,5 +166,5 @@
   "license": "GPL-3.0-or-later",
   "attribution": "JellyBitz / Engels Quintero; original notices retained",
   "conversation_attachments_available": false,
-  "note": "v2.3.2 Source_Tests basis; v2.5.0 adds skeletal character and animation transfer into existing Unreal projects. Original copyright and license headers retained."
+  "note": "v2.3.2 Source_Tests basis; v2.5.1 fixes independent Unreal operator availability. Original copyright and license headers retained."
 }

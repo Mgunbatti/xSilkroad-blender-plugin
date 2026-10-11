@@ -1,8 +1,12 @@
-# Validation report — v2.5.0
+# Validation report — v2.5.1
 
 Test environment: Windows, Blender 5.2.2 LTS and Unreal Engine 5.8.3. Real asset tests used Holigan PK2 archives opened in read-only mode. Game binaries and exported game assets are excluded from the repository and extension source packages.
 
-## Current release
+## Current release — v2.5.1
+
+93 unit/regression tests passed. A native Blender registration check passed for nine session/selection states (18 operator polls), including folders, BSR, BMS, missing selection, scanning and active transfer. The installed extension was tested interactively: selecting a BSR enabled character transfer and opened the existing-project file selector. Both operators now have independent RNA registrations. The v2.5.0 real asset results below remain the transfer baseline; no new Unreal asset import was run for this availability fix.
+
+## Real asset baseline — v2.5.0
 
 93 unit and regression tests passed. The real `silkroad_editor.export_ue_character` operator transferred a wolf BSR into Unreal with 37 source bones, 1,223 mesh vertices and 15 separate clips. Original Blender objects, scene FPS and a colliding material name/color were preserved. The existing Unreal project descriptor was unchanged. The same transfer into an existing Jangan project preserved its saved map byte for byte.
 
