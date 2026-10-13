@@ -504,34 +504,18 @@ class Import_JMXVBMS_0110(bpy.types.Operator):
 			# pk2 path
 			mesh['SilkroadOnline_LightMapSettings'] = {'path':data['lightmap_path']}
 
-		# Create data layers thorugh bmesh
-		BlenderSetMode('EDIT')
-		bm = bmesh.from_edit_mesh(mesh)
-
-		# Add Cloth from vertices
+		# Store source cloth data without entering Edit Mode. Some legacy
+		# ferry meshes stall Blender's edit-mesh conversion during batch import.
 		vertexClothes = data['vertex_clothes']
-		vertexClothesLayer = bm.verts.layers.float.new('vertex_clothes')
-		if vertexClothes:
-			for v in bm.verts:
-				# Set vertex info
-				v[vertexClothesLayer] = vertexClothes[v.index]['distance'] if v.index in vertexClothes else 0.0
-
-		# Add Cloth from edges
+		vertexClothesLayer = mesh.attributes.new('vertex_clothes', 'FLOAT', 'POINT')
+		vertexClothesLayer.data.foreach_set('value', [vertexClothes[i]['distance'] if i in vertexClothes else 0.0 for i in range(len(mesh.vertices))])
 		edgeClothes = data['edge_clothes']
-		edgeClothesLayer = bm.edges.layers.float.new('edge_clothes')
+		edgeClothesLayer = mesh.attributes.new('edge_clothes', 'FLOAT', 'EDGE')
 		if edgeClothes:
-			for e in bm.edges:
-				# Get edge
-				a = e.verts[0].index
-				b = e.verts[1].index
-				edgeKey = GetEdgeKey(a,b)
-				# Set edge info
-				e[edgeClothesLayer] = edgeClothes[edgeKey]['distance'] if edgeKey in edgeClothes else 0.0
-			# Save property - cloth settings
+			edgeClothesLayer.data.foreach_set('value', [edgeClothes[GetEdgeKey(*e.vertices)]['distance'] if GetEdgeKey(*e.vertices) in edgeClothes else 0.0 for e in mesh.edges])
 			mesh['SilkroadOnline_ClothSettings'] = data['cloth_settings']
 
 		# Assign material or create it
-		BlenderSetMode('OBJECT')
 		mat = bpy.data.materials.get(data['material'])
 		if not mat:
 			mat = bpy.data.materials.new(name=data['material'])
@@ -569,7 +553,7 @@ class Import_JMXVBMS_0110(bpy.types.Operator):
 						  self.setting_material_filepath, '|', warning,
 						  '| Continuing without invalid material entries')
 				for record in materials:
-					if data['material'] != record.name:
+					if str(data['material']).strip().casefold() != str(record.name).strip().casefold():
 						continue
 					mtrlPath = record.texture_path
 					if record.relative_to_data:

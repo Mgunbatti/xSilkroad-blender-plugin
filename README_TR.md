@@ -2,7 +2,7 @@
 
 ## Kurulum
 
-Blender'da **Edit → Preferences → Get Extensions → Install from Disk** yolundan `Silkroad_PK2_Editor_v2_5_1.zip` dosyasını kurun. Eski sürüm etkinse önce devre dışı bırakın. Aynı dosya biçimlerini açan başka eklentiler kayıt çakışmasına yol açabilir.
+Blender'da **Edit → Preferences → Get Extensions → Install from Disk** yolundan `Silkroad_PK2_Editor_v2_7_0.zip` dosyasını kurun. Eski sürüm etkinse önce devre dışı bırakın. Aynı dosya biçimlerini açan başka eklentiler kayıt çakışmasına yol açabilir.
 
 3D Viewport'ta **N** tuşuna basıp **Silkroad PK2 Editor** panelini açın. Gerekiyorsa **PK2 Motorunu Kur** düğmesini kullanın. Motor kurulumu internet bağlantısı gerektirir.
 
@@ -36,11 +36,11 @@ Data.pk2 arşivini açıp taramanın bitmesini bekleyin. **4. Unreal Projesi →
 
 Görsel nesneler mevcutsa Map.pk2 içindeki .o2 dosyalarından alınır; saray ve dekorlar da aktarılır. .o2 bulunmazsa NVM nesneleri kullanılır.
 
-Blender açık sahnesini koruyarak 16 harita parçasını ve şehir nesnelerini geçici bir sahnede işler. Ardından Unreal ayrı bir işlemde modelleri ve dokuları içe alır, materyalleri oluşturur ve kaydedilmiş yerleşimlere göre Jangan haritasını kurar. Panel durum satırından sonucu takip edin. İptal için **UE Aktarımını İptal Et** veya Escape kullanın; kısmi proje hata kaydıyla korunur.
+Blender açık sahnesini koruyarak Jangan ve çevresindeki 174 harita parçasını ve çevre nesnelerini geçici bir sahnede işler. Ardından Unreal ayrı bir işlemde modelleri ve dokuları içe alır, materyalleri oluşturur ve kaynak yerleşimlere göre tam haritayı kurar. Panel durum satırından sonucu takip edin. İptal için **UE Aktarımını İptal Et** veya Escape kullanın; kısmi proje hata kaydıyla korunur. Proje adı en fazla 20 karakter olmalıdır.
 
 Hazır `.uproject` dosyasını UE'de açın. Başlangıç haritası `/Game/Jangan/Maps/Jangan`. `SourceAssets/manifest.json` kaynakları ve konumları; `ImportReport.json` UE sonucunu; `UnrealImport.log` ayrıntıları içerir. Aynı model şehirde tekrar kullanıldığında ortak Static Mesh'e başvurur.
 
-Bu aktarım ana Jangan şehri ve surların yakın çevresini kapsar (NVM: `60a6`–`63a9`). Şehir çevresi statik geometri olarak aktarılır; ağaç iskeletleri mevcut pozlarıyla sabitlenir. NPC, görev, hareketli su, rüzgâr animasyonu veya oynanış sistemi eklenmez. Gerçek uçtan uca doğrulama Blender 5.2.2 ve UE 5.8.3 ile yapılmıştır.
+Bu aktarım ana Jangan şehri, Bandit Fortress, çevredeki yollar, ormanlar ve dağları kapsar. Sonradan harita onarımı çalıştırmadan eklentinin ürettiği sonuç kullanılır. Çevre statik geometri olarak aktarılır; ağaç iskeletleri mevcut pozlarıyla sabitlenir. Veritabanındaki mob doğma noktaları, görev, hareketli su, rüzgâr animasyonu veya prototip oynanış/UI sistemi bu çevre aktarımına dahil değildir. Animasyonlu karakter ve Landscape aktarım düğmeleri ayrı kullanılabilir.
 
 ## Mob ve animasyonları Unreal’a aktarma
 
@@ -67,3 +67,11 @@ blender --background --factory-startup --python tests/blender_e2e.py -- "OYUN_KL
 ```
 
 Gerçek oyun dosyalarıyla yapılan testlerin çıktıları `real_test_output` klasörüne yazılır. [Test raporu](TEST_REPORT.md) destek ve doğrulama sınırlarını açıklar.
+
+
+## Jangan Landscape (2.6.0)
+2.7.0 sürümünde tam harita için iki ayrı proje düğmesi bulunur: **Jangan UE Projesi Oluştur (Tile)** özgün kareli zemini; **Jangan UE Projesi Oluştur (Landscape)** yumuşak geçişli, boyanabilir UE arazisini oluşturur. İkisi de 174 bölge ve kaynak çevre yerleşimlerini aktarır. Landscape sürümü eski zemin mesh'lerini oluşturmaz. Yükseklik, boya maskeleri, özgün çim/toprak/kaya dokuları ve editör köprüsü otomatik hazırlanır.
+
+Windows/UE 5.8 için uyumlu köprü DLL'si ve kaynak kodu dahildir. Seçilen editörün BuildId değeri uyuşmazsa eklenti köprüyü kaynak koddan derler; bu durumda Unreal C++ geliştirme araçları gerekir. Mevcut projenin üstüne yazılmaz; her düğmede yeni bir proje klasörü seçin.
+
+Silkroad panelindeki **Jangan Landscape Aktar** düğmesi şehir merkezi, Bandit Fortress denemesi veya 174 bölgeli Jangan kapsamı için yükseklik ve boya katmanları üretir. Unreal 5.8 aktarımı için paketteki editör köprüsü derlenmelidir. Ayrıntılar: [JANGAN_LANDSCAPE.md](JANGAN_LANDSCAPE.md).

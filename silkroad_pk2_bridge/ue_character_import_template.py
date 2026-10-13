@@ -27,7 +27,7 @@ try:
     if mesh is None:raise RuntimeError('No skeletal mesh imported')
     skeleton=mesh.get_editor_property('skeleton')
     if skeleton is None:raise RuntimeError('Skeletal mesh has no skeleton')
-    textures={};materials={};slots=mesh.get_editor_property('materials')
+    textures={};materials={};slots=mesh.materials
     for index,slot in enumerate(slots):
         name=re.sub(r'[^A-Za-z0-9_]','_',str(slot.material_slot_name))
         candidates=[d for d in m['materials'] if name.startswith(re.sub(r'[^A-Za-z0-9_]','_',d['name']))]
@@ -48,9 +48,11 @@ try:
                 node=lib.create_material_expression(mat,u.MaterialExpressionConstant3Vector,-400,0);node.set_editor_property('constant',u.LinearColor(*desc['color']));lib.connect_material_property(node,'',u.MaterialProperty.MP_BASE_COLOR)
             rough=lib.create_material_expression(mat,u.MaterialExpressionConstant,-200,300);rough.set_editor_property('r',.8);lib.connect_material_property(rough,'',u.MaterialProperty.MP_ROUGHNESS)
             lib.recompile_material(mat);sub.save_loaded_asset(mat);materials[key]=mat
-        slot.material_interface=materials[key]
-    mesh.set_editor_property('materials',slots)
-    sub.save_loaded_asset(mesh);report['mesh']=mesh.get_path_name();report['skeleton']=skeleton.get_path_name();report['materials']=len(materials)
+        slots[index]=u.SkeletalMaterial(material_interface=materials[key],material_slot_name=slot.material_slot_name)
+    # Attribute assignment invokes UE's BlueprintSetter and updates the
+    # serialized material cache; set_editor_property writes a transient array.
+    mesh.materials=slots
+    sub.save_loaded_asset(mesh,only_if_is_dirty=False);report['mesh']=mesh.get_path_name();report['skeleton']=skeleton.get_path_name();report['materials']=len(materials)
     for clip in m['animations']:
         options=u.FbxImportUI();options.automated_import_should_detect_type=False;options.mesh_type_to_import=u.FBXImportType.FBXIT_ANIMATION;options.import_as_skeletal=True;options.import_mesh=False;options.import_animations=True;options.import_materials=False;options.import_textures=False;options.skeleton=skeleton
         data=options.anim_sequence_import_data;data.set_editor_property('animation_length',u.FBXAnimationLengthImportType.FBXALIT_EXPORTED_TIME);data.set_editor_property('use_default_sample_rate',False);data.set_editor_property('custom_sample_rate',clip['fps'])

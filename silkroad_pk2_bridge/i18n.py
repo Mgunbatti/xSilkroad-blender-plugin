@@ -6,6 +6,10 @@ changing Blender's global language. Keep interpolation placeholders identical.
 """
 
 TURKISH = {
+    'Export Jangan Landscape': 'Jangan Landscape Aktar',
+    'Jangan area': 'Jangan alanı',
+    'Jangan only. Heightmap, paint layers and UE importer included.': 'Yalnız Jangan. Yükseklik haritası, boyama katmanları ve UE aktarıcısı dahil.',
+    'Unreal 5.8 importer requires the supplied editor bridge.': 'Unreal 5.8 aktarımı için paketteki editör köprüsü gerekir.',
     'Export Mob + Animations to UE': 'Mob + Animasyonları UE’ye Aktar',
     'Select a BSR file in the PK2 list for character transfer.': 'Mob aktarımı için PK2 listesinden bir BSR dosyası seç.',
     'Select an existing UE project. Close it before automatic import.': 'Mevcut UE projesini seç. Otomatik aktarım için önce kapat.',
@@ -104,6 +108,11 @@ TURKISH = {
     'Could not pack textures: {error}': 'Texture’lar paketlenemedi: {error}',
     'Package PNG textures': 'PNG kaplamalarını paketle',
     'Export active animation': 'Aktif animasyonu aktar',
+    'Export animations': 'Animasyonları aktar',
+    'Animation export': 'Animasyon dışa aktarımı',
+    'Full Jangan and surroundings: 174 terrain regions.': 'Tüm Jangan ve çevresi: 174 arazi bölgesi.',
+    'Create Jangan UE Project (Tiles)': 'Jangan UE Projesi Oluştur (Tile)',
+    'Create Jangan UE Project (Landscape)': 'Jangan UE Projesi Oluştur (Landscape)',
     'FBX exported: {name}, PNG: {converted}, missing: {missing}. Check TextureReport.txt.': 'FBX tamam: {name}, PNG: {converted}, eksik: {missing}. TextureReport.txt dosyasını kontrol et.',
     'Scan cancelled. Existing PK2 was not modified.': 'Tarama iptal edildi. Mevcut PK2 değiştirilmedi.',
     'FBX extension must be .fbx': 'FBX uzantısı .fbx olmalı',

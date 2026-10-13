@@ -1,5 +1,44 @@
 # Changelog
 
+## 2.7.0 — 2026-10-13
+
+- Add two independent full-map project buttons: Tiles for original per-face materials; Landscape for native, paintable terrain with six blended ground families.
+- Preserve yellow/dry grass, green grass, ordinary soil, wet soil, rock and city paving with separate source-derived masks. Use source texture colors to identify dry grass instead of merging it into green grass.
+- Landscape projects export the full 174-region terrain and all static environment placements, automatically choose original ground textures and install the native editor bridge.
+- Landscape projects never export or spawn the old terrain meshes. Missing regions and padding are hidden and excluded from collision.
+- Include a matching Unreal 5.8 Win64 bridge binary plus source. Check editor BuildId before use; incompatible builds trigger an automatic bridge build requiring the Unreal C++ toolchain.
+- Add continuous broad color variation to the Landscape material and preserve separate manual heightmap and animated character export tools.
+- Fix overly broad dry-grass classification and choose a genuinely yellow/brown source texture, preserving green vegetation as Grass.
+- Verify 106 automated checks and a fresh, complete Landscape project through the public export button in Blender 5.2.2 and Unreal 5.8.3. All sampled collision traces passed; measured collision error stayed below 0.3 cm.
+- Landscape mode groups source textures into six paint layers. Use Tiles mode to retain individual original tile textures; database spawns and gameplay are outside these environment export functions.
+
+## 2.6.2 — 2026-10-13
+
+- Create Jangan UE Project now exports the full fixed 174-region Jangan area and all referenced static environment placements by default.
+- Share the same region boundary with the Jangan Landscape exporter; reject foreign selections and missing terrain rather than silently reducing the map.
+- Frame the complete map in the generated Unreal editor viewport and record exported scope/regions in the import report.
+- Reject project names exceeding Unreal's recommended 20-character limit before creating output folders.
+- Keep the separate Landscape and animated character workflows; no prototype UI or database spawn data is bundled into the environment export.
+- Avoid Edit Mode stalls when importing legacy cloth meshes and match source material names without case sensitivity.
+- Persist skeletal material assignments correctly in Unreal so imported character and weapon textures survive saving and reopening.
+
+## 2.6.1 — 2026-10-13
+
+- Default FBX export now writes a model FBX and separate FBXs for every action associated with the selected rigs, including muted imported NLA clips.
+- Preserve action slots, NLA state, pose mode, frame range and frame rate even if export fails; retain an active-clip-only option.
+- Fix cross-drive publication: copy staged files to the destination volume before replacing the final FBX/report.
+- Keep short temporary texture paths and portable relative PNG references.
+
+## 2.6.0 — 2026-10-12
+
+- Add Jangan-only Landscape export: city, Bandit Fortress sample, and fixed 174-region Jangan preset.
+- Export 16-bit height PNG/R16, normalized Soil/Grass/Rock masks, hidden padding/missing-region masks and exact world coordinates.
+- Include Unreal 5.8 editor bridge source and a Python material/Landscape importer with optional BaseColor, DirectX Normal and Roughness texture parameters.
+- Reject foreign regions, duplicate regions, missing terrain/textures and inconsistent source seams; preserve PK2 archives and existing Blender scenes.
+- Add scope, orientation, normalization, padding and quantization tests and a real Blender export regression check.
+- Keep the existing FBX and skeletal animation workflows.
+
+
 ## 2.5.1
 
 - Register the two Unreal operators independently so character selection does not disable the Jangan exporter.

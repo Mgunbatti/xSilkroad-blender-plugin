@@ -1,0 +1,1 @@
+{"FileVersion":3,"Version":1,"VersionName":"2.6.0","FriendlyName":"Silkroad Jangan Landscape Bridge","Description":"Editor-only importer for Jangan Landscape exports","Category":"Import","CanContainContent":false,"Modules":[{"Name":"SilkroadLandscapeBridge","Type":"Editor","LoadingPhase":"Default"}]}

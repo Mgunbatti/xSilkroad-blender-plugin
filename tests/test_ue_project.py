@@ -12,6 +12,30 @@ class Session:
     def get(self,path):return self.files.get(path),'Data.pk2'
 
 class TestUEProject(unittest.TestCase):
+    def test_default_exports_full_jangan_boundary(self):
+        files={'navmesh/object.ifo':b'JMXVOBJI1000\n0\n'}
+        files.update({f'navmesh/nv_{r:04x}.nvm':b'terrain' for r in ue.JANGAN_FULL_REGIONS})
+        with patch.object(ue,'parse_nvm',return_value={'objects':[],'heightmap_vertices':[]}):
+            manifest=ue.build_manifest(Session(files))
+        self.assertEqual(len(manifest['tiles']),174)
+        self.assertEqual(manifest['regions'],list(ue.JANGAN_FULL_REGIONS))
+        self.assertTrue(set(ue.JANGAN_REGIONS)<=set(manifest['regions']))
+        self.assertIn(0x5b9f,manifest['regions'])
+        self.assertIn(0x66ac,manifest['regions'])
+
+    def test_full_scope_does_not_silently_skip_missing_terrain(self):
+        with self.assertRaisesRegex(FileNotFoundError,'Required Jangan terrain missing'):
+            ue.build_manifest(Session({'navmesh/object.ifo':b'JMXVOBJI1000\n0\n'}))
+
+    def test_foreign_export_scope_rejected(self):
+        with self.assertRaises(ValueError):ue.build_manifest(Session({}),[0x1234])
+
+    def test_long_project_name_rejected_before_writing(self):
+        with tempfile.TemporaryDirectory() as temp:
+            with self.assertRaisesRegex(ValueError,'20 characters'):
+                ue.initialize_project(Path(temp)/('J'*21+'.uproject'))
+            self.assertEqual(list(Path(temp).iterdir()),[])
+
     def test_region_origin_and_units(self):
         self.assertEqual(ue.region_position_cm(0x61a8),( [0,0,0]))
         self.assertEqual(ue.region_position_cm(0x62a9,[12,34,56]),[19320,19540,560])

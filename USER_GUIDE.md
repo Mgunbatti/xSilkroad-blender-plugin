@@ -2,7 +2,7 @@
 
 ## Installation
 
-Download `Silkroad_PK2_Editor_v2_5_1.zip` from [Releases](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/latest). In Blender, open **Edit → Preferences → Get Extensions → Install from Disk**, select the ZIP and enable the extension. Disable an older installation first to avoid duplicate registrations.
+Download `Silkroad_PK2_Editor_v2_6_0.zip` from [Releases](https://github.com/Mgunbatti/xSilkroad-blender-plugin/releases/latest). In Blender, open **Edit → Preferences → Get Extensions → Install from Disk**, select the ZIP and enable the extension. Disable an older installation first to avoid duplicate registrations.
 
 Press **N** in the 3D Viewport and open **Silkroad PK2 Editor**. If needed, choose **Install PK2 Engine**. Engine installation requires an internet connection. The interface supports English and Turkish.
 
@@ -26,7 +26,7 @@ The separate Jangan Unreal exporter uses `.o2` visual placements when available,
 
 ## Saving and exporting
 
-Save the scene as `.blend`, or export **FBX + PNG**. Select the mesh and, when needed, its skeleton. Keep the generated texture directory beside the FBX when moving the files.
+Save the scene as `.blend`, or export **FBX + PNG**. Select the mesh and its skeleton. By default, **All clips (separate FBXs)** writes the model to the chosen filename and each attached Action/NLA clip to `<model>_animations/`, with `Animations.json`. Muted imported clips are included; unrelated actions are excluded. Enable **Include animations** when importing the BSR first. **Active clip only** retains the previous single-animation export. Keep the generated texture directory beside the model FBX. Export destinations may be on any writable drive; the PK2 and Blender file do not need to be on that drive.
 
 BMS files can be written back to PK2. The archive is backed up before writing, and the stored file is verified. Write-back is not supported for the other five formats.
 
@@ -36,13 +36,17 @@ Open `Data.pk2` and wait for scanning to finish. Choose **4. Unreal Project → 
 
 With automatic Unreal import enabled, `UnrealEditor-Cmd.exe` is detected automatically. You can select its path manually if necessary. With automatic import disabled, the extension prepares FBX + PNG sources and the Unreal import script for later execution.
 
-The extension processes 16 terrain regions and city models in a temporary Blender scene while preserving the current scene. Unreal then imports meshes and textures, creates materials and places the city objects. Monitor the panel status. Use the cancellation button or Escape to stop; partial output and error logs remain available.
+The button exports all 174 fixed Jangan terrain regions and their source environment placements: the city, Bandit Fortress and surrounding roads, forests and mountains. It preserves the current Blender scene. Unreal imports meshes and textures, creates materials and places the environment automatically. This is the direct plugin output; no separate map repair script is required. Monitor the panel status and wait for UE project ready. Use cancellation or Escape to stop; partial output and error logs remain available. Choose a new project name of at most 20 characters. This environment transfer does not create database mob spawns, combat, quests or the prototype UI.
 
 Open the generated `.uproject` in Unreal. The startup map is `/Game/Jangan/Maps/Jangan`. `SourceAssets/manifest.json` records sources and placements; `ImportReport.json` records Unreal results; `UnrealImport.log` contains detailed output. Repeated models share a single Static Mesh asset.
 
 The transfer covers central Jangan and the area near its walls, regions `60a6`–`63a9`. Environment geometry is static, including rigged trees frozen in their current pose. NPCs, quests, animated water, wind and gameplay systems are outside its scope. The pipeline was validated with Blender 5.2.2 and Unreal Engine 5.8.3.
 
 ## Transferring mobs and animations to Unreal
+
+The project panel now has two full-map buttons. **Create Jangan UE Project (Tiles)** preserves the original square tile materials. **Create Jangan UE Project (Landscape)** builds the same static environment with native Unreal Landscape, imported height, softened masks and original ground textures. Soil, Grass, DryGrass, WetSoil, Rock and Paving are separate layers so yellow grass and dirt areas retain their source distribution. Dry grass is classified from source texture colors and names. Both modes cover the fixed 174-region Jangan boundary. Landscape mode omits old terrain meshes entirely; target layers can be painted in Unreal. Source texture selection and classification are recorded in GroundProfile.json and Textures/SourceTextures.json.
+
+For automatic Landscape creation, use Unreal 5.8 on Windows. A compatible editor bridge is installed automatically. If the selected editor's BuildId differs from the bundled binary, the extension builds the supplied source with Unreal build tools; a C++ toolchain is required for that fallback. The separate **Export Jangan Landscape** button still prepares a manual heightmap/mask bundle. These project buttons create static environment projects, without mob spawns, combat or prototype UI.
 
 Select a **BSR** mob or character in the PK2 list, then choose **Export Mob + Animations to UE**. Select an existing `.uproject` with **Python Editor Script Plugin** enabled. Close that Unreal project before automatic import.
 

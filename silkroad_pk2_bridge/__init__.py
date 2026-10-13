@@ -3,7 +3,7 @@
 bl_info = {
     'name': 'Silkroad PK2 Editor',
     'author': 'Silkroad PK2 Editor contributors',
-    'version': (2, 5, 1),
+    'version': (2, 7, 0),
     'blender': (4, 2, 0),
     'location': 'View3D > Sidebar > Silkroad',
     'description': 'Open PK2 in Blender, import models, export blend/fbx and safely update BMS',
@@ -28,7 +28,7 @@ from bpy_extras.io_utils import ImportHelper, ExportHelper
 
 from . import JellyBMS, JellyBSK, JellyBAN, JellyBSR, JellyDOF, JellyNVM
 from .i18n import translate, translate_error
-from .fbx_texture_export import export_fbx_with_textures
+from .fbx_texture_export import export_fbx_with_textures, export_animation_bundle
 from .bridge_core import InvalidAsset
 from .pk2_core import (ArchiveSession, normalize_path, prepare_asset, replace_pk2_entry_safely,
                        safe_local_path, SUPPORTED_EXTS)
@@ -750,15 +750,22 @@ class SILKROAD_OT_ExportFBX(Operator, ExportHelper):
         name='Package PNG textures',
         description='Save Blender image textures as external PNG files beside the FBX', default=True)
     export_animation: BoolProperty(
-        name='Export active animation',
-        description='Export the active Action for the selected armature (All Actions off)',
+        name='Export animations',
+        description='Include animations associated with the selected armature',
         default=True)
+    animation_mode: EnumProperty(
+        name='Animation export',
+        items=[('ALL', 'All clips (separate FBXs)', 'Export the model and each attached Action/NLA animation separately'),
+               ('ACTIVE', 'Active clip only', 'Export only the currently active animation')],
+        default='ALL')
 
     def draw(self, context):
         props = context.scene.silkroad_editor
         col = self.layout.column()
         col.prop(self, 'export_png_textures', text=_t('Package PNG textures', props))
-        col.prop(self, 'export_animation', text=_t('Export active animation', props))
+        col.prop(self, 'export_animation', text=_t('Export animations', props))
+        if self.export_animation:
+            col.prop(self, 'animation_mode', text=_t('Animation export', props))
 
     def invoke(self, context, event):
         active = context.active_object
@@ -772,9 +779,13 @@ class SILKROAD_OT_ExportFBX(Operator, ExportHelper):
         try:
             with _viewport_operator_context(context):
                 _ensure_object_mode()
-                result = export_fbx_with_textures(
-                    bpy, self.filepath, list(context.selected_objects),
-                    textures=self.export_png_textures, animation=self.export_animation)
+                if self.export_animation and self.animation_mode == 'ALL':
+                    result = export_animation_bundle(bpy, self.filepath, list(context.selected_objects),
+                                                    textures=self.export_png_textures)
+                else:
+                    result = export_fbx_with_textures(
+                        bpy, self.filepath, list(context.selected_objects),
+                        textures=self.export_png_textures, animation=self.export_animation)
             msg = _t('FBX exported: {name}, PNG: {converted}, missing: {missing}. Check TextureReport.txt.',
                      context.scene.silkroad_editor, name=result.fbx.name,
                      converted=result.converted, missing=len(result.missing))
@@ -791,8 +802,8 @@ class SILKROAD_OT_ExportFBX(Operator, ExportHelper):
 
 class SILKROAD_OT_ExportUEProject(Operator, ExportHelper):
     bl_idname = 'silkroad_editor.export_ue_project'
-    bl_label = 'Create Jangan UE Project'
-    bl_description = 'Export the original Jangan map and build a separate Unreal project'
+    bl_label = 'Create Jangan UE Project (Tiles)'
+    bl_description = 'Export Jangan and all surrounding 174 regions into a new Unreal project'
     filename_ext = '.uproject'
     filter_glob: StringProperty(default='*.uproject', options={'HIDDEN'})
     unreal_editor: StringProperty(name='Unreal editor', subtype='FILE_PATH')
@@ -814,6 +825,8 @@ class SILKROAD_OT_ExportUEProject(Operator, ExportHelper):
         self.layout.prop(self, 'run_unreal', text=_t('Import into Unreal automatically', props))
         self.layout.prop(self, 'unreal_editor', text=_t('Unreal editor', props))
         self.layout.label(text=_t('Creates a new folder beside the chosen project filename.', props))
+        if not getattr(self, 'character_transfer', False):
+            self.layout.label(text=_t('Full Jangan and surroundings: 174 terrain regions.', props))
 
     def execute(self, context):
         global _ue_active_operator
@@ -823,7 +836,13 @@ class SILKROAD_OT_ExportUEProject(Operator, ExportHelper):
         self._cancel_requested = False
         self._props = context.scene.silkroad_editor
         try:
-            if getattr(self, 'character_transfer', False):
+            if getattr(self, 'landscape_project', False):
+                from .ue_landscape_project import UELandscapeProjectJob
+                self._job = UELandscapeProjectJob(bpy,sys.modules[__name__],self.filepath,self.unreal_editor,self.run_unreal)
+            elif getattr(self, 'landscape_transfer', False):
+                from .ue_landscape_job import LandscapeExportJob
+                self._job = LandscapeExportJob(sys.modules[__name__], self.filepath, self.landscape_scope)
+            elif getattr(self, 'character_transfer', False):
                 from .ue_character import UECharacterJob
                 entry = self._props.entries[self._props.selected_index]
                 self._job = UECharacterJob(bpy, sys.modules[__name__], self.filepath,
@@ -844,7 +863,7 @@ class SILKROAD_OT_ExportUEProject(Operator, ExportHelper):
                         previous_message = message
                     if done:
                         break
-                    if self._job.process:
+                    if self._job.process or getattr(self._job, 'bridge_process', None):
                         time.sleep(.2)
                 self._finish(context)
                 return {'FINISHED'}
@@ -890,6 +909,49 @@ class SILKROAD_OT_ExportUEProject(Operator, ExportHelper):
         self._props.ue_transfer_running = False
         _ue_active_operator = None
 
+
+class SILKROAD_OT_ExportUELandscapeProject(Operator, ExportHelper):
+    bl_idname = 'silkroad_editor.export_ue_landscape_project'
+    bl_label = 'Create Jangan UE Project (Landscape)'
+    bl_description = 'Create full Jangan with paintable Landscape, blended ground and original environment placements'
+    landscape_project = True
+    filename_ext = '.uproject'
+    filter_glob: StringProperty(default='*.uproject', options={'HIDDEN'})
+    unreal_editor: StringProperty(name='Unreal editor', subtype='FILE_PATH')
+    run_unreal: BoolProperty(name='Import into Unreal automatically', default=True)
+    draw = SILKROAD_OT_ExportUEProject.draw
+    execute = SILKROAD_OT_ExportUEProject.execute
+    modal = SILKROAD_OT_ExportUEProject.modal
+    poll = SILKROAD_OT_ExportUEProject.poll
+    _failed = SILKROAD_OT_ExportUEProject._failed
+    _finish = SILKROAD_OT_ExportUEProject._finish
+
+    def invoke(self, context, event):
+        self.filepath = self.filepath or str(Path(bpy.path.abspath('//')).resolve() / 'JanganLandscape.uproject')
+        return SILKROAD_OT_ExportUEProject.invoke(self, context, event)
+
+
+class SILKROAD_OT_ExportJanganLandscape(Operator, ExportHelper):
+    bl_idname = 'silkroad_editor.export_jangan_landscape'
+    bl_label = 'Export Jangan Landscape'
+    bl_description = 'Export only Jangan as a 16-bit heightmap and paintable Unreal Landscape layers'
+    filename_ext = '.json'
+    filter_glob: StringProperty(default='*.json', options={'HIDDEN'})
+    landscape_transfer = True
+    landscape_scope: EnumProperty(name='Jangan area', items=[('CITY','Jangan City','Original city and surroundings'),('BANDIT','Bandit Fortress Test','Four sample regions for height and alignment verification'),('JANGAN','Jangan Region','Jangan and its surrounding 174 regions only')], default='CITY')
+    execute = SILKROAD_OT_ExportUEProject.execute
+    modal = SILKROAD_OT_ExportUEProject.modal
+    _failed = SILKROAD_OT_ExportUEProject._failed
+    _finish = SILKROAD_OT_ExportUEProject._finish
+    poll = SILKROAD_OT_ExportUEProject.poll
+    def invoke(self, context, event):
+        self.filepath=self.filepath or str(Path(bpy.path.abspath('//')).resolve()/'JanganLandscape.json')
+        context.window_manager.fileselect_add(self);return {'RUNNING_MODAL'}
+    def draw(self, context):
+        props=context.scene.silkroad_editor
+        self.layout.prop(self,'landscape_scope',text=_t('Jangan area',props))
+        self.layout.label(text=_t('Jangan only. Heightmap, paint layers and UE importer included.',props))
+        self.layout.label(text=_t('Unreal 5.8 importer requires the supplied editor bridge.',props))
 
 class SILKROAD_OT_ExportUECharacter(Operator, ExportHelper):
     bl_idname = 'silkroad_editor.export_ue_character'
@@ -1028,7 +1090,9 @@ class SILKROAD_PT_Editor(Panel):
             box.label(text=props.message[:65])
             box.operator('silkroad_editor.cancel_ue_transfer', text=_t('Cancel UE Transfer', props), icon='CANCEL')
         else:
-            box.operator('silkroad_editor.export_ue_project', text=_t('Create Jangan UE Project', props), icon='EXPORT')
+            box.operator('silkroad_editor.export_ue_project', text=_t('Create Jangan UE Project (Tiles)', props), icon='EXPORT')
+            box.operator('silkroad_editor.export_ue_landscape_project', text=_t('Create Jangan UE Project (Landscape)', props), icon='OUTLINER_DATA_SURFACE')
+            box.operator('silkroad_editor.export_jangan_landscape', text=_t('Export Jangan Landscape', props), icon='OUTLINER_DATA_SURFACE')
             box.operator('silkroad_editor.export_ue_character', text=_t('Export Mob + Animations to UE', props), icon='ARMATURE_DATA')
             if _session is not None and not SILKROAD_OT_ExportUECharacter.poll(context):
                 box.label(text=_t('Select a BSR file in the PK2 list for character transfer.', props), icon='INFO')
@@ -1052,7 +1116,7 @@ _CLASSES = (SilkroadEntry, SilkroadEditorSettings, SILKROAD_UL_ArchiveRows,
             SILKROAD_OT_InstallPk2Engine, SILKROAD_OT_OpenArchive, SILKROAD_OT_CancelScan,
             SILKROAD_OT_Navigate, SILKROAD_OT_Search, SILKROAD_OT_ImportFromPk2,
             SILKROAD_OT_SaveBmsToPk2, SILKROAD_OT_SaveBlend,
-            SILKROAD_OT_ExportFBX, SILKROAD_OT_ExportUEProject, SILKROAD_OT_ExportUECharacter, SILKROAD_OT_CancelUETransfer,
+            SILKROAD_OT_ExportFBX, SILKROAD_OT_ExportUEProject, SILKROAD_OT_ExportUELandscapeProject, SILKROAD_OT_ExportJanganLandscape, SILKROAD_OT_ExportUECharacter, SILKROAD_OT_CancelUETransfer,
             SILKROAD_PT_Editor)
 
 

@@ -22,7 +22,7 @@ def find_unreal_editor():
 
 
 class UEProjectJob:
-    def __init__(self, bpy, addon, filepath, editor='', run_unreal=True):
+    def __init__(self, bpy, addon, filepath, editor='', run_unreal=True, terrain_mode='TILE'):
         if addon._session is None:
             raise ValueError('Open the game PK2 archive first')
         self.bpy, self.addon = bpy, addon
@@ -34,10 +34,13 @@ class UEProjectJob:
                 raise ValueError('Choose the installed UnrealEditor-Cmd.exe')
         # Validate game dependencies before creating an output project.
         self.manifest = build_manifest(addon._session)
+        if terrain_mode not in ('TILE', 'LANDSCAPE'):
+            raise ValueError('Unknown terrain mode')
+        self.manifest['terrain_mode'] = terrain_mode
         version = self.editor.parents[3].name.removeprefix('UE_') if self.editor else '5.8'
         self.project = initialize_project(filepath, version)
         self.root, self.source = self.project.parent, self.project.parent / 'SourceAssets'
-        self.queue = [('terrain', t['name'], t) for t in self.manifest['tiles']]
+        self.queue = [('terrain', t['name'], t) for t in self.manifest['tiles']] if terrain_mode == 'TILE' else []
         self.queue += [('asset', key, a) for key, a in self.manifest['assets'].items()]
         self.index = 0
         self.scene = bpy.data.scenes.new('Silkroad_UE_Transfer')
@@ -194,7 +197,7 @@ class UEProjectJob:
         self.save_manifest()
         (self.root / 'KULLANIM_TR.md').write_text(
             '# Jangan UE projesi\n\n.uproject dosyasını Unreal Engine ile aç. Başlangıç haritası '
-            '/Game/Jangan/Maps/Jangan. Sahne, ana şehir ve surların yakın çevresidir (16 NVM parçası).\n\n'
+            f'/Game/Jangan/Maps/Jangan. Sahne, Jangan ve çevresindeki {len(self.manifest["tiles"])} NVM parçasıdır.\n\n'
             'Kaynak geometriler ve PNG dokular SourceAssets klasöründe, nesne yerleşimleri manifest.json dosyasındadır. '
             'ImportReport.json UE aktarımının sonucunu gösterir. Aktarım statik çevre içindir; NPC, görev, '
             'oyun mantığı ve hareketli su sistemi eklemez.\n\n'
@@ -221,7 +224,7 @@ class UEProjectJob:
         report = json.loads(report_path.read_text(encoding='utf-8')) if report_path.exists() else {}
         if not self.process or self.process.returncode != 0 or report.get('status') != 'complete':
             raise RuntimeError('Unreal import failed; see UnrealImport.log and ImportReport.json')
-        expected = len(self.manifest['placements']) + len(self.manifest['tiles'])
+        expected = len(self.manifest['placements']) + (len(self.manifest['tiles']) if self.manifest['terrain_mode']=='TILE' else 1)
         if report.get('actors') != expected or len(report.get('assets', {})) != len(self.queue):
             raise RuntimeError('Unreal import result count mismatch')
         return True, 'UE project ready: ' + str(self.project)

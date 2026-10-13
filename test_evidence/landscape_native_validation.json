@@ -1,0 +1,76 @@
+{
+  "traces": [
+    {
+      "hit": true,
+      "error_cm": 0.00038302529173961375
+    },
+    {
+      "hit": true,
+      "error_cm": 0.006067249370971695
+    },
+    {
+      "hit": true,
+      "error_cm": 0.0005471789881994482
+    },
+    {
+      "hit": true,
+      "error_cm": 0.005407415887020761
+    },
+    {
+      "hit": true,
+      "error_cm": 0.0008368619819520973
+    }
+  ],
+  "allocated_layers": [
+    "Grass",
+    "Rock",
+    "Soil",
+    "Grass",
+    "Soil",
+    "Grass",
+    "Rock",
+    "Grass",
+    "Rock",
+    "__LANDSCAPE_VISIBILITY__",
+    "Grass",
+    "Rock",
+    "__LANDSCAPE_VISIBILITY__",
+    "Grass",
+    "Rock",
+    "__LANDSCAPE_VISIBILITY__",
+    "Grass",
+    "Rock",
+    "__LANDSCAPE_VISIBILITY__",
+    "Grass",
+    "__LANDSCAPE_VISIBILITY__",
+    "Soil",
+    "Grass",
+    "Rock",
+    "Grass",
+    "Rock",
+    "__LANDSCAPE_VISIBILITY__",
+    "Soil",
+    "Grass",
+    "Rock",
+    "Soil",
+    "Grass",
+    "Rock",
+    "Soil",
+    "Grass",
+    "Rock",
+    "Grass",
+    "__LANDSCAPE_VISIBILITY__",
+    "Soil",
+    "Grass",
+    "Rock",
+    "Soil",
+    "Grass",
+    "Rock"
+  ],
+  "max_collision_error_cm": 0.006067249370971695,
+  "all_hit": true,
+  "padding_collision_removed": true,
+  "edit_layers": 1,
+  "spawns": 6142,
+  "native_landscapes": 1
+}

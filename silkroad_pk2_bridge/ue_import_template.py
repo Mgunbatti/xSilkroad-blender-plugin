@@ -87,7 +87,8 @@ else:
     raise RuntimeError('Unrecognized FBX coordinate conversion: '+str(report['calibration']))
 checkpoint()
 meshes={}
-for name,record in list(m['assets'].items())+[(t['name'],t) for t in m['tiles']]:
+terrain_mode=m.get('terrain_mode','TILE')
+for name,record in list(m['assets'].items())+([(t['name'],t) for t in m['tiles']] if terrain_mode=='TILE' else []):
     print('IMPORT',name,flush=True)
     try:
         mesh=import_fbx(name,'/Game/Jangan/'+('Terrain' if name.startswith('nv_') else 'Meshes'),False)
@@ -112,7 +113,18 @@ else:
     if not level.new_level('/Game/Jangan/Maps/Jangan'):raise RuntimeError('Map creation failed')
 actors=u.get_editor_subsystem(u.EditorActorSubsystem)
 actors.destroy_actors(list(actors.get_all_level_actors()))
-for tile in m['tiles']:
+if terrain_mode=='LANDSCAPE':
+    import importlib.util
+    spec=importlib.util.spec_from_file_location('jangan_landscape_import',source/'Landscape/ImportLandscape.py')
+    landscape_import=importlib.util.module_from_spec(spec);spec.loader.exec_module(landscape_import)
+    landscape,landscape_manifest=landscape_import.import_bundle(source/'Landscape/Landscape.json','/Game/Jangan/Landscape')
+    landscape.set_folder_path('Terrain');report['actors']+=1
+    report['landscape']={'asset':landscape.get_path_name(),'regions':len(landscape_manifest['regions']),
+        'quantization_error_cm':landscape_manifest['quantization_error_cm'],
+        'validation':json.loads(u.SilkroadLandscapeLibrary.validate_landscape(landscape,str(source/'Landscape/Landscape.json')))}
+    if not report['landscape']['validation'].get('all_hit'):
+        raise RuntimeError('Landscape collision validation failed')
+for tile in m['tiles'] if terrain_mode=='TILE' else []:
     if tile['name'] not in meshes:continue
     a=actors.spawn_actor_from_class(u.StaticMeshActor,position(tile['position_cm']))
     a.static_mesh_component.set_static_mesh(meshes[tile['name']]);a.set_actor_label(tile['name'])
@@ -135,10 +147,21 @@ sky=actors.spawn_actor_from_class(u.SkyLight,u.Vector(0,0,20000));sky.light_comp
 sky.light_component.set_editor_property('real_time_capture',True)
 actors.spawn_actor_from_class(u.SkyAtmosphere,u.Vector(0,0,0))
 actors.spawn_actor_from_class(u.PlayerStart,u.Vector(8606,6500,300))
-level.set_level_viewport_camera_info(u.Vector(65000,-85000,65000),u.Rotator(pitch=-28.0,yaw=135.0,roll=0.0),'')
+if len(m['tiles']) > 16:
+    origins=[position(t['position_cm']) for t in m['tiles']]
+    lo_x=min(p.x for p in origins);hi_x=max(p.x for p in origins)+19200
+    lo_y=min(p.y for p in origins)-19200;hi_y=max(p.y for p in origins)
+    span=max(hi_x-lo_x,hi_y-lo_y)
+    center=u.Vector((lo_x+hi_x)/2,(lo_y+hi_y)/2,0)
+    camera=center+u.Vector(span*.6,-span*.6,span*.8)
+    level.set_level_viewport_camera_info(camera,u.Rotator(pitch=-43.3,yaw=135.0,roll=0.0),'')
+else:
+    level.set_level_viewport_camera_info(u.Vector(65000,-85000,65000),u.Rotator(pitch=-28.0,yaw=135.0,roll=0.0),'')
 if not level.save_current_level():raise RuntimeError('Map save failed')
 sub.save_directory('/Game/Jangan',only_if_is_dirty=False,recursive=True)
 report['status']='complete' if not report['errors'] else 'incomplete';report['source_errors']=m['errors'];report['map']='/Game/Jangan/Maps/Jangan'
 report['source_placements']=len(m['placements']);report['tiles']=len(m['tiles'])
+report['scope']=m.get('scope');report['regions']=m.get('regions',[])
+report['terrain_mode']=terrain_mode
 checkpoint();print('JANGAN_IMPORT_COMPLETE',report['actors'],len(report['errors']),flush=True)
 if report['errors']:raise RuntimeError('Import has unresolved errors; see ImportReport.json')

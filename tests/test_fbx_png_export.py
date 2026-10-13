@@ -129,6 +129,23 @@ class FakeExporter:
 
 
 class TestFBXTextureExport(unittest.TestCase):
+    def test_publish_never_renames_between_volumes(self):
+        from unittest.mock import patch
+        import errno
+        original = Path.replace
+        with tempfile.TemporaryDirectory() as first, tempfile.TemporaryDirectory() as second:
+            source, target = Path(first) / 'source.fbx', Path(second) / 'target.fbx'
+            source.write_bytes(b'new valid fbx')
+            target.write_bytes(b'old fbx')
+            def volume_checked_replace(path, destination):
+                if path.parent != Path(destination).parent:
+                    raise OSError(errno.EXDEV, 'Cannot rename across disks')
+                return original(path, destination)
+            with patch.object(Path, 'replace', volume_checked_replace):
+                bridge._publish_file(source, target)
+            self.assertEqual(target.read_bytes(), b'new valid fbx')
+            self.assertEqual(list(Path(second).iterdir()), [target])
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)

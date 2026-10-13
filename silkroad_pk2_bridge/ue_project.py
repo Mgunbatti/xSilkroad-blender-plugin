@@ -8,6 +8,7 @@ import re
 import struct
 from .asset_binary import BinaryReader
 from .map_data import parse_nvm
+from .jangan_scope import JANGAN_FULL_REGIONS
 
 JANGAN_REGIONS = tuple((y << 8) | x for y in range(96, 100) for x in range(166, 170))
 
@@ -78,19 +79,25 @@ def parse_map_objects(contents):
     return list(records.values())
 
 
-def build_manifest(session, regions=JANGAN_REGIONS):
+def build_manifest(session, regions=JANGAN_FULL_REGIONS):
+    regions = tuple(regions)
+    if not regions or len(set(regions)) != len(regions) or any(r not in JANGAN_FULL_REGIONS for r in regions):
+        raise ValueError('Choose regions inside the fixed Jangan boundary')
     raw, _ = session.get('navmesh/object.ifo')
     table = object_table(raw)
     visual_raw, _ = session.get('object.ifo')
     visual_table = object_table(visual_raw) if visual_raw else None
     manifest = {'status': 'exporting', 'tiles': [], 'assets': {}, 'placements': [],
                 'errors': [], 'repairs': [], 'skipped_effects': [], 'placement_sources': {}, 'unit': '1 source unit = 10 UE centimeters',
-                'plugin_version': '2.5.1', 'data_processing': 'Silkroad PK2 Editor'}
+                'plugin_version': '2.7.0', 'data_processing': 'Silkroad PK2 Editor',
+                'scope': 'Jangan and surrounding outdoor regions', 'regions': list(regions)}
     cache = {}
     seen = set()
     for region in regions:
         entry = f'navmesh/nv_{region:04x}.nvm'
         raw, _ = session.get(entry)
+        if raw is None:
+            raise FileNotFoundError('Required Jangan terrain missing: ' + entry)
         data = parse_nvm(raw)
         name = Path(entry).stem
         manifest['tiles'].append({'name': name, 'entry': entry, 'fbx': name + '.fbx',
@@ -135,6 +142,8 @@ def initialize_project(filepath, engine_version='5.8'):
     name = path.stem
     if not re.fullmatch(r'[A-Za-z][A-Za-z0-9_]{0,47}', name):
         raise ValueError('Project name must start with a letter and use letters, numbers or underscores')
+    if len(name) > 20:
+        raise ValueError('Unreal project name must be 20 characters or fewer')
     root = path.parent / name
     if root.exists() and any(root.iterdir()):
         raise ValueError('Choose a new project folder; destination is not empty: ' + str(root))

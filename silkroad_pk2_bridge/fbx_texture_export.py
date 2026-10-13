@@ -198,6 +198,126 @@ def _write_report(path, converted, missing, fbx_name, folder_name):
     path.write_text('\n'.join(lines) + '\n', encoding='utf-8')
 
 
+def _publish_file(source, destination):
+    """Copy across volumes, then atomically replace on the destination volume."""
+    with tempfile.NamedTemporaryFile(prefix='.silkroad_publish_', dir=destination.parent,
+                                     delete=False) as stream:
+        staged = Path(stream.name)
+    try:
+        shutil.copyfile(source, staged)
+        staged.replace(destination)
+    finally:
+        staged.unlink(missing_ok=True)
+
+
+def associated_clips(rigs):
+    """Only actions actually attached to the selected rigs, including muted NLA."""
+    clips = []
+    for rig in rigs:
+        ad = getattr(rig, 'animation_data', None)
+        if not ad:
+            continue
+        seen = set()
+        candidates = [(ad.action, getattr(ad, 'action_slot', None))]
+        candidates.extend((strip.action, getattr(strip, 'action_slot', None))
+                          for track in ad.nla_tracks for strip in track.strips)
+        for action, slot in candidates:
+            if action is None or (action.as_pointer(), getattr(slot, 'handle', None)) in seen:
+                continue
+            seen.add((action.as_pointer(), getattr(slot, 'handle', None)))
+            clips.append((rig, action, slot))
+    return clips
+
+
+@contextmanager
+def isolated_animation(bpy, rigs):
+    scene = bpy.context.scene
+    state = (scene.frame_start, scene.frame_end, scene.frame_current,
+             scene.render.fps, scene.render.fps_base)
+    saved = []
+    poses = [(rig, rig.data.pose_position) for rig in rigs]
+    try:
+        for rig in rigs:
+            ad = getattr(rig, 'animation_data', None)
+            if not ad:
+                continue
+            tracks = [(track, track.mute, track.is_solo) for track in ad.nla_tracks]
+            saved.append((rig, ad, ad.action, getattr(ad, 'action_slot', None), tracks,
+                          rig.data.pose_position))
+            ad.action = None
+            for track, _, _ in tracks:
+                track.mute = True
+                track.is_solo = False
+        yield scene
+    finally:
+        for rig, ad, action, slot, tracks, pose_position in saved:
+            rig.data.pose_position = pose_position
+            ad.action = action
+            if slot is not None:
+                ad.action_slot = slot
+            for track, mute, solo in tracks:
+                track.mute, track.is_solo = mute, solo
+        for rig, pose_position in poses:
+            rig.data.pose_position = pose_position
+        scene.frame_start, scene.frame_end = state[:2]
+        scene.render.fps, scene.render.fps_base = state[3:]
+        scene.frame_set(state[2])
+
+
+def export_animation_bundle(bpy, filepath, objects, *, textures=True):
+    import json
+    import math
+    path = Path(filepath).expanduser().absolute()
+    rigs = [obj for obj in objects if getattr(obj, 'type', None) == 'ARMATURE']
+    clips = associated_clips(rigs)
+    with isolated_animation(bpy, rigs) as scene:
+        for rig in rigs:
+            rig.data.pose_position = 'REST'
+        bpy.context.view_layer.update()
+        summary = export_fbx_with_textures(bpy, path, objects, textures=textures, animation=False)
+        for rig in rigs:
+            rig.data.pose_position = 'POSE'
+        folder = path.parent / (clean_filename(path.stem) + '_animations')
+        if clips:
+            # Keep prior exports intact and do not merge stale clips into a new bundle.
+            suffix = 1
+            while folder.exists():
+                suffix += 1
+                folder = path.parent / (clean_filename(path.stem) + f'_animations_{suffix:02d}')
+            folder.mkdir()
+        entries = []
+        for number, (rig, action, slot) in enumerate(clips, 1):
+            ad = rig.animation_data
+            ad.action = action
+            if slot is not None:
+                ad.action_slot = slot
+            elif hasattr(action, 'slots') and len(action.slots) == 1:
+                ad.action_slot = action.slots[0]
+            start, end = action.frame_range
+            fps = action.get('silkroad_fps', scene.render.fps)
+            if not all(math.isfinite(v) for v in (start, end, fps)) or not 1 <= fps <= 240:
+                raise ValueError('Invalid animation timing: ' + action.name)
+            scene.frame_start, scene.frame_end = math.floor(start), math.ceil(end)
+            scene.render.fps = round(fps)
+            scene.render.fps_base = 1.0
+            scene.frame_set(scene.frame_start)
+            bpy.context.view_layer.update()
+            name = f'{number:03d}_{clean_filename(rig.name)}_{clean_filename(action.name)}.fbx'
+            export_fbx_with_textures(bpy, folder / name, objects, textures=False, animation=True)
+            entries.append({'action': action.name, 'rig': rig.name, 'fbx': name,
+                            'fps': scene.render.fps, 'start': scene.frame_start, 'end': scene.frame_end})
+            ad.action = None
+        if clips:
+            (folder / 'Animations.json').write_text(json.dumps(entries, indent=2), encoding='utf-8')
+        with summary.report.open('a', encoding='utf-8') as report:
+            report.write(f'\nSeparate animation FBXs: {len(entries)}\n')
+            if clips:
+                report.write(f'Animation folder: {folder.name}\n')
+            else:
+                report.write('No attached actions found. Import the model with Include animations enabled.\n')
+        return summary
+
+
 def export_fbx_with_textures(bpy, filepath, objects, *, textures=True, animation=True):
     """Stage an FBX + PNG sidecar, move only after exporter succeeds.
 
@@ -215,7 +335,9 @@ def export_fbx_with_textures(bpy, filepath, objects, *, textures=True, animation
         raise ValueError('Select at least one Mesh (Armature is recommended).')
     # Static props can be exported without a rig; animated mobs should include it.
     folder_name = free_texture_folder(path.parent, path.stem) if textures else None
-    with tempfile.TemporaryDirectory(prefix='.silkroad_fbx_', dir=path.parent) as tmp:
+    # Short staging paths avoid OpenImageIO's legacy Windows path limit.
+    # The FBX still references its relative PNG sidecar after publication.
+    with tempfile.TemporaryDirectory(prefix='.silkroad_fbx_') as tmp:
         stage = Path(tmp)
         staged_fbx = stage / path.name
         tex_dir = stage / folder_name if folder_name else stage / '_no_textures'
@@ -252,12 +374,12 @@ def export_fbx_with_textures(bpy, filepath, objects, *, textures=True, animation
             if published_dir is not None:
                 shutil.move(str(tex_dir), str(published_dir))
             try:
-                staged_fbx.replace(path)
+                _publish_file(staged_fbx, path)
             except Exception:
                 if published_dir is not None:
                     shutil.rmtree(published_dir)
                 raise
-            staged_report.replace(path.parent / report_name)
+            _publish_file(staged_report, path.parent / report_name)
         except Exception:
             raise
         return ExportSummary(path, published_dir, len(converted), list(missing), path.parent / report_name)

@@ -18,7 +18,7 @@ props=scene.silkroad_editor;props.archive=str(game/'Data.pk2')
 props.language='TR';props.search_query='sentinel';props.load_animations=True
 addon._session=ArchiveSession(props.archive)
 print('PLUGIN_FULL_TRANSFER_START',flush=True)
-result=bpy.ops.silkroad_editor.export_ue_project(filepath=str(destination/'xSilkroadJangan_Plugin.uproject'),
+result=bpy.ops.silkroad_editor.export_ue_project(filepath=str(destination/'xSilkroadJangan.uproject'),
     unreal_editor=str(editor),run_unreal=True)
 after=(bpy.context.scene.as_pointer(),sentinel.as_pointer(),material.name,tuple(material.diffuse_color),len(bpy.data.objects),len(bpy.data.materials))
 assert result=={'FINISHED'},str(result)
@@ -26,7 +26,7 @@ assert original==after,(original,after)
 assert props.language=='TR' and props.search_query=='sentinel' and props.load_animations
 assert not props.ue_transfer_running
 assert not any(s.name=='Silkroad_UE_Transfer' for s in bpy.data.scenes)
-root=destination/'xSilkroadJangan_Plugin'
+root=destination/'xSilkroadJangan'
 report=json.loads((root/'ImportReport.json').read_text(encoding='utf-8'))
 manifest=json.loads((root/'SourceAssets/manifest.json').read_text(encoding='utf-8'))
 placements=len(manifest['placements']);tiles=len(manifest['tiles']);assets=len(manifest['assets'])+tiles
